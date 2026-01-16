@@ -1,8 +1,8 @@
-# QA Doctorado 2026 - Equipo X
+# QA Doctorado 2026 - Equipo 1
 
 ## Descripción del Proyecto
 
-Este repositorio contiene todo el trabajo y documentación para el proyecto QA Doctorado 2026 del Equipo X.
+Este repositorio contiene todo el trabajo y documentación para el proyecto QA Doctorado 2026 del Equipo 1.
 
 ## Estructura del Repositorio
 
