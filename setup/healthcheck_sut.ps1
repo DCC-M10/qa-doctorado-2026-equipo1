@@ -1,7 +1,7 @@
 Write-Host "Realizando verificación de salud del SUT..."
 
 # Verificar si el contenedor está en ejecución
-$container = docker ps --format "{{.Names}}" | Select-String "ts-api-rest-master"
+$container = docker ps --format "{{.Names}}" | Select-String "ts-api-rest"
 
 if (-not $container) {
     Write-Host "❌ El contenedor del SUT no está en ejecución"
@@ -13,7 +13,7 @@ if (-not $container) {
 Write-Host "Verificando salud de la API..."
 
 # Chequeo HTTP
-$healthUrl = "http://localhost:8000/api/v1/juegos"
+$healthUrl = "http://localhost:8000/"
 $response = curl.exe -s -o $null -w "%{http_code}" $healthUrl
 
 if ($response -eq "200") {
@@ -34,3 +34,4 @@ if ($response -eq "200") {
     Read-Host "Presiona ENTER para continuar"
     exit 1
 }
+
