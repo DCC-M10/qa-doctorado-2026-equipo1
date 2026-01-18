@@ -3,7 +3,7 @@
 ## SUT elegido
 - Nombre: Ts-Api-Rest
 - Tipo: API REST (OpenAPI)
-- Fuente: [https://github.com/ts-api-rest] (https://github.com/joseluisgs/ts-api-rest)
+- Fuente: [https://github.com/ts-api-rest](https://github.com/joseluisgs/ts-api-rest)
 
 ## Motivo de selección
 - Es un SUT estándar, público y reproducible (ideal para probar y comparar resultados entre equipos).
