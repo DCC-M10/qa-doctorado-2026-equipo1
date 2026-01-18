@@ -1,21 +1,15 @@
 #!/bin/bash
-# Script de Detención de la Aplicación Pet Store
 
-echo "Deteniendo aplicación Pet Store..."
+echo "======================================"
+echo " Deteniendo SUT: ts-api-rest"
+echo "======================================"
 
-# Detener y eliminar el contenedor de Pet Store
-if docker ps | grep -q petstore; then
-    echo "Deteniendo contenedor de Pet Store..."
-    docker stop petstore
-    echo "Eliminando contenedor de Pet Store..."
-    docker rm petstore
-    echo "Pet Store detenido exitosamente"
+# Detener contenedores
+docker compose down
+
+if [ $? -eq 0 ]; then
+  echo "SUT detenido correctamente."
 else
-    echo "El contenedor de Pet Store no está en ejecución"
+  echo "Error al detener el SUT."
+  exit 1
 fi
-
-# Limpiar imágenes huérfanas (opcional)
-echo "Limpiando..."
-docker image prune -f > /dev/null 2>&1
-
-echo "Limpieza completada"
