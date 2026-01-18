@@ -25,4 +25,4 @@
 
 ## Resolución de Conflictos
 
-Actualmente trabandosé....
+Actualmente trabandosé.... afasdfasd
