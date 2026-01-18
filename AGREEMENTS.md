@@ -41,18 +41,31 @@ Aplicar un proceso sistemático de aseguramiento de la calidad del software (QA)
 - Toda modificación relevante del SUT o del proceso de pruebas debe reflejarse en la documentación.
   
 ## Estándares de Calidad
+Para garantizar un proceso de QA consistente, el equipo acuerda los siguientes estándares:
 
-- Todo el código debe ser revisado por al menos un miembro del equipo
-- Las pruebas deben tener mínimo 80% de cobertura
-- La documentación debe actualizarse con cada cambio
+- Revisión de código:
+Todo cambio debe ser revisado por al menos un miembro del equipo antes de integrarse al repositorio.
+- Cobertura de pruebas:
+Las pruebas automatizadas deben alcanzar como mínimo un 80% de cobertura.
+- Actualización de documentación:
+La documentación debe actualizarse cada vez que se modifiquen:
+  - Endpoints
+  - Escenarios de prueba
+  - Scripts de ejecución
+  - Configuración del SUT
 
 ## Fechas Límite y Hitos
 
-- Semana 1-2: Configuración y escenarios iniciales
-- Semana 3-4: Diseño e implementación de casos de prueba
-- Semana 5-6: Ejecución y recolección de evidencias
-- Semana 7-8: Análisis y reporte final
+- Semana 1-2: Configuración del SUT, análisis del proyecto y definición de escenarios iniciales de prueba
+- Semana 3-4: Diseño e implementación de casos de prueba automatizados
+- Semana 5-6: Ejecución de pruebas y recolección de evidencias
+- Semana 7-8: Análisis de resultados y elaboración del reporte final de QA
 
 ## Resolución de Conflictos
 
-Actualmente trabandosé.... afasdfasd
+Para manejar desacuerdos dentro del equipo se establece el siguiente proceso:
+
+- Diálogo directo: El conflicto se discute inicialmente entre las partes involucradas de forma respetuosa.
+- Revisión técnica: Si el desacuerdo persiste, se analiza desde un punto de vista técnico basado en evidencias (documentación, pruebas, estándares).
+- Decisión grupal: El tema se presenta al equipo completo para llegar a un consenso.
+- Escalamiento: En caso de no alcanzar acuerdo, la decisión final se toma siguiendo las directrices académicas del módulo o criterios del docente.
