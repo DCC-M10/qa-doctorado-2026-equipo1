@@ -12,18 +12,6 @@ A lo largo del proyecto se aplican prácticas de aseguramiento de la calidad (QA
 La estructura del repositorio está organizada para soportar el proceso completo de QA y facilitar la trazabilidad entre pruebas, evidencias y documentación:
 
 - `setup/` - Scripts de configuración del entorno
-- `scripts/` - Scripts de pruebas y mediciones
-- `evidence/` - Recolección de evidencias semanales
-- `quality/` - Escenarios de calidad y glosario
-- `risk/` - Evaluación de riesgos y estrategia de pruebas
-- `design/` - Diseño de casos de prueba y reglas de oráculo
-- `ci/` - Configuración de integración continua
-- `memos/` - Memorandums de progreso semanal
-- `reports/` - Reportes de unidad
-- `study/` - Materiales del estudio de investigación
-- `paper/` - Paper final
-- `slides/` - Materiales de presentación
-- `peer_review/` - Materiales de revisión por pares
 
 ## Primeros Pasos
 Antes de comenzar, se recomienda revisar el documento de acuerdos del equipo, donde se establecen las normas de trabajo, estándares de calidad y mecanismos de resolución de conflictos: [Agreements](./AGREEMENTS.md)
