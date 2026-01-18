@@ -22,10 +22,24 @@ Aplicar un proceso sistemático de aseguramiento de la calidad del software (QA)
 
 ## Directrices de Comunicación
 
-- Reuniones diarias: [Hora y formato]
-- Retrospectivas semanales: [Horario]
-- Estándares de documentación: [Especificar formato y herramientas]
+### Reuniones diarias
+- Formato: Reunión breve tipo daily stand-up (virtual o chat).
+- Horario: 22:00 – 23:00.
+- Objetivo: Compartir avances, bloqueos y tareas del día relacionadas con pruebas y documentación.
 
+### Retrospectivas semanales
+- Horario: Domingos de 16:00 – 18:00.
+- Objetivo: Evaluar el progreso del proyecto, identificar problemas en el proceso de QA y definir acciones de mejora.
+
+### Estándares de documentación
+
+- Formato: Markdown (.md).
+- Herramientas:
+   - GitHub (README.md, SUT_SELECTION.md, AGREEMENTS.md).
+   - Comentarios en el código fuente.
+   - Evidencias de pruebas (capturas, logs, reportes).
+- Toda modificación relevante del SUT o del proceso de pruebas debe reflejarse en la documentación.
+  
 ## Estándares de Calidad
 
 - Todo el código debe ser revisado por al menos un miembro del equipo
