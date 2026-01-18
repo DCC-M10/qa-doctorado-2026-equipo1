@@ -16,27 +16,27 @@ help:
 
 # Configuración inicial del entorno
 setup:
-	@echo "🔧 Configurando entorno..."
+	@echo "Configurando entorno..."
 	chmod +x setup/*.sh scripts/*.sh
 	./setup/run_sut.sh
 
 # Iniciar el SUT
 start-sut:
-	@echo "🚀 Iniciando SUT ts-api-rest..."
+	@echo "Iniciando SUT ts-api-rest..."
 	./setup/run_sut.sh
 
 # Detener el SUT
 stop-sut:
-	@echo "🛑 Deteniendo SUT ts-api-rest..."
+	@echo "Deteniendo SUT ts-api-rest..."
 	./setup/stop_sut.sh
 
 # Verificar la salud del SUT
 healthcheck:
-	@echo "🩺 Ejecutando healthcheck del SUT..."
+	@echo "Ejecutando healthcheck del SUT..."
 	./setup/healthcheck_sut.sh
 
 # Limpieza de archivos temporales
 clean:
-	@echo "🧹 Limpiando archivos temporales..."
+	@echo "Limpiando archivos temporales..."
 	rm -rf tmp/
 	rm -f *.log
