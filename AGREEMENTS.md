@@ -25,4 +25,4 @@
 
 ## Resolución de Conflictos
 
-[Definir proceso para manejar desacuerdos y rutas de escalamiento]
+Actualmente trabandosé....
