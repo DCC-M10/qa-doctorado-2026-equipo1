@@ -51,4 +51,7 @@ Se recomienda ejecutarlos en el orden que resulte conveniente según el entorno,
 
 ## Miembros del Equipo
 
-- [Agregar nombres de los miembros del equipo aquí]
+- Jorge Mostajo
+- Edar Jaldín Torrico
+- May Dunnia Lopez Negrete
+- Julio César Becerra Lino
