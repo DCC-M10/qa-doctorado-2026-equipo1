@@ -40,6 +40,6 @@ Se recomienda ejecutarlos en el orden que resulte conveniente según el entorno,
 ## Miembros del Equipo
 
 - Jorge Mostajo
-- Edar Jaldín Torrico
+- Edgar Jaldín Torrico
 - May Dunnia Lopez Negrete
 - Julio César Becerra Lino
