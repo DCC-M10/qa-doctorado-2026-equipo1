@@ -9,12 +9,31 @@ Este documento define los escenarios de calidad utilizados para evaluar la aplic
 Referencia de formato:
 - Un escenario debe tener: Estímulo, Entorno, Respuesta, Medida, Evidencia.
 
-## Escenario Q1 — Seguridad de Autenticación y Autorización
-- Estímulo: Acceso sin token a rutas con protección (POST /api/v1/juegos, DELETE /api/v1/files/:id). Acceso con token incorrecto o expirado. Acceso con token válido pero rol insuficiente (si aplica).
-- Entorno: ejecución local, SUT recién iniciado
-- Respuesta: el SUT entrega el documento OpenAPI
-- Medida (falsable): HTTP 200 y el cuerpo contiene el campo "openapi"
-- Evidencia: evidence/week2/openapi.json (captura) y openapi_http_code.txt
+## Escenario Q1 — Rendimiento de Endpoints CRUD
+**Estímulo:**  
+Se simulan **30 peticiones concurrentes** de:
+- Lectura: `GET /api/v1/juegos`
+contra la API.
+
+**Entorno:**  
+API desplegada en entorno de pruebas con:
+- Base de datos **MongoDB** activa  
+- Configuraciones estándar (dev/prod)  
+- Testing ejecutado desde una máquina de pruebas
+
+**Respuesta:**  
+La API debe procesar las solicitudes **sin fallos de error 5xx**.
+
+**Medida:**  
+- Tiempo medio de respuesta por tipo de operación  
+- Porcentaje de errores  
+
+**Criterios de aceptación:**
+- **Lecturas:** tiempo medio ≤ **500 ms**  
+- **Tasa de éxito:** ≥ **99 %** para todas las peticiones  
+
+**Evidencia:**
+- Ruta: evidence/week2/performance_results.csv y evidence/week2/performance_summary.txt
 
 ## Escenario Q2 — Integridad de Persistencia de Datos
 - Estímulo: Secuencia de operaciones: crear un juego → modificarlo → eliminarlo. Verificaciones posteriores de lectura.

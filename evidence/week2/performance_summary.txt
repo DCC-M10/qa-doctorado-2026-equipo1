@@ -1,0 +1,17 @@
+Escenario Q1 — Rendimiento de Endpoints CRUD
+============================================
+
+Endpoint: http://localhost:8000/api/v1/juegos
+Total de solicitudes: 30
+
+Métricas:
+- Tiempo promedio (ms): 114
+- Percentil 95 (ms):    125
+- Tasa de éxito (%):    100.00
+
+Criterios:
+- Promedio <= 500 ms
+- P95 <= 800 ms
+- Éxito >= 99 %
+
+Resultado final: PASS
