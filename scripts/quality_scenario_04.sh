@@ -1,99 +1,120 @@
 #!/usr/bin/env bash
-# Script de Pruebas de Entradas Inválidas para Pet Store
+# Script de Pruebas de Entradas Inválidas para Games Shop
 # 
-# Escenario Q3: Robustez ante IDs inválidos en /pet/{id} (Robustness / Error Handling)
+# Escenario Q4: Robustez ante IDs inválidos (Robustness / Error Handling)
 # 
-# Este script atiende al escenario Q3 probando el manejo de entradas inválidas.
+# Este script atiende al escenario Q4 probando el manejo de entradas inválidas.
 #
-# Estímulo: se solicita GET /pet/{id} con valores inválidos (e.g., -1, 0, 999999, abc)
-# Entorno: ejecución local, sin carga, 1 vez por caso
-# Respuesta: el SUT NO debe responder 200 para entradas inválidas
-# Medida (falsable): para cada caso, HTTP != 200 (se registra el código)
-# Evidencia: evidence/week2/invalid_ids.csv + evidence/week2/invalid_pet_<id>.json
+# Estímulo: Se envían múltiples solicitudes `POST /api/v1/juegos` con datos inválidos
+# Entorno: API REST **ts-api-rest** ejecutándose en entorno de pruebas local.
+# Respuesta: Rechazar todas las solicitudes inválidas.
+# Medida (falsable): **100 %** de las solicitudes inválidas retornan **HTTP 400 (Bad Request)**.
+# Evidencia:  evidence/week2/robustness_results.csv y robustness_summary.txt
 #
 # Los resultados se guardan en evidence/week2/
 
-set -euo pipefail
-
-echo "🔍 Escenario Q3: Robustez ante IDs Inválidos"
+echo "🔍 Escenario Q4: Robustez de la API frente a datos inválidos"
 echo "=============================================="
 echo ""
 
+# =========================
 # Configuración
-OUTPUT_DIR="evidence/week2"
-BASE_URL="http://localhost:8080/api/v3"
-RESULTS_FILE="${OUTPUT_DIR}/invalid_ids.csv"
-
-# IDs inválidos a probar
-INVALID_IDS=(-1 0 999999 abc)
+# =========================
+OUTPUT_DIR="../evidence/week2"
+BASE_URL="http://localhost:8000"
+API_URL="${BASE_URL}/api/v1/juegos"
+RESULT_FILE="${OUTPUT_DIR}/robustness_results.csv"
+SUMMARY_FILE="${OUTPUT_DIR}/robustness_summary.txt"
 
 echo "Configuración:"
 echo "  - URL Base: ${BASE_URL}"
-echo "  - Endpoint: /pet/{id}"
+echo "  - Endpoint: /api/v1/juegos"
 echo "  - Directorio de salida: ${OUTPUT_DIR}"
-echo "  - IDs inválidos a probar: ${INVALID_IDS[*]}"
 echo ""
 
-# Crear directorio de evidencias si no existe
 mkdir -p "${OUTPUT_DIR}"
 
-# ===== Inicializar Archivo de Resultados =====
-echo "id,http_code" > "${RESULTS_FILE}"
+echo "test_case,http_code" > "${RESULT_FILE}"
 
-# ===== Ejecutar Pruebas con Entradas Inválidas =====
-echo "🧪 Probando entradas inválidas..."
-echo ""
+# =========================
+# Ejecución de pruebas
+# =========================
 
-total_tests=0
-failed_tests=0
+# Caso 1: Payload vacío
+CODE_EMPTY=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X POST "${API_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{}')
+echo "empty_payload,${CODE_EMPTY}" >> "${RESULT_FILE}"
 
-for id in "${INVALID_IDS[@]}"; do
-    total_tests=$((total_tests + 1))
-    
-    # Realizar solicitud con ID inválido
-    code=$(curl -s -o "${OUTPUT_DIR}/invalid_pet_${id}.json" -w "%{http_code}" "${BASE_URL}/pet/${id}")
-    echo "${id},${code}" >> "${RESULTS_FILE}"
-    
-    # Mostrar resultado de la prueba
-    if [ "$code" = "200" ]; then
-        echo "   ❌ ID '${id}': HTTP ${code} (¡ERROR! No debería retornar 200)"
-        failed_tests=$((failed_tests + 1))
-    else
-        echo "   ✅ ID '${id}': HTTP ${code} (Rechazado correctamente)"
-    fi
+# Caso 2: Falta campo obligatorio
+CODE_MISSING=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X POST "${API_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"usuarioId":25}')
+echo "missing_title,${CODE_MISSING}" >> "${RESULT_FILE}"
+
+# Caso 3: Tipo de dato incorrecto
+CODE_INVALID_TYPE=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X POST "${API_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Invalid Game","usuarioId":"free"}')
+echo "invalid_price_type,${CODE_INVALID_TYPE}" >> "${RESULT_FILE}"
+
+# Caso 4: Verificación de salud
+CODE_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X GET "${API_URL}")
+echo "health_check_after_invalid_inputs,${CODE_HEALTH}" >> "${RESULT_FILE}"
+
+# =========================
+# Evaluación automática
+# =========================
+RESULT="PASS"
+
+for CODE in "${CODE_EMPTY}" "${CODE_MISSING}" "${CODE_INVALID_TYPE}"; do
+  if [[ "${CODE}" != "400" && "${CODE}" != "422" ]]; then
+    RESULT="FAIL"
+  fi
 done
+
+if [[ "${CODE_HEALTH}" != "200" ]]; then
+  RESULT="FAIL"
+fi
+
+# =========================
+# Resumen
+# =========================
+cat <<EOF > "${SUMMARY_FILE}"
+Escenario Q4 — Robustez frente a Entradas Inválidas
+=================================================
+
+Endpoint:
+- POST /api/v1/juegos
+
+Resultados:
+- Payload vacío:            HTTP ${CODE_EMPTY} (esperado 400/422)
+- Falta campo obligatorio:  HTTP ${CODE_MISSING} (esperado 400/422)
+- Tipo de dato inválido:    HTTP ${CODE_INVALID_TYPE} (esperado 400/422)
+- Health check posterior:   HTTP ${CODE_HEALTH} (esperado 200)
+
+Resultado final: ${RESULT}
+EOF
 
 echo ""
 echo "================================"
-
-# ===== Validación del Oráculo =====
-echo "🔎 Validación del Oráculo"
-echo "========================="
+echo "Robustez"
+echo "================================"
+echo "Resultado final: ${RESULT}"
 echo ""
-echo "Regla del oráculo: Ninguna entrada inválida debe retornar HTTP 200"
-echo ""
+echo "Evidencias generadas:"
+echo " - ${RESULT_FILE}"
+echo " - ${SUMMARY_FILE}"
 
-# Verificar si alguna entrada inválida retornó 200
-if tail -n +2 "${RESULTS_FILE}" | cut -d',' -f2 | grep -q "^200$"; then
-    echo "❌ FALLO: Algunas entradas inválidas retornaron HTTP 200"
-    echo ""
-    echo "Resumen:"
-    echo "  - Pruebas totales: ${total_tests}"
-    echo "  - Pruebas fallidas: ${failed_tests}"
-    echo "  - Tasa de éxito: $(( (total_tests - failed_tests) * 100 / total_tests ))%"
-    echo ""
-    echo "📁 Resultados guardados en: ${RESULTS_FILE}"
-    exit 1
+# =========================
+# Falsabilidad explícita
+# =========================
+if [[ "${RESULT}" == "FAIL" ]]; then
+  exit 1
 fi
 
-# ===== Reporte de Éxito =====
-echo "✅ ÉXITO: Todas las entradas inválidas fueron rechazadas correctamente"
-echo ""
-echo "Resumen:"
-echo "  - Pruebas totales: ${total_tests}"
-echo "  - Pruebas exitosas: ${total_tests}"
-echo "  - Tasa de éxito: 100%"
-echo ""
-echo "📁 Archivos generados:"
-echo "   - ${RESULTS_FILE}"
-echo "   - ${OUTPUT_DIR}/pet_*.json (respuestas individuales)"
+read -p "Presione ENTER para cerrar la ventana..."

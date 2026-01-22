@@ -83,11 +83,33 @@ Resultados de las consultas `GET /juegos/:id` después de cada operación:
 - Logs de la API y de la base de datos.
 
 ## Escenario Q4 — Robustez de la API frente a datos inválidos (Robustness / Error Handling)
-- Estímulo: se solicita GET /store/inventory
-- Entorno: ejecución local, sin carga, 1 vez
-- Respuesta: el cuerpo es JSON (no HTML / texto inesperado)
-- Medida (falsable): el cuerpo comienza con '{' y el request devuelve HTTP 200
-- Evidencia: evidence/week2/inventory.json y inventory_http_code.txt
+### Estímulo
+Se envían múltiples solicitudes `POST /api/v1/juegos` con datos inválidos:
+- Campos obligatorios ausentes.
+- Tipos de datos incorrectos (por ejemplo, **UserId** como texto).
+- Payload vacío.
+
+### Entorno
+- API REST **ts-api-rest** ejecutándose en entorno de pruebas local.
+- Middleware de validación activo (DTO / validators).
+- Base de datos conectada.
+
+### Respuesta
+La API debe:
+- Rechazar todas las solicitudes inválidas.
+- Mantenerse operativa durante toda la ejecución.
+- No persistir datos inválidos.
+
+### Medida
+- **100 %** de las solicitudes inválidas retornan **HTTP 400 (Bad Request)**.
+- No se generan errores **5xx**.
+- La API continúa respondiendo correctamente a una solicitud válida posterior.
+
+### Evidencia
+- Archivo **CSV** con códigos HTTP por caso de prueba.
+- Verificación del estado de la API tras la ejecución de las pruebas.
+- Logs de la aplicación (opcional).
+- Evidencia: evidence/week2/robustness_results.csv y robustness_summary.txt
 
 
 ## Criterios de Éxito

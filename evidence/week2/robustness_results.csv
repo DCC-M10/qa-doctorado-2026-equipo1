@@ -1,0 +1,5 @@
+test_case,http_code
+empty_payload,401
+missing_title,401
+invalid_price_type,401
+health_check_after_invalid_inputs,200
