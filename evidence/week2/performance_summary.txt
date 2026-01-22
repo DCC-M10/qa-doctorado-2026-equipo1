@@ -6,7 +6,7 @@ Total de solicitudes: 30
 
 Métricas:
 - Tiempo promedio (ms): 114
-- Percentil 95 (ms):    125
+- Percentil 95 (ms):    121
 - Tasa de éxito (%):    100.00
 
 Criterios:

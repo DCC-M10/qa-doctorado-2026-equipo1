@@ -1,76 +1,132 @@
 #!/usr/bin/env bash
-# Script de Captura de Inventario para Pet Store
+# Script de Seguridad de Autenticación y Autorización para Games shop
 # 
-# Escenario Q4: Respuesta "bien formada" en inventario (Data Shape Sanity)
+# Escenario Q2: Seguridad de Autenticación y Autorización (Security)
 # 
-# Este script atiende al escenario Q4 capturando el inventario de la tienda
-# y validando que sea una respuesta JSON bien formada.
+# Este script atiende al escenario Q2 verificando la Seguridad de Autenticación y Autorización de la tienda
 #
-# Estímulo: se solicita GET /store/inventory
-# Entorno: ejecución local, sin carga, 1 vez
-# Respuesta: el cuerpo es JSON (no HTML / texto inesperado)
-# Medida (falsable): el cuerpo comienza con '{' y el request devuelve HTTP 200
-# Evidencia: evidence/week2/inventory.json y evidence/week2/inventory_http_code.txt
+# Estímulo: Acceso sin token a rutas con protección
+# Entorno: API en entorno de pruebas con **JWT** configurado y políticas de autorización activas.
+# Respuesta: La API debe rechazar accesos no autorizados y permitir accesos válidos.
+# Medida (falsable): Las solicitudes **no autenticadas** o **no autorizadas** retornan **401** o **403**, según corresponda.
+# Evidencia: evidence/week2/security_results.csv y evidence/week2/security_results.txt
 #
 # Los resultados se guardan en evidence/week2/
-
 set -euo pipefail
 
-echo "📦 Escenario Q4: Respuesta Bien Formada en Inventario"
+echo "Escenario Q2: Seguridad de Autenticación y Autorización"
 echo "====================================================="
 echo ""
 
+# =========================
 # Configuración
-OUTPUT_DIR="evidence/week2"
-BASE_URL="http://localhost:8080/api/v3"
-INVENTORY_FILE="${OUTPUT_DIR}/inventory.json"
-HTTP_CODE_FILE="${OUTPUT_DIR}/inventory_http_code.txt"
+# =========================
+OUTPUT_DIR="../evidence/week2"
+BASE_URL="http://localhost:8000"
+API_URL="${BASE_URL}/api/v1/juegos"
+
+RESULT_FILE="${OUTPUT_DIR}/security_results.csv"
+SUMMARY_FILE="${OUTPUT_DIR}/security_results.txt"
+
+# Token válido (previamente obtenido)
+VALID_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiNjk3MjYxYTQyNTcwY2M2YzJkMzhhZmM3Iiwicm9sZSI6IkFETUlOIiwibm9tYnJlIjoiSm9yZ2UgQWRtaW4iLCJlbWFpbCI6Imptb3N0YWpvYWRtaW5AdGVzdC5jb20iLCJmZWNoYSI6IjIwMjYtMDEtMjJUMTc6NDM6MDAuMjE0WiIsImNyZWF0ZWRBdCI6IjIwMjYtMDEtMjJUMTc6NDM6MDAuMjI1WiIsInVwZGF0ZWRBdCI6IjIwMjYtMDEtMjJUMTc6NDM6MDAuMjI1WiJ9LCJpYXQiOjE3NjkxMDM4MjMsImV4cCI6MTc2OTEwNzQyM30.r2qmyVOyx3UEVVznAuhWXu4rrCPcgIlLIdydLyQ6Ye8"
+
+GAME_PAYLOAD='{
+  "titulo": "The Legend of Zelda 2",
+  "descripcion": "La nueva Aventura de Zelda 2",
+  "plataforma": "Nintendo",
+  "imagen": "https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg",
+  "usuarioId": "111"
+}'
+
+# =========================
+# Preparación
+# =========================
+mkdir -p "${OUTPUT_DIR}"
+echo "test_case,http_code" > "${RESULT_FILE}"
 
 echo "Configuración:"
 echo "  - URL Base: ${BASE_URL}"
-echo "  - Endpoint: /store/inventory"
+echo "  - Endpoint: /api/v1/juegos"
 echo "  - Directorio de salida: ${OUTPUT_DIR}"
 echo ""
 
-# Crear directorio de evidencias si no existe
-mkdir -p "${OUTPUT_DIR}"
+# =========================
+# Ejecución de pruebas
+# =========================
 
-# ===== Captura del Inventario =====
-echo "🔄 Capturando inventario de tienda..."
+# Caso 1: Sin token
+echo "Caso 1: Acceso sin token"
+CODE_NO_TOKEN=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${API_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Test Game","price":10}')
+echo "POST_without_token,${CODE_NO_TOKEN}" >> "${RESULT_FILE}"
 
-code=$(curl -s -o "${INVENTORY_FILE}" -w "%{http_code}" "${BASE_URL}/store/inventory")
-echo "${code}" > "${HTTP_CODE_FILE}"
+# Caso 2: Token inválido
+echo "Caso 2: Acceso con token inválido"
+CODE_INVALID_TOKEN=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${API_URL}" \
+  -H "Authorization: Bearer invalidtoken" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Test Game","price":10}')
+echo "POST_invalid_token,${CODE_INVALID_TOKEN}" >> "${RESULT_FILE}"
 
-# ===== Validación de Formato JSON =====
-echo "🔎 Validando formato JSON..."
+# Caso 3: Token válido
+echo "Caso 3: Acceso con token válido"
+CODE_VALID_TOKEN=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${API_URL}" \
+  -H "Authorization: Bearer ${VALID_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d "${GAME_PAYLOAD}")
+echo "POST_valid_token,${CODE_VALID_TOKEN}" >> "${RESULT_FILE}"
 
-# Verificar que el archivo comienza con '{'
-first_char=$(head -c 1 "${INVENTORY_FILE}")
+# =========================
+# Evaluación automática
+# =========================
+RESULT="PASS"
 
-if [ "${first_char}" != "{" ]; then
-    echo "   ❌ ERROR: El archivo no comienza con '{'  (primer carácter: '${first_char}')"
-    exit 1
+if [[ "${CODE_NO_TOKEN}" != "401" && "${CODE_NO_TOKEN}" != "403" ]]; then
+  RESULT="FAIL"
 fi
 
-echo "   ✓ Archivo comienza con '{' (JSON válido)"
+if [[ "${CODE_INVALID_TOKEN}" != "401" && "${CODE_INVALID_TOKEN}" != "403" ]]; then
+  RESULT="FAIL"
+fi
+
+if [[ "${CODE_VALID_TOKEN}" != "200" && "${CODE_VALID_TOKEN}" != "201" ]]; then
+  RESULT="FAIL"
+fi
+
+# =========================
+# Evidencia resumida
+# =========================
+cat <<EOF > "${SUMMARY_FILE}"
+Escenario Q2 — Seguridad de Autenticación y Autorización
+========================================================
+
+Endpoint evaluado:
+- POST ${API_URL}
+
+Resultados:
+- Sin token:        HTTP ${CODE_NO_TOKEN} (esperado 401/403)
+- Token inválido:   HTTP ${CODE_INVALID_TOKEN} (esperado 401/403)
+- Token válido:     HTTP ${CODE_VALID_TOKEN} (esperado 200/201)
+
+Resultado final: ${RESULT}
+EOF
 
 echo ""
 echo "================================"
-echo "📊 Resultados de Validación"
+echo "Resultados de Seguridad"
 echo "================================"
-echo "Código HTTP: ${code}"
-echo "Formato JSON: Válido (comienza con '{')"
-echo "Validación oráculo: HTTP ${code} + JSON bien formado"
+echo "Resultado final: ${RESULT}"
+echo ""
+echo "Evidencias generadas:"
+echo "  - ${RESULT_FILE}"
+echo "  - ${SUMMARY_FILE}"
 
-if [ "${code}" = "200" ]; then
-    echo ""
-    echo "✅ ÉXITO: El inventario es accesible y bien formado"
-    echo ""
-    echo "📁 Archivos generados:"
-    echo "   - ${INVENTORY_FILE}"
-    echo "   - ${HTTP_CODE_FILE}"
-else
-    echo ""
-    echo "❌ FALLO: Se esperaba HTTP 200, se recibió HTTP ${code}"
-    exit 1
+# =========================
+# Falsabilidad explícita
+# =========================
+if [[ "${RESULT}" == "FAIL" ]]; then
+  exit 1
 fi
+read -p "Presione ENTER para cerrar la ventana..."

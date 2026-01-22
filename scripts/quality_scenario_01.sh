@@ -9,9 +9,7 @@
 # Entorno: API desplegada en entorno de pruebas con la base de datos MongoDB activa y configuraciones estándar (dev/prod).
 # Respuesta: La API debe procesar las solicitudes sin fallos de error 5xx.
 # Medida (falsable): Tiempo medio de respuesta por tipo de operación y porcentaje de errores. Lecturas: tiempo medio ≤ 500 ms. Tasa de éxito ≥ 99 % para todas las peticiones.
-# Evidencia: evidence/week2/openapi.json y evidence/week2/openapi_http_code.txt
-#
-# Los resultados se guardan en evidence/week2/
+# Evidencia: evidence/week2/performance_results.csv y evidence/week2/performance_summary.txt
 
 set -euo pipefail
 

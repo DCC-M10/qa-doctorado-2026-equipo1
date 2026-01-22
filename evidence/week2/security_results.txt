@@ -1,0 +1,12 @@
+Escenario Q2 — Seguridad de Autenticación y Autorización
+========================================================
+
+Endpoint evaluado:
+- POST http://localhost:8000/api/v1/juegos
+
+Resultados:
+- Sin token:        HTTP 401 (esperado 401/403)
+- Token inválido:   HTTP 401 (esperado 401/403)
+- Token válido:     HTTP 201 (esperado 200/201)
+
+Resultado final: PASS
