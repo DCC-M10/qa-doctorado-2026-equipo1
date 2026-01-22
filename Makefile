@@ -1,42 +1,65 @@
-# Makefile para el Proyecto QA Doctorado 2026
-# SUT: ts-api-rest (API REST en TypeScript)
+# Makefile para el Proyecto QA Doctorado
 
-.PHONY: help setup start-sut stop-sut healthcheck smoke test-latency clean
+.PHONY: help setup start-gamesshop stop-gamesshop healthcheck smoke Q1-contract Q2-latency Q3-invalid-inputs Q4-inventory QA-week2 clean
 
 # Objetivo por defecto
 help:
 	@echo "Objetivos disponibles:"
-	@echo "  setup        - Configurar el entorno y preparar scripts"
-	@echo "  start-sut    - Iniciar el SUT (ts-api-rest)"
-	@echo "  stop-sut     - Detener el SUT"
-	@echo "  healthcheck  - Verificar la salud del SUT"
-	@echo "  smoke        - Ejecutar pruebas de humo"
-	@echo "  test-latency - Medir latencia del SUT"
-	@echo "  clean        - Limpiar archivos temporales y logs"
+	@echo ""
+	@echo "Configuración:"
+	@echo "  setup          - Configurar el entorno"
+	@echo "  start-gamesshop - Iniciar la aplicación Games Shop"
+	@echo "  stop-gamesshop  - Detener la aplicación Games Shop"
+	@echo "  healthcheck    - Verificar la salud del sistema"
+	@echo ""
+	@echo "Escenarios de Calidad - Semana 2:"
+	@echo "  Q1-contract        - Escenario Q1: Disponibilidad mínima del contrato OpenAPI"
+	@echo "  Q2-latency         - Escenario Q2: Latencia básica del endpoint de inventario"
+	@echo "  Q3-invalid-inputs  - Escenario Q3: Robustez ante IDs inválidos"
+	@echo "  Q4-inventory       - Escenario Q4: Respuesta bien formada en inventario"
+	@echo "  QA-week2           - Ejecutar todos los escenarios Q1-Q4 de la semana 2"
+	@echo ""
+	@echo "Pruebas Legacy:"
+	@echo "  smoke          - Ejecutar pruebas de humo"
+	@echo ""
+	@echo "Utilidades:"
+	@echo "  clean          - Limpiar archivos temporales"
 
-# Configuración inicial del entorno
 setup:
 	@echo "Configurando entorno..."
 	chmod +x setup/*.sh scripts/*.sh
 	./setup/run_sut.sh
 
-# Iniciar el SUT
-start-sut:
-	@echo "Iniciando SUT ts-api-rest..."
+start-gamesshop:
 	./setup/run_sut.sh
 
-# Detener el SUT
-stop-sut:
-	@echo "Deteniendo SUT ts-api-rest..."
+stop-gamesshop:
 	./setup/stop_sut.sh
 
-# Verificar la salud del SUT
 healthcheck:
-	@echo "Ejecutando healthcheck del SUT..."
 	./setup/healthcheck_sut.sh
 
-# Limpieza de archivos temporales
+smoke:
+	./scripts/smoke.sh
+
+Q1-contract:
+	./scripts/quality_scenario_01.sh
+
+Q2-latency:
+	./scripts/quality_scenario_02.sh
+
+Q3-invalid-inputs:
+	./scripts/quality_scenario_03.sh
+
+Q4-inventory:
+	./scripts/quality_scenario_04.sh
+
+QA-week2: Q1-contract Q2-latency Q3-invalid-inputs Q4-inventory
+	@echo ""
+	@echo "================================"
+	@echo "✅ Todos los escenarios Q1-Q4 completados"
+	@echo "================================"
+
 clean:
-	@echo "Limpiando archivos temporales..."
 	rm -rf tmp/
 	rm -f *.log
