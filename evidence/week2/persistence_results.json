@@ -1,0 +1,6 @@
+{
+  "create": {"id":"697280062570cce72038b036","activo":false,"imagen":"https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg","usuarioId":"333","titulo":"The Legend of Zelda 3","descripcion":"La nueva Aventura de Zelda 2","plataforma":"Nintendo 2","fecha":"2026-01-22T19:52:38.834Z","createdAt":"2026-01-22T19:52:38.835Z","updatedAt":"2026-01-22T19:52:38.835Z"},
+  "read": {"id":"697280062570cce72038b036","activo":false,"imagen":"https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg","usuarioId":"333","titulo":"The Legend of Zelda 3","descripcion":"La nueva Aventura de Zelda 2","plataforma":"Nintendo 2","fecha":"2026-01-22T19:52:38.834Z","createdAt":"2026-01-22T19:52:38.835Z","updatedAt":"2026-01-22T19:52:38.835Z"},
+  "delete_http_code": "403",
+  "verify_after_delete_http_code": "200"
+}

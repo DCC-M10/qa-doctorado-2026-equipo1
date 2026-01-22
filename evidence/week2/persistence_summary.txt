@@ -1,0 +1,12 @@
+Escenario Q3 — Persistencia y Consistencia de Datos
+==================================================
+
+Endpoint:
+- http://localhost:8000/api/v1/juegos
+
+Resultados:
+- ID creado: 697280062570cce72038b036
+- DELETE HTTP: 403 (esperado 200/204)
+- GET post-delete: 200 (esperado 404)
+
+Resultado final: FAIL

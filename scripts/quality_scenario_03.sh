@@ -1,130 +1,128 @@
 #!/usr/bin/env bash
-# Script de Medición de Latencia para la Aplicación Pet Store
+# Script de Integridad de Persistencia de Datos para Games Shop
 # 
-# Escenario Q2: Latencia básica del endpoint de inventario (Performance - Local)
+# Escenario Q3: Integridad de Persistencia de Datos (Data integrity)
 # 
-# Este script atiende al escenario Q2 midiendo el tiempo de respuesta del endpoint
-# de inventario realizando múltiples iteraciones para obtener estadísticas confiables.
+# Este script atiende al escenario Q3 validando Integridad de Persistencia de Datos.
 #
-# Estímulo: se solicita GET /store/inventory
-# Entorno: ejecución local, sin carga externa, 30 repeticiones consecutivas
-# Respuesta: el SUT responde con HTTP 200
-# Medida (falsable): registrar time_total por ejecución; (opcional) p95 <= 1.0s
-# Evidencia: evidence/week2/latency.csv y evidence/week2/latency_summary.txt
-#
-# Uso: ./measure_latency.sh [número_de_iteraciones]
-# Ejemplo: ./measure_latency.sh 30
+# Estímulo: Secuencia de operaciones y Verificaciones posteriores mediante consultas de lectura.
+# Entorno: API en entorno de pruebas con **almacenamiento MongoDB** activo.
+# Respuesta: Después de cada operación, el recurso debe reflejar el estado esperado.
+# Medida (falsable): Resultados de las consultas `GET /juegos/:id` después de cada operación.
+# Evidencia: evidence/week2/persistence_results.csv y evidence/week2/persistence_summary.txt
 #
 # Los resultados se guardan en evidence/week2/
 
 set -euo pipefail
 
-# Configuración
-N="${1:-30}"  # Número de repeticiones (30 por defecto)
-BASE_URL="http://localhost:8080/api/v3"
-ENDPOINT="/store/inventory"
-OUTPUT_DIR="evidence/week2"
-RESULTS_FILE="${OUTPUT_DIR}/latency.csv"
-SUMMARY_FILE="${OUTPUT_DIR}/latency_summary.txt"
-
-echo "📊 Escenario Q2: Latencia del Endpoint de Inventario"
+echo "Escenario Q3: Integridad de Persistencia de Datos"
 echo "====================================================="
 echo ""
-echo "Configuración:"
-echo "  - Endpoint: ${ENDPOINT}"
-echo "  - URL Base: ${BASE_URL}"
-echo "  - Repeticiones: ${N}"
-echo "  - Directorio de salida: ${OUTPUT_DIR}"
-echo ""
+# =========================
+# Configuración
+# =========================
+OUTPUT_DIR="../evidence/week2"
+BASE_URL="http://localhost:8000"
+API_URL="${BASE_URL}/api/v1/juegos"
+RESULT_FILE="${OUTPUT_DIR}/persistence_results.json"
+SUMMARY_FILE="${OUTPUT_DIR}/persistence_summary.txt"
 
-# Crear directorio de evidencias si no existe
+VALID_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiNjk3MjdmYTMyNTcwY2NmOWQ0MzhiMDJmIiwicm9sZSI6IkFETUlOIiwibm9tYnJlIjoiSm9yZ2UgQWRtaW4iLCJlbWFpbCI6Imptb3N0YWpvYWRtaW4xQHRlc3QuY29tIiwiZmVjaGEiOiIyMDI2LTAxLTIyVDE5OjUwOjU5LjU0OFoiLCJjcmVhdGVkQXQiOiIyMDI2LTAxLTIyVDE5OjUwOjU5LjU1MloiLCJ1cGRhdGVkQXQiOiIyMDI2LTAxLTIyVDE5OjUwOjU5LjU1MloifSwiaWF0IjoxNzY5MTExNDcwLCJleHAiOjE3NjkxMTUwNzB9.VxADtk1Dy6sQbTjZq9zPoZcHx3jU0A-TWUlEF51N-ac"
+
+GAME_PAYLOAD='{
+  "titulo": "The Legend of Zelda 3",
+  "descripcion": "La nueva Aventura de Zelda 2",
+  "plataforma": "Nintendo 2",
+  "imagen": "https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg",
+  "usuarioId": "333"
+}'
+
 mkdir -p "${OUTPUT_DIR}"
 
-# Inicializar archivo CSV
-echo "run,time_total" > "${RESULTS_FILE}"
+# =========================
+# Create
+# =========================
+CREATE_RESPONSE=$(curl -s -X POST "${API_URL}" \
+  -H "Authorization: Bearer ${VALID_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d "${GAME_PAYLOAD}")
 
-# ===== Medición de Latencia =====
-echo "🔄 Ejecutando ${N} mediciones de latencia..."
+GAME_ID=$(echo "${CREATE_RESPONSE}" | sed -n 's/.*"id"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 
-total_time=0
-min_time=""
-max_time=""
+if [[ -z "${GAME_ID}" ]]; then
+  echo "ERROR: No se pudo obtener GAME_ID"
+  exit 1
+fi
 
-for i in $(seq 1 "$N"); do
-    # Medir tiempo de respuesta usando curl
-    t=$(curl -s -w "%{time_total}" -o /dev/null "${BASE_URL}${ENDPOINT}")
-    echo "${i},${t}" >> "${RESULTS_FILE}"
-    
-    # Mostrar progreso cada 5 iteraciones
-    if [ $((i % 5)) -eq 0 ]; then
-        echo "   Progreso: ${i}/${N} mediciones completadas..."
-    fi
-    
-    # Calcular estadísticas en tiempo real
-    total_time=$(echo "$total_time + $t" | bc -l)
-    
-    if [ -z "$min_time" ] || [ $(echo "$t < $min_time" | bc -l) -eq 1 ]; then
-        min_time=$t
-    fi
-    
-    if [ -z "$max_time" ] || [ $(echo "$t > $max_time" | bc -l) -eq 1 ]; then
-        max_time=$t
-    fi
-done
+# =========================
+# Read
+# =========================
+READ_RESPONSE=$(curl -s -X GET "${API_URL}/${GAME_ID}")
 
-echo "   ✅ ${N} mediciones completadas"
+# =========================
+# Delete
+# =========================
+DELETE_HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE "${API_URL}/${GAME_ID}" \
+  -H "Authorization: Bearer ${VALID_TOKEN}")
 
-# ===== Cálculo de Estadísticas =====
-echo ""
-echo "📈 Calculando estadísticas..."
+# =========================
+# Verify delete
+# =========================
+VERIFY_HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${API_URL}/${GAME_ID}")
 
-avg_time=$(echo "scale=6; $total_time / $N" | bc -l)
-avg_time_ms=$(echo "$avg_time * 1000" | bc -l | cut -d. -f1)
-min_time_ms=$(echo "$min_time * 1000" | bc -l | cut -d. -f1)
-max_time_ms=$(echo "$max_time * 1000" | bc -l | cut -d. -f1)
-
-# Guardar resumen en archivo
-cat > "${SUMMARY_FILE}" << EOF
-Reporte de Medición de Latencia - Pet Store API
-================================================
-
-Escenario: Q2 - Latencia básica del endpoint de inventario (Performance - Local)
-
-Fecha: $(date '+%Y-%m-%d %H:%M:%S')
-Endpoint: ${ENDPOINT}
-URL Completa: ${BASE_URL}${ENDPOINT}
-
-Configuración:
-- Entorno: ejecución local, sin carga externa
-- Total de repeticiones: ${N}
-- Criterio de éxito: registrar time_total (opcional p95 <= 1.0s)
-
-Estadísticas de Rendimiento:
------------------------------
-Total de mediciones: ${N}
-Tiempo promedio:     ${avg_time_ms} ms (${avg_time} s)
-Tiempo mínimo:       ${min_time_ms} ms (${min_time} s)
-Tiempo máximo:       ${max_time_ms} ms (${max_time} s)
-
-Archivos generados:
--------------------
-- Datos detallados: ${RESULTS_FILE}
-- Resumen: ${SUMMARY_FILE}
-
+# =========================
+# Evidencia técnica
+# =========================
+cat <<EOF > "${RESULT_FILE}"
+{
+  "create": ${CREATE_RESPONSE},
+  "read": ${READ_RESPONSE},
+  "delete_http_code": "${DELETE_HTTP_CODE}",
+  "verify_after_delete_http_code": "${VERIFY_HTTP_CODE}"
+}
 EOF
 
-# Mostrar resumen en consola
-echo ""
+# =========================
+# Evaluación automática
+# =========================
+RESULT="PASS"
+
+[[ "${DELETE_HTTP_CODE}" != "200" && "${DELETE_HTTP_CODE}" != "204" ]] && RESULT="FAIL"
+[[ "${VERIFY_HTTP_CODE}" != "404" ]] && RESULT="FAIL"
+
+# =========================
+# Resumen
+# =========================
+cat <<EOF > "${SUMMARY_FILE}"
+Escenario Q3 — Persistencia y Consistencia de Datos
+==================================================
+
+Endpoint:
+- ${API_URL}
+
+Resultados:
+- ID creado: ${GAME_ID}
+- DELETE HTTP: ${DELETE_HTTP_CODE} (esperado 200/204)
+- GET post-delete: ${VERIFY_HTTP_CODE} (esperado 404)
+
+Resultado final: ${RESULT}
+EOF
+
 echo "================================"
-echo "📊 Resumen de Latencia - Escenario Q2"
+echo "Persistencia"
 echo "================================"
-echo "Total de mediciones: ${N}"
-echo "Tiempo promedio:     ${avg_time_ms} ms"
-echo "Tiempo mínimo:       ${min_time_ms} ms"
-echo "Tiempo máximo:       ${max_time_ms} ms"
+echo "Resultado final: ${RESULT}"
 echo ""
-echo "✅ Medición completada exitosamente"
-echo ""
-echo "📁 Archivos generados:"
-echo "   - ${RESULTS_FILE}"
-echo "   - ${SUMMARY_FILE}"
+echo "Evidencias generadas:"
+echo " - ${RESULT_FILE}"
+echo " - ${SUMMARY_FILE}"
+
+# =========================
+# Falsabilidad explícita
+# =========================
+if [[ "${RESULT}" == "FAIL" ]]; then
+  read -p "Presione ENTER para cerrar la ventana..."
+  exit 1
+fi
+
+read -p "Presione ENTER para cerrar la ventana..."

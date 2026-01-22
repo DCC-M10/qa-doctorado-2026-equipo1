@@ -56,14 +56,33 @@ La API debe rechazar accesos no autorizados y permitir accesos válidos.
 - Capturas de respuestas HTTP con códigos de estado.
 - Evidencia: evidence/week2/security_results.csv y evidence/week2/security_results.txt
 
-## Escenario Q3 — Robustez ante IDs inválidos en /pet/{id} (Robustness / Error Handling)
-- Estímulo: se solicita GET /pet/{id} con valores inválidos (e.g., -1, 0, 999999, abc)
-- Entorno: ejecución local, sin carga, 1 vez por caso
-- Respuesta: el SUT NO debe responder 200 para entradas inválidas
-- Medida (falsable): para cada caso, HTTP != 200 (se registra el código)
-- Evidencia: evidence/week2/invalid_ids.csv + evidence/week2/pet_<id>.json
+## Escenario Q3 — Integridad de Persistencia de Datos (Data Integrity) 
+### Estímulo
+- Secuencia de operaciones:
+  1. Crear un juego
+  2. Modificar el juego
+  3. Eliminar el juego
+- Verificaciones posteriores mediante consultas de lectura.
 
-## Escenario Q4 — Respuesta “bien formada” en inventario (Data Shape Sanity)
+### Entorno
+API en entorno de pruebas con **almacenamiento MongoDB** activo.
+
+### Respuesta
+- Después de cada operación, el recurso debe reflejar el estado esperado.
+- Los datos eliminados **no deben encontrarse** mediante consultas posteriores.
+
+### Medida
+Resultados de las consultas `GET /juegos/:id` después de cada operación:
+- **Después de creación:** el recurso existe y coincide con los datos enviados.
+- **Después de modificación:** el recurso coincide con los cambios realizados.
+- **Después de eliminación:** el recurso no existe (404).
+
+### Evidencia
+- Resultados de pruebas automatizadas.
+- Capturas de consultas directas a la base de datos.
+- Logs de la API y de la base de datos.
+
+## Escenario Q4 — Robustez de la API frente a datos inválidos (Robustness / Error Handling)
 - Estímulo: se solicita GET /store/inventory
 - Entorno: ejecución local, sin carga, 1 vez
 - Respuesta: el cuerpo es JSON (no HTML / texto inesperado)
