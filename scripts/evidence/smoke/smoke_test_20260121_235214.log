@@ -1,0 +1,8 @@
+Resultados de Pruebas de Humo - 20260121_235214
+================================
+EXITO: Endpoint de acceso a juegos (HTTP 200)
+FALLO: Buscar mascotas por estado (Esperado 200, obtenido 404)
+FALLO: Endpoint de inventario de tienda (Esperado 200, obtenido 404)
+EXITO: Endpoint inválido (prueba negativa) (HTTP 404)
+
+RESUMEN: 2/4 pruebas aprobadas

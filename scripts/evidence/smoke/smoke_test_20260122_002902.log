@@ -1,0 +1,8 @@
+Resultados de Pruebas de Humo - 20260122_002902
+================================
+EXITO: Endpoint de acceso a juegos (HTTP 200)
+EXITO: Obtener juego específico (HTTP 200)
+FALLO: Obtener usuario específico (Esperado 200, obtenido 401)
+EXITO: Endpoint inválido (prueba negativa) (HTTP 404)
+
+RESUMEN: 3/4 pruebas aprobadas
