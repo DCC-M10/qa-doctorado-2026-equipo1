@@ -13,11 +13,11 @@ help:
 	@echo "  healthcheck    - Verificar la salud del sistema"
 	@echo ""
 	@echo "Escenarios de Calidad - Semana 2:"
-	@echo "  Q1-contract        - Escenario Q1: Disponibilidad mínima del contrato OpenAPI"
-	@echo "  Q2-latency         - Escenario Q2: Latencia básica del endpoint de inventario"
-	@echo "  Q3-invalid-inputs  - Escenario Q3: Robustez ante IDs inválidos"
-	@echo "  Q4-inventory       - Escenario Q4: Respuesta bien formada en inventario"
-	@echo "  QA-week2           - Ejecutar todos los escenarios Q1-Q4 de la semana 2"
+	@echo "  Q1-performance      - Escenario Q1: Rendimiento de Endpoints CRUD"
+	@echo "  Q2-security         - Escenario Q2: Seguridad de Autenticación y Autorización"
+	@echo "  Q3-integrity        - Escenario Q3: Integridad de Persistencia de Datos"
+	@echo "  Q4-robustness       - Escenario Q4: Robustez de la API frente a datos inválidos"
+	@echo "  QA-week2            - Ejecutar todos los escenarios Q1-Q4 de la semana 2"
 	@echo ""
 	@echo "Pruebas Legacy:"
 	@echo "  smoke          - Ejecutar pruebas de humo"
@@ -42,19 +42,19 @@ healthcheck:
 smoke:
 	./scripts/smoke.sh
 
-Q1-contract:
+Q1-performance:
 	./scripts/quality_scenario_01.sh
 
-Q2-latency:
+Q2-security:
 	./scripts/quality_scenario_02.sh
 
-Q3-invalid-inputs:
+Q3-integrity:
 	./scripts/quality_scenario_03.sh
 
-Q4-inventory:
+Q4-robustness:
 	./scripts/quality_scenario_04.sh
 
-QA-week2: Q1-contract Q2-latency Q3-invalid-inputs Q4-inventory
+QA-week2: Q1-performance Q2-security Q3-integrity Q4-robustness
 	@echo ""
 	@echo "================================"
 	@echo "✅ Todos los escenarios Q1-Q4 completados"
