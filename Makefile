@@ -1,6 +1,6 @@
 # Makefile para el Proyecto QA Doctorado
 
-.PHONY: help setup start-gamesshop stop-gamesshop healthcheck smoke Q1-contract Q2-latency Q3-invalid-inputs Q4-inventory QA-week2 clean
+.PHONY: help setup start-gamesshop stop-gamesshop healthcheck smoke Q1-performance Q2-security Q3-integrity Q4-robustness QA-week2 clean
 
 # Objetivo por defecto
 help:
