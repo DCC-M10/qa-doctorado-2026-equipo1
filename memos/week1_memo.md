@@ -1,7 +1,7 @@
 # Memo de Progreso - Semana 1
 
 **Fecha**: 17/01/2026  \
-**Equipo**: Equipo X  \
+**Equipo**: Equipo 1  \
 **Semana**: 1 de 8
 
 ## Objetivos de la semana
@@ -27,7 +27,7 @@
 ## Retos y notas
 - Dependencia en Docker: es requisito previo para ejecutar los scripts; se deja indicado en README.
 - Permisos de ejecución: se usan chmod en la tarea setup del Makefile para evitar fallos al invocar los scripts.
-- El contenedor expone OpenAPI en /api/v3/openapi.json, usado como punto de salud en healthcheck.
+- El contenedor expone localhost en http://localhost:8000, usado como punto de salud en healthcheck.
 
 ## Lecciones aprendidas
 - Estandarizar comandos en Makefile agiliza la adopción del entorno y reduce errores manuales.
@@ -42,5 +42,5 @@
 
 ---
 
-**Preparado por**: Equipo X  \
+**Preparado por**: Equipo 1  \
 **Próxima revisión**: Semana 2
