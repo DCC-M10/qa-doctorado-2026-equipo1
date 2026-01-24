@@ -11,11 +11,14 @@
 - Registrar acuerdos de colaboración del equipo.
 
 ## Logros
-- SUT seleccionado: Swagger Petstore (Petstore v3) y documentado en SUT_SELECTION.md.
-- Scripts de entorno creados en setup/: run_sut.sh, healthcheck_sut.sh y stop_sut.sh para gestionar el contenedor Docker y validar su disponibilidad vía openapi.json.
+- SUT seleccionado: Games Shop (ts-api-rest) y documentado en SUT_SELECTION.md, justificando su elección como sistema con autenticación JWT y endpoints CRUD protegidos.
+- Scripts de entorno creados en setup/:
+  - run_sut.sh para el arranque del SUT en contenedor Docker.
+  - healthcheck_sut.sh para validar la disponibilidad del API mediante una solicitud HTTP básica.
+  - stop_sut.sh para la detención controlada del contenedor.
 - Makefile añadido para orquestar setup, arranque, detención y verificación del SUT.
-- README actualizado con estructura del repositorio y pasos básicos para ejecutar el proyecto.
-- Acuerdos iniciales del equipo registrados en AGREEMENTS.md.
+- README actualizado, incluyendo la estructura del repositorio, prerrequisitos (Docker) y pasos mínimos para ejecutar el proyecto.
+- Acuerdos iniciales del equipo documentados en AGREEMENTS.md, estableciendo normas de colaboración y responsabilidades.
 
 ## Evidencia principal
 - Selección y motivación del SUT: SUT_SELECTION.md.
@@ -25,20 +28,23 @@
 - Normas de colaboración: AGREEMENTS.md.
 
 ## Retos y notas
-- Dependencia en Docker: es requisito previo para ejecutar los scripts; se deja indicado en README.
-- Permisos de ejecución: se usan chmod en la tarea setup del Makefile para evitar fallos al invocar los scripts.
-- El contenedor expone localhost en http://localhost:8000, usado como punto de salud en healthcheck.
+- Dependencia de Docker: el entorno de ejecución requiere Docker instalado y operativo; este requisito se encuentra documentado en el README.
+- Gestión de permisos de ejecución: se emplea chmod dentro de la tarea setup del Makefile para evitar errores al invocar los scripts en distintos sistemas operativos.
+- Exposición del servicio: el contenedor del SUT expone el API en http://localhost:8000, utilizado como punto base para el healthcheck y futuras pruebas funcionales.
+- Seguridad mediante JWT: varios endpoints del SUT requieren autenticación, lo que introduce consideraciones adicionales para las pruebas de acceso y autorización.
 
 ## Lecciones aprendidas
-- Estandarizar comandos en Makefile agiliza la adopción del entorno y reduce errores manuales.
-- Verificar salud mediante el contrato OpenAPI es un chequeo rápido y estable para detectar caídas tempranas.
-- Mantener la documentación breve y localizada (README + SUT_SELECTION) ayuda a nuevos integrantes a involucraser rápidamente en el proyecto.
+- Centralizar los comandos en un Makefile reduce la complejidad del entorno y minimiza errores manuales durante la ejecución del SUT.
+- Implementar un healthcheck temprano permite detectar rápidamente fallos de despliegue antes de ejecutar pruebas más complejas.
+- Seleccionar un SUT con autenticación JWT aporta un contexto realista para el análisis de calidad, incorporando pruebas funcionales y de seguridad.
+- Mantener la documentación concisa y bien localizada (README + SUT_SELECTION) facilita la incorporación de nuevos integrantes al proyecto.
 
 ## Próximos pasos (Semana 2) - (Potenciales pasos, a ser discutidos con el equipo)
-- Elaborar casos de prueba detallados y reglas de oráculo (design/test_cases.md y design/oracle_rules.md).
-- Extender scripts de pruebas (smoke y systematic_cases) para cubrir endpoints clave del Petstore.
-- Definir métricas básicas de ejecución (latencia, disponibilidad) y registrar evidencias en evidence/week2/.
-- Afinar estrategia de riesgos y pruebas en risk/test_strategy.md a la luz del SUT seleccionado.
+- Elaborar casos de prueba funcionales y reglas de oráculo para los principales endpoints del Games Shop (design/test_cases.md y design/oracle_rules.md).
+- Extender los scripts de prueba, incluyendo smoke tests y pruebas sistemáticas (smoke y systematic_cases) para endpoints críticos del API.
+- Definir métricas básicas de calidad (disponibilidad, tiempo de respuesta, manejo de errores) y registrar evidencias en evidence/week2/.
+- Refinar la estrategia de riesgos y pruebas en risk/test_strategy.md, considerando autenticación JWT y control de acceso.
+
 
 ---
 
