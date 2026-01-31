@@ -67,11 +67,6 @@ CODE_INVALID_TYPE=$(curl -s -o /dev/null -w "%{http_code}" \
   -d '{"titulo":"Invalid Game","usuarioId":"free"}')
 echo "invalid_user_id,${CODE_INVALID_TYPE}" >> "${RESULT_FILE}"
 
-# Caso 4: Verificación de salud
-CODE_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" \
-  -X GET "${API_URL}")
-echo "health_check_after_invalid_inputs,${CODE_HEALTH}" >> "${RESULT_FILE}"
-
 # =========================
 # Evaluación automática
 # =========================
@@ -82,10 +77,6 @@ for CODE in "${CODE_EMPTY}" "${CODE_MISSING}" ; do
     RESULT="FAIL"
   fi
 done
-
-if [[ "${CODE_HEALTH}" != "200" ]]; then
-  RESULT="FAIL"
-fi
 
 if [[ "${CODE_INVALID_TYPE}" != "201" ]]; then
   RESULT="FAIL"
@@ -105,7 +96,6 @@ Resultados:
 - Payload vacío:            HTTP ${CODE_EMPTY} (esperado 400/422)
 - Falta campo obligatorio:  HTTP ${CODE_MISSING} (esperado 400/422)
 - Tipo de dato inválido:    HTTP ${CODE_INVALID_TYPE} (esperado 201)
-- Health check posterior:   HTTP ${CODE_HEALTH} (esperado 200)
 
 Resultado final: ${RESULT}
 EOF

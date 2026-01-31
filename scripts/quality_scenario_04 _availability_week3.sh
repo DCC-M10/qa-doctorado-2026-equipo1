@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# Script de Pruebas de Entradas Inválidas para Games Shop
+# 
+# Escenario Q4: Robustez ante IDs inválidos (Robustness / Error Handling)
+# 
+# Este script atiende al escenario Q4 probando el manejo de entradas inválidas.
+#
+# Estímulo: Se envían múltiples solicitudes `POST /api/v1/juegos` con datos inválidos
+# Entorno: API REST **ts-api-rest** ejecutándose en entorno de pruebas local.
+# Respuesta: Rechazar todas las solicitudes inválidas.
+# Medida (falsable): **100 %** de las solicitudes inválidas retornan **HTTP 400 (Bad Request)**.
+# Evidencia:  evidence/week2/robustness_results.csv y robustness_summary.txt
+#
+# Los resultados se guardan en evidence/week2/
+
+echo "🔍 Escenario Q4: Robustez de la API frente a datos inválidos"
+echo "=============================================="
+echo ""
+
+# =========================
+# Configuración
+# =========================
+OUTPUT_DIR="../evidence/week3"
+BASE_URL="http://localhost:8000"
+API_URL="${BASE_URL}/api/v1/juegos"
+RESULT_FILE="${OUTPUT_DIR}/availability_results.csv"
+SUMMARY_FILE="${OUTPUT_DIR}/availability_summary.txt"
+
+# Token válido (previamente obtenido)
+VALID_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiNjk3ZTVkNmZlMDhkOTc4NjI1ZjIyMGFlIiwicm9sZSI6IkFETUlOIiwibm9tYnJlIjoiSm9yZ2UgQWRtaW4iLCJlbWFpbCI6Imptb3N0YWpvYWRtaW5AdGVzdC5jb20iLCJmZWNoYSI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODM3WiIsImNyZWF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiIsInVwZGF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiJ9LCJpYXQiOjE3Njk4OTMwODIsImV4cCI6MTc2OTg5NjY4Mn0.OiIYOFs_KCH699RxPAOxmXAdpevB2n1ct2cKkvnhous"
+
+echo "Configuración:"
+echo "  - URL Base: ${BASE_URL}"
+echo "  - Endpoint: /api/v1/juegos"
+echo "  - Directorio de salida: ${OUTPUT_DIR}"
+echo ""
+
+mkdir -p "${OUTPUT_DIR}"
+
+echo "test_case,http_code" > "${RESULT_FILE}"
+
+# =========================
+# Ejecución de pruebas
+# =========================
+
+# Caso 1: Verificación de salud
+CODE_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X GET "${API_URL}")
+echo "health_check_for_availability,${CODE_HEALTH}" >> "${RESULT_FILE}"
+
+# =========================
+# Evaluación automática
+# =========================
+RESULT="PASS"
+
+if [[ "${CODE_HEALTH}" != "200" ]]; then
+  RESULT="FAIL"
+fi
+
+# =========================
+# Resumen
+# =========================
+cat <<EOF > "${SUMMARY_FILE}"
+Escenario Q4 — Robustez frente a Entradas Inválidas
+=================================================
+
+Endpoint:
+- POST /api/v1/juegos
+
+Resultados:
+- Health check posterior:   HTTP ${CODE_HEALTH} (esperado 200)
+
+Resultado final: ${RESULT}
+EOF
+
+echo ""
+echo "================================"
+echo "Availability"
+echo "================================"
+echo "Resultado final: ${RESULT}"
+echo ""
+echo "Evidencias generadas:"
+echo " - ${RESULT_FILE}"
+echo " - ${SUMMARY_FILE}"
+
+# =========================
+# Falsabilidad explícita
+# =========================
+if [[ "${RESULT}" == "FAIL" ]]; then
+  exit 1
+fi
+read -p "Presione ENTER para cerrar la ventana..."

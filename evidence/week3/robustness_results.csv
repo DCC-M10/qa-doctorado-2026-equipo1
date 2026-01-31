@@ -2,4 +2,3 @@ test_case,http_code
 empty_payload,422
 missing_title,422
 invalid_user_id,201
-health_check_after_invalid_inputs,200

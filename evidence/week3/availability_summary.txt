@@ -5,8 +5,6 @@ Endpoint:
 - POST /api/v1/juegos
 
 Resultados:
-- Payload vacío:            HTTP 422 (esperado 400/422)
-- Falta campo obligatorio:  HTTP 422 (esperado 400/422)
-- Tipo de dato inválido:    HTTP 201 (esperado 201)
+- Health check posterior:   HTTP 200 (esperado 200)
 
 Resultado final: PASS
