@@ -11,7 +11,7 @@ Esta estrategia cubre pruebas técnicas del API REST ejecutado en entorno local 
 
 - Control de acceso (Q2)
 - Manejo de errores (Q4)
-- Disponibilidad básica del servicio (Q3)
+- Disponibilidad básica del servicio (Q4)
 
 **No cubre todavía:**
 
@@ -30,7 +30,7 @@ En la matriz de riesgos se presentan los riegos priorizados de los cuales se sac
 |------|----------------|-----------|-----------|---------|-----------------|
 | R1 – Acceso no autorizado | Compromete datos y operaciones críticas y tiene alta probabilidad por fallas de configuración | Q2 | `evidence/week3/security_results.csv` + `security_results.txt` | Requests sin token o rol válido deben ser rechazados (401/403) | Pueden existir rutas no cubiertas o configuraciones futuras incorrectas |
 | R2 – Error 500 con inputs válidos | Afecta funcionalidad básica y ya fue observado empíricamente | Q4 | `evidence/week3/robustness_results.csv` + `robustness_summary.txt`| Inputs válidos no deben generar error 500 | Persisten combinaciones de datos no probadas |
-| R3 – Servicio no disponible | Impide cualquier uso del sistema y es plausible en entornos Docker locales | Q3 | `evidence/week3/log_api.log` + `log_basedatos.log` | Endpoint responde correctamente tras arranque | Fallas posibles ante cambios de entorno o dependencias |
+| R3 – Servicio no disponible | Impide cualquier uso del sistema y es plausible en entornos Docker locales | Q4 | `evidence/week3/availability_results.csv` + `availability_summary.txt` | Endpoint responde correctamente tras arranque | Fallas posibles ante cambios de entorno o dependencias |
 
 
 ## Reglas de evidencia (disciplina mínima)
