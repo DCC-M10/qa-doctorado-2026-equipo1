@@ -18,7 +18,7 @@
 - Matriz de riesgos y priorización: `risk/risk_matrix.csv`.
 - Estrategia basada en riesgo: `risk/test_strategy.md`.
 - Evidencias Top 3 (Semana 3):
-  - Seguridad de autenticación y autorización: `evidence/week3/auth_negative_tests.log`.
+  - Seguridad de autenticación y autorización: `evidence/week3/security_results.csv; evidence/week3/security_summary.txt  `.
   - Robustness / Error Handling: `evidence/week3/user_register_500.txt`.
   - Rendimiento de Endpoints CRUD: `evidence/week3/healthcheck.log`.
   - Trazabilidad de ejecución: `evidence/week3/RUNLOG.md`.
