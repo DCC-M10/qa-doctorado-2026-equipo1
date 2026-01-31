@@ -18,9 +18,9 @@
 - Matriz de riesgos y priorización: `risk/risk_matrix.csv`.
 - Estrategia basada en riesgo: `risk/test_strategy.md`.
 - Evidencias Top 3 (Semana 3):
-  - Contrato/Disponibilidad: `evidence/week3/openapi.json`, `openapi_http_code.txt`.
-  - Robustez inputs inválidos: `evidence/week3/invalid_ids.csv`, `invalid_pet_*.json`.
-  - Latencia baseline local: `evidence/week3/latency.csv`, `latency_summary.txt`.
+  - Seguridad de autenticación y autorización: `evidence/week3/auth_negative_tests.log`.
+  - Robustness / Error Handling: `evidence/week3/user_register_500.txt`.
+  - Rendimiento de Endpoints CRUD: `evidence/week3/healthcheck.log`.
   - Trazabilidad de ejecución: `evidence/week3/RUNLOG.md`.
 
 ## Retos y notas
