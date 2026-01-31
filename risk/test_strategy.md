@@ -1,34 +1,53 @@
-# Estrategia de Pruebas Basada en Riesgo (Semana 3) (PLANTILLA BORRADOR)
+# Estrategia de Pruebas Basada en Riesgo (Semana 3)
 
 ## Propósito
-Aplicar *risk-based testing* para reducir incertidumbre de calidad con tiempo limitado. La estrategia prioriza riesgos de mayor severidad (impacto × probabilidad) y exige trazabilidad **Riesgo → Escenario → Evidencia → Oráculo**, dejando explícito el **riesgo residual**.
+
+El propósito de esta estrategia es priorizar las actividades de prueba del sistema con base en los riesgos de calidad más críticos identificados. Se busca reducir la incertidumbre sobre la seguridad, robustez y disponibilidad del API mediante evidencia concreta, reproducible y vinculada a escenarios claros. La estrategia conecta explícitamente riesgo, escenario, evidencia y riesgo residual.
 
 ## Alcance (por ahora)
 **Cubre:**
-- Disponibilidad mínima del contrato OpenAPI (Q1).
-- Robustez ante entradas inválidas en `/pet/{id}` (Q3).
-- Baseline de latencia local en `/juegos/inventory` (Q2).
+
+Esta estrategia cubre pruebas técnicas del API REST ejecutado en entorno local con Docker, enfocadas en: 
+
+- Control de acceso (Q2)
+- Manejo de errores (Q4)
+- Disponibilidad básica del servicio (Q3)
 
 **No cubre todavía:**
-- Seguridad (authz/authn), pruebas de carga concurrente, ni SLOs de producción.
-- Persistencia/datos, consistencia funcional completa de todos los endpoints.
 
+No cubre por ahora:
+
+- Pruebas de carga a gran escala.
+- Seguridad avanzada (penetration testing).
+- Validaciones en entornos productivos.
+
+## Regla de priorización y desempate (R3 - R4)
+
+En la matriz de riesgos se presentan los riegos priorizados de los cuales se saca el Top 3, sin embargo, existe un empate entre los riesgos R3 y R4 los cuales tienen el mismo score (12), se aplica una regla de desempate explícita priorizando el riesgo que bloquea la operación básica del sistema. Un fallo de disponibilidad (R3) vuelve el sistema inutilizable, un fallo de performance (R4) normalmente degrada la experiencia, pero el sistema sigue funcionando. Por impacto operativo y criticidad del atributo R3 es Top 3 y R4 queda inmediatamente después.
+  
 ## Top 3 riesgos priorizados (matriz: `risk/risk_matrix.csv`)
-| Riesgo (ID) | Por qué es Top | Escenario | Evidencia (Semana 3) | Oráculo mínimo | Riesgo residual |
-|---|---|---|---|---|---|
-| R1: Contrato OpenAPI no accesible | Sin contrato no hay consumo; bloquea validación temprana | Q1 | `evidence/week3/openapi.json` + `openapi_http_code.txt` | pass si HTTP 200 y contiene `"openapi"` | No garantiza disponibilidad sostenida (solo “punto en el tiempo”) |
-| R2: Inputs inválidos aceptados como válidos | Puede ocultar defectos y generar estados incoherentes | Q3 | `evidence/week3/invalid_ids.csv` + `invalid_pet_*.json` | pass si **ningún** caso retorna HTTP 200 | No valida semántica completa del error (400 vs 404), solo “no 200” |
-| R3: Latencia local alta/variable | Riesgo probable por entorno local; afecta baseline y comparabilidad | Q2 | `evidence/week3/latency.csv` + `latency_summary.txt` | pass si HTTP 200 en mediciones; (umbral opcional p95<=X) | No generaliza a producción; no evalúa concurrencia |
+| Riesgo (ID) | Por qué es Top | Escenario | Evidencia (Semana 3) | Oráculo mínimo | Riesgo Residual |
+|------|----------------|-----------|-----------|---------|-----------------|
+| R1 – Acceso no autorizado | Compromete datos y operaciones críticas y tiene alta probabilidad por fallas de configuración | Q2 | `evidence/week3/security_results.csv` + `security_results.txt` | Requests sin token o rol válido deben ser rechazados (401/403) | Pueden existir rutas no cubiertas o configuraciones futuras incorrectas |
+| R2 – Error 500 con inputs válidos | Afecta funcionalidad básica y ya fue observado empíricamente | Q4 | `evidence/week3/robustness_results.csv` + `robustness_summary.txt`| Inputs válidos no deben generar error 500 | Persisten combinaciones de datos no probadas |
+| R3 – Servicio no disponible | Impide cualquier uso del sistema y es plausible en entornos Docker locales | Q3 | `evidence/week3/log_api.log` + `log_basedatos.log` | Endpoint responde correctamente tras arranque | Fallas posibles ante cambios de entorno o dependencias |
+
 
 ## Reglas de evidencia (disciplina mínima)
-- Toda evidencia de la semana se guarda en `evidence/week3/` y se documenta en `evidence/week3/RUNLOG.md`.
-- Cada evidencia debe indicar **cómo se generó** (script/comando) y su **oráculo** (pass/fail).
-- Si un script escribe en otra carpeta (p.ej. `week2`), se permite copiar a `week3` siempre que quede registrado en `RUNLOG.md`.
+
+- Toda la evidencia se almacena en la carpeta `evidence/week3/`.
+- Cada evidencia debe poder reproducirse mediante un comando o script documentado.
+- El oráculo mínimo es binario: la prueba pasa o falla según el comportamiento esperado.
 
 ## Riesgo residual (declaración)
-Aun mitigando R1–R3, persiste riesgo en seguridad, estabilidad bajo carga, y validez externa (entorno local). Este riesgo residual se acepta en esta etapa porque el objetivo del módulo es construir evidencia **reproducible y defendible** sobre escenarios básicos, antes de ampliar alcance o introducir concurrencia/entornos controlados.
+
+A pesar de la ejecución de pruebas enfocadas en los riesgos priorizados, persiste riesgo residual debido a escenarios no cubiertos, configuraciones alternativas del entorno y combinaciones de entradas que no han sido ejercitadas. La evidencia reduce la incertidumbre, pero no elimina completamente la posibilidad de fallos fuera del alcance definido.
+
 
 ## Validez (amenazas y límites)
-- **Interna:** warm-up/estado del contenedor puede sesgar latencia → mitigar descartando primeras corridas o reiniciando.
-- **Constructo:** `time_total` local es proxy; no equivale a rendimiento de producción → declarar alcance “baseline local”.
-- **Externa:** hardware/red/configuración Docker varían entre equipos → registrar entorno y evitar generalización fuerte.
+
+- **Validez interna:** la evidencia generada está directamente relacionada con los riesgos y escenarios definidos.
+- **Validez de constructo:** los riesgos representan atributos reales de calidad del producto desde una perspectiva técnica.
+- **Validez externa:** los resultados son aplicables a APIs REST similares ejecutadas en entornos locales y académicos.
+
+
