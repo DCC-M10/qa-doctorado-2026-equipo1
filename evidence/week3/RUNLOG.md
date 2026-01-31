@@ -1,6 +1,6 @@
 # RUNLOG — Semana 3
 
-**Fecha**: 2026-01-31
+**Fecha**: 2026-01-31  
 **SUT**: WebAPI Game Shop (Docker local)  
 **Objetivo**: Recopilar evidencia para los Top 3 riesgos (R1–R3) definidos en `risk/risk_matrix.csv`.
 
