@@ -7,5 +7,3 @@ R5,Consistency,Respuestas inconsistentes para el mismo endpoint,Implementaciones
 R6,ErrorHandling,"Códigos HTTP incorrectos (4xx vs 5xx)",Falta de política global de manejo de errores,3,3,9,Genera confusión a clientes y oculta errores reales pero no bloquea el sistema,quality/scenarios.md#Escenario-Q4,evidence/week3/error_matrix.csv,NORMAL
 R7,Stability,"Resultados no reproducibles entre ejecuciones (flakiness)","Estado compartido, dependencias externas o datos no deterministas",3,3,9,Afecta confiabilidad de pruebas y diagnósticos pero no al usuario final directo,quality/scenarios.md#Escenario-Q4,evidence/week3/repeat_runs.csv,NORMAL
 R8,DataIntegrity,Pérdida o inconsistencia de datos en modo memoria,Datos volátiles y reinicios del contenedor,4,2,8,Impacto alto pero limitado a ciertos modos de ejecución,quality/scenarios.md#Escenario-Q3,evidence/week3/memory_restart_test.log,NORMAL
-R9,Contract,Contrato de API no documentado o inaccesible,OpenAPI incompleto o endpoint no expuesto,2,3,6,Impacto menor pero afecta adopción e integración temprana,quality/scenarios.md#Escenario-Q1,evidence/week3/openapi_check.json,NORMAL
-
