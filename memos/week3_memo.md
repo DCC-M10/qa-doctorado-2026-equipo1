@@ -19,8 +19,8 @@
 - Estrategia basada en riesgo: `risk/test_strategy.md`.
 - Evidencias Top 3 (Semana 3):
   - Seguridad de autenticación y autorización: `evidence/week3/security_results.csv; evidence/week3/security_summary.txt `.
-  - Robustness / Error Handling: `evidence/week3/user_register_500.txt`.
-  - Rendimiento de Endpoints CRUD: `evidence/week3/healthcheck.log`.
+  - Robustness / Error Handling: `robustness_results.csv;robustness_summary.txt`.
+  - Disponibilidad: `availability_results.csv; availability_summary.txt`.
   - Trazabilidad de ejecución: `evidence/week3/RUNLOG.md`.
 
 ## Retos y notas
