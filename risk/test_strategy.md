@@ -11,7 +11,7 @@ Esta estrategia cubre pruebas técnicas del API REST ejecutado en entorno local 
 
 - Control de acceso (Q2)
 - Manejo de errores (Q4)
-- Disponibilidad básica del servicio (Q4)
+- Disponibilidad básica del servicio (Q3)
 
 **No cubre todavía:**
 
