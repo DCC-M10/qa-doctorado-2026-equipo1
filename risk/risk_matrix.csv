@@ -3,7 +3,7 @@ R1,Security,Acceso no autorizado a endpoints protegidos,Falla en validación de 
 
 R2,Robustness,"Error interno 500 ante inputs válidos (ej. registro de usuario)",Validación insuficiente y manejo incorrecto de null/undefined en lógica de negocio,4,4,16,Impacta funcionalidad básica y ya se observó empíricamente en pruebas iniciales,quality/scenarios.md#Escenario-Q4,evidence/week3/robustness_results.csv;evidence/week3/robustness_summary.txt,TOP3
 
-R3,Availability,Endpoint principal no responde (servicio caído),"Problemas de arranque, puertos o dependencias en Docker",4,3,12,Impide cualquier uso del sistema y es plausible en entornos locales mal configurados,quality/scenarios.md#Escenario-Q4,evidence/week3/robustness_results.csv;evidence/week3/robustness_summary.txt,TOP3
+R3,Availability,Endpoint principal no responde (servicio caído),"Problemas de arranque, puertos o dependencias en Docker",4,3,12,Impide cualquier uso del sistema y es plausible en entornos locales mal configurados,availability_results.csv; availability_summary.txt,TOP3
 
 R4,Performance,Latencia elevada o muy variable en endpoints principales,Falta de baseline y posibles cuellos de botella locales,3,4,12,Afecta experiencia de usuario y es probable sin control de rendimiento inicial,quality/scenarios.md#Escenario-Q1,evidence/week2/performance_results.csv;evidence/week2/performance_summary.txt,NORMAL
 
