@@ -34,10 +34,28 @@ Las pruebas de validación de entradas se ejecutan con **JWT válido**, para evi
 
 ## Valores límite (BV) considerados
 
-- Strings vacíos: `""`
-- Strings con solo espacios: `" "`
-- Tipos cruzados: número donde se espera string, string donde se espera boolean
-- Fechas: ISO válido vs `"not-a-date"`
+**titulo / descripcion / plataforma**
+- "" (vacío)
+- " " (solo espacios)
+- "A" (mínimo semántico)
+- string largo (≥255 caracteres)
+
+**activo**
+- true
+- false
+- "true" (tipo inválido)
+
+**fecha**
+- "2026-01-22T19:52:38.834Z" (ISO válida)
+- "1970-01-01T00:00:00Z" (límite inferior conceptual)
+- "not-a-date" (formato inválido)
+
+**usuarioId**
+- "1" (mínimo válido observado)
+- "0" (límite inferior)
+- "999999" (valor alto)
+- 123 (tipo inválido)
+
 
 ---
 
