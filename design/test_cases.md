@@ -96,3 +96,34 @@ Cada caso de prueba genera la siguiente evidencia:
 | TC12 | Eliminar campo `plataforma` | P3 (mínimo candidato) | OR1, OR2, OR3, OR6* | TC12_response.* |
 
 \* En TC10–TC12, si el SUT retorna HTTP 200/201, el campo se considera **no obligatorio**.
+
+## Trazabilidad de casos — Partición y Valores Límite (EQ/BV)
+
+La siguiente tabla muestra explícitamente cómo cada caso de prueba sistemático cubre
+una **partición de equivalencia (EQ)** y, cuando aplica, un **valor límite (BV)** concreto.
+
+| TC-ID | Partición (EQ) | Campo afectado | Valor probado | Tipo |
+|------|----------------|---------------|---------------|------|
+| TC01 | P1 (Payload válido) | Todos | Payload base válido (P0) | EQ |
+| TC02 | P2 (Payload vacío) | Body | Payload ausente | EQ |
+| TC03 | P3 (Campo ausente) | titulo | Campo eliminado | EQ |
+| TC04 | P3 (Campo ausente) | usuarioId | Campo eliminado | EQ |
+| TC05 | P5 (String inválido) | titulo | `""` | BV |
+| TC06 | P5 (String inválido) | titulo | `" "` | BV |
+| TC07 | P4 (Tipo inválido) | titulo | `123` | BV |
+| TC08 | P4 (Tipo inválido) | activo | `"false"` | BV |
+| TC09 | P6 (Formato inválido) | fecha | `"not-a-date"` | BV |
+| TC10 | P3 (Campo ausente) | imagen | Campo eliminado | EQ |
+| TC11 | P3 (Campo ausente) | descripcion | Campo eliminado | EQ |
+| TC12 | P3 (Campo ausente) | plataforma | Campo eliminado | EQ |
+
+---
+
+## Observación metodológica
+
+- Cada **partición de equivalencia** definida está cubierta al menos una vez.
+- Las particiones con mayor riesgo semántico (strings, tipos y formato de fecha)
+  incluyen **múltiples valores límite**, lo que hace los casos **falsables**.
+- Esta trazabilidad justifica de forma explícita el número de casos (≥ 12) y evita
+  interpretaciones de testing ad-hoc.
+
