@@ -76,3 +76,23 @@ Cada caso de prueba genera la siguiente evidencia:
   - `evidence/week4/results.csv`  
   - `evidence/week4/summary.txt`
 
+## Casos de prueba sistemáticos (≥ 12)
+
+**Referencias a reglas:** ver `design/oracle_rules.md`
+
+| TC-ID | Input (variación sobre P0) | Partición | Expected (oráculo mínimo) | Evidencia esperada |
+|------|----------------------------|-----------|----------------------------|--------------------|
+| TC01 | Payload completo (P0) | P1 | OR1, OR2, OR3, OR4 | TC01_response.* |
+| TC02 | Body vacío | P2 | OR1, OR2, OR3, OR5 | TC02_response.* |
+| TC03 | Eliminar campo `titulo` | P3 | OR1, OR2, OR3, OR6 | TC03_response.* |
+| TC04 | Eliminar campo `usuarioId` | P3 | OR1, OR2, OR3, OR6 | TC04_response.* |
+| TC05 | `"titulo": ""` | P5 (BV) | OR1, OR2, OR3, OR8 | TC05_response.* |
+| TC06 | `"titulo": " "` | P5 (BV) | OR1, OR2, OR3, OR8 | TC06_response.* |
+| TC07 | `"titulo": 123` | P4 | OR1, OR2, OR3, OR7 | TC07_response.* |
+| TC08 | `"activo": "false"` | P4 | OR1, OR2, OR3, OR7 | TC08_response.* |
+| TC09 | `"fecha": "not-a-date"` | P6 | OR1, OR2, OR3, OR7 | TC09_response.* |
+| TC10 | Eliminar campo `imagen` | P3 (mínimo candidato) | OR1, OR2, OR3, OR6* | TC10_response.* |
+| TC11 | Eliminar campo `descripcion` | P3 (mínimo candidato) | OR1, OR2, OR3, OR6* | TC11_response.* |
+| TC12 | Eliminar campo `plataforma` | P3 (mínimo candidato) | OR1, OR2, OR3, OR6* | TC12_response.* |
+
+\* En TC10–TC12, si el SUT retorna HTTP 200/201, el campo se considera **no obligatorio**.
