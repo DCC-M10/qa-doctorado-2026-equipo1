@@ -1,0 +1,8 @@
+{
+  "tc_id": "TC05",
+  "timestamp": "2026-01-22T20:15:10Z",
+  "http_code": 400,
+  "response_body": {
+    "message": "Validation error"
+  }
+}

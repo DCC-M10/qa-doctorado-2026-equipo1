@@ -1,0 +1,9 @@
+Total casos ejecutados: 12
+PASS: 11
+FAIL: 1
+
+Fallo detectado:
+- TC07: http_code=500 (violación de OR3)
+
+Observaciones:
+- Se detectó error interno ante tipo inválido en campo 'titulo'.
