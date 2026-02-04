@@ -1,38 +1,57 @@
-# Casos de prueba sistemáticos — Semana 4 (Petstore)
+# Casos de prueba sistemáticos — Semana 4 (ts-api-rest)
 
-**Técnica usada:** Equivalencia (EQ) + Valores Límite (BV) sobre el parámetro `{id}` en `GET /api/v3/pet/{id}`.
+**Técnica usada:**  
+Equivalencia (EQ) + Valores Límite (BV) aplicados al **payload JSON** del endpoint  
+`POST /api/v1/juegos`.
+
+---
+
+## Objeto de prueba
+
+**Endpoint:** `POST /api/v1/juegos`
+
+**Qué hace:**  
+Crea un recurso “juego” a partir de un payload JSON.
+
+**Por qué es buen candidato:**  
+El endpoint presenta alta variabilidad de entradas, validaciones de dominio y riesgo de errores 4xx/5xx, lo que lo hace adecuado para un diseño sistemático.
+
+**Precondición:**  
+Las pruebas de validación de entradas se ejecutan con **JWT válido**, para evitar respuestas 401/403 que oculten fallos del payload.
+
+---
 
 ## Particiones (EQ)
-- **P1 (No numérico):** `{id}` contiene caracteres no numéricos (ej. `abc`, `1.5`).
-- **P2 (Numérico ≤ 0):** `{id}` es numérico y no positivo (ej. `0`, `-1`).
-- **P3 (Numérico > 0):** `{id}` es numérico positivo (ej. `1`, `2`, `999999`).
+
+- **P1 (Payload válido):** todos los campos obligatorios presentes y con tipo esperado.
+- **P2 (Payload vacío):** body vacío o ausente.
+- **P3 (Campo obligatorio ausente):** falta al menos un campo requerido.
+- **P4 (Tipo inválido):** campo presente con tipo incorrecto.
+- **P5 (String inválido):** string vacío o solo espacios.
+- **P6 (Formato inválido):** formato incorrecto (ej. fecha no válida).
+
+---
 
 ## Valores límite (BV) considerados
-- Cercanos a 0: `-1`, `0`, `1`
-- Entero grande típico: `2147483647`
-- ID grande: `999999`
 
-## Formato de evidencia
-Cada caso genera:
-- `evidence/week4/<TC_ID>_response.json` (o `.txt` si aplica)
-- Registro agregado: `evidence/week4/results.csv` + `evidence/week4/summary.txt`
+- Strings vacíos: `""`
+- Strings con solo espacios: `" "`
+- Tipos cruzados: número donde se espera string, string donde se espera boolean
+- Fechas: ISO válido vs `"not-a-date"`
 
-## Casos (≥ 12)
-> Referencias a reglas: ver `design/oracle_rules.md`
+---
 
-| TC-ID | Input `{id}` | Partición | Expected (oráculo mínimo) | Evidencia esperada |
-|---|---:|---|---|---|
-| TC01 | `abc` | P1 | OR1, OR2, OR3, OR4 | `TC01_response.*` |
-| TC02 | `1.5` | P1 | OR1, OR2, OR3, OR4 | `TC02_response.*` |
-| TC03 | `-1` | P2 | OR1, OR2, OR3, OR4 | `TC03_response.*` |
-| TC04 | `0` | P2 | OR1, OR2, OR3, OR4 | `TC04_response.*` |
-| TC05 | `1` | P3 (BV) | OR1, OR2, OR3, OR5 | `TC05_response.*` |
-| TC06 | `2` | P3 | OR1, OR2, OR3, OR5 | `TC06_response.*` |
-| TC07 | `999999` | P3 (BV) | OR1, OR2, OR3, OR5 | `TC07_response.*` |
-| TC08 | `2147483647` | P3 (BV) | OR1, OR2, OR3, OR5 | `TC08_response.*` |
-| TC09 | `0001` | P3 (formato) | OR1, OR2, OR3, OR5 | `TC09_response.*` |
-| TC10 | `01` | P3 (formato) | OR1, OR2, OR3, OR5 | `TC10_response.*` |
-| TC11 | `-2147483648` | P2 (BV) | OR1, OR2, OR3, OR4 | `TC11_response.*` |
-| TC12 | `999999999` | P3 | OR1, OR2, OR3, OR5 | `TC12_response.*` |
+## Payload base válido (P0)
 
-**Nota:** La regla OR6 puede reportarse como “estricta” (no obligatoria) cuando ocurra `http_code == 200`.
+Este payload fue aceptado empíricamente por el SUT (HTTP 200/201) y se utiliza como base para derivar los casos.
+
+```json
+{
+  "activo": false,
+  "imagen": "https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg",
+  "usuarioId": "333",
+  "titulo": "The Legend of Zelda 3",
+  "descripcion": "La nueva Aventura de Zelda 2",
+  "plataforma": "Nintendo 2",
+  "fecha": "2026-01-22T19:52:38.834Z"
+}
