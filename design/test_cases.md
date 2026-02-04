@@ -65,17 +65,14 @@ Los valores límite se definen **por campo**, en función del dominio observado 
 
 ---
 
-## Payload base válido (P0)
+## Formato de evidencia
 
-Este payload fue aceptado empíricamente por el SUT (HTTP 200/201) y se utiliza como base para derivar los casos.
+Cada caso de prueba genera la siguiente evidencia:
 
-```json
-{
-  "activo": false,
-  "imagen": "https://images-na.ssl-images-amazon.com/images/I/91jvZUxquKL._AC_SL1500_.jpg",
-  "usuarioId": "333",
-  "titulo": "The Legend of Zelda 3",
-  "descripcion": "La nueva Aventura de Zelda 2",
-  "plataforma": "Nintendo 2",
-  "fecha": "2026-01-22T19:52:38.834Z"
-}
+- **Evidencia individual por caso:**  
+  `evidence/week4/TC-XX_response.json`
+
+- **Registro agregado de la ejecución completa:**  
+  - `evidence/week4/results.csv`  
+  - `evidence/week4/summary.txt`
+
