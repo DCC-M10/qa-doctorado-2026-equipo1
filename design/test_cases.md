@@ -34,27 +34,33 @@ Las pruebas de validación de entradas se ejecutan con **JWT válido**, para evi
 
 ## Valores límite (BV) considerados
 
-**titulo / descripcion / plataforma**
-- "" (vacío)
-- " " (solo espacios)
-- "A" (mínimo semántico)
-- string largo (≥255 caracteres)
+Los valores límite se definen **por campo**, en función del dominio observado y del comportamiento esperado del SUT.
 
-**activo**
-- true
-- false
-- "true" (tipo inválido)
+### Campos string (`titulo`, `descripcion`, `plataforma`, `imagen`)
 
-**fecha**
-- "2026-01-22T19:52:38.834Z" (ISO válida)
-- "1970-01-01T00:00:00Z" (límite inferior conceptual)
-- "not-a-date" (formato inválido)
+- `""` → string vacío (límite inferior semántico).
+- `" "` → string con solo espacios (contenido no informativo).
+- `"A"` → longitud mínima razonable.
+- string largo (≥ 255 caracteres) → límite superior práctico.
 
-**usuarioId**
-- "1" (mínimo válido observado)
-- "0" (límite inferior)
-- "999999" (valor alto)
-- 123 (tipo inválido)
+### Campo booleano (`activo`)
+
+- `true` → valor válido.
+- `false` → valor válido.
+- `"true"` → tipo inválido (string en lugar de boolean).
+
+### Campo fecha (`fecha`)
+
+- `"2026-01-22T19:52:38.834Z"` → fecha ISO válida (caso nominal).
+- `"1970-01-01T00:00:00Z"` → límite inferior conceptual.
+- `"not-a-date"` → formato inválido.
+
+### Campo identificador (`usuarioId`)
+
+- `"1"` → valor mínimo válido observado.
+- `"0"` → límite inferior sospechoso.
+- `"999999"` → valor alto típico.
+- `123` → tipo inválido (número en lugar de string).
 
 
 ---
