@@ -1,9 +1,9 @@
-# Reglas de Oráculo — Semana 4 (ts-api-rest)
+# Reglas de Oráculo — Semana 4 (Games Shop)
 
 **Objeto de prueba:** `POST /api/v1/juegos`
 
 Estas reglas definen criterios **pass/fail** para evaluar casos sistemáticos sobre el endpoint seleccionado.  
-Se distinguen **reglas mínimas** (seguras, poco asumidas) y **reglas estrictas** (cuando aplique).
+Se distinguen **reglas mínimas** (seguras, poco asumidas), **por partición** (EQ) y **reglas estrictas** (cuando aplique).
 
 ---
 
