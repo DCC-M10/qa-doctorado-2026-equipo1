@@ -9,49 +9,67 @@ Se distinguen **reglas mínimas** (seguras, poco asumidas), **por partición** (
 
 ## Reglas mínimas (aplican a todos los casos)
 
-- **OR1 (Registro):**  
-  Cada ejecución debe registrar el `http_code` y guardar el cuerpo de la respuesta como evidencia (JSON o texto).
+- **OR1 (Registro de evidencia)**
+  
+    Cada ejecución del endpoint debe registrar el http_code y almacenar el cuerpo completo de la respuesta como evidencia.
 
-- **OR2 (No HTML):**  
-  La respuesta no debe ser HTML (si el primer carácter no vacío es `<`, se considera fallo del oráculo).
+  **Pass:** código HTTP y body quedan registrados.
+ 
+  **Fail:** falta el código HTTP o no se guarda la respuesta.
+  
+- **OR2 (Formato de respuesta – no HTML)**
+  
+  La respuesta del servicio no debe ser HTML. Si el primer carácter no vacío del body es <, se considera un fallo.
 
-- **OR3 (No 5xx):**  
-  La respuesta no debe retornar códigos `5xx`.  
-  (`5xx` implica fallo del servicio ante la solicitud).
+   **Pass:** la respuesta es JSON u otro formato esperado por la API.
+ 
+   **Fail:** la respuesta corresponde a HTML (error de backend o gateway).
+  
+- **OR3 (No error de servidor)**
+  
+  La respuesta no debe retornar códigos HTTP de la familia 5xx.
 
-- **OR4 (Content-Type esperado):**  
-  Si existe cuerpo de respuesta, el encabezado `Content-Type` debe incluir `application/json`.
+   **Pass:** http_code ∉ {500–599}.
+ 
+   **Fail:** cualquier código 5xx, lo que indica un fallo del servicio ante la solicitud.
+  
+- **OR4 (Solicitud inválida no aceptada)**
+  
+  Si el body contiene campos obligatorios ausentes, vacíos o con tipo incorrecto, el endpoint no debe responder con 201 ni 200.
+
+   **Pass:** http_code ∈ {400, 422}.
+ 
+   **Fail:** http_code ∈ {200, 201} ante datos inválidos.
 
 ---
 
 ## Reglas por partición (EQ) y valores límite (BV)
 
-Las particiones se definen a partir de la validez del **payload JSON** enviado al endpoint.
+- **OR5 (Solicitud válida – creación permitida):**
+  
+  Si el body incluye todos los campos obligatorios con valores válidos, el endpoint debe indicar creación exitosa.
 
-- **OR5 (Payload vacío o ausente):**  
-  Si el cuerpo de la solicitud está vacío o ausente, entonces `http_code ∈ {400, 422}` y **nunca** `200` o `201`.
-
-- **OR6 (Campos obligatorios ausentes):**  
-  Si falta al menos un campo obligatorio del recurso *juego*, entonces `http_code ∈ {400, 422}`.
-
-- **OR7 (Tipos de datos inválidos):**  
-  Si un campo con tipo esperado numérico o fecha se envía con un tipo incorrecto (por ejemplo texto), entonces `http_code ∈ {400, 422}`.
-
-- **OR8 (Límites de cadenas — BV):**  
-  Si un campo string obligatorio tiene longitud menor al mínimo permitido o contiene solo espacios en blanco, entonces `http_code ∈ {400, 422}`.
-
-- **OR9 (Caso válido mínimo):**  
-  Si el payload cumple con todos los campos obligatorios y tipos esperados, entonces `http_code ∈ {200, 201}` y **nunca** `4xx` o `5xx`.
+   **Pass:** http_code == 201 (o 200 si así está definido en el SUT).
+ 
+   **Fail:** cualquier otro código HTTP ante una solicitud válida.
 
 ---
 
 ## Reglas estrictas (opcional / reportar como “estrictas”)
 
-- **OR10 (Consistencia semántica cuando hay éxito):**  
-  Si `http_code ∈ {200, 201}`, el cuerpo de la respuesta debería incluir un identificador del recurso creado (por ejemplo `id` o `_id`) no vacío.
+- **OR6 (Consistencia semántica en creación exitosa)**
+  
+  Si http_code == 201, el cuerpo de la respuesta debería incluir un identificador único del juego creado (por ejemplo, id).
 
-- **OR11 (No persistencia de datos inválidos):**  
-  Si el caso fue inválido (`http_code ∈ {400, 422}`), entonces una consulta posterior de lectura no debe devolver el recurso.
+   **Pass:** el body contiene el campo id.
+ 
+   **Fail:** no se devuelve identificador tras creación exitosa.
+ 
+- **OR7 (Persistencia observable del recurso creado)**
+  
+  Si un juego es creado exitosamente (201), una consulta posterior al recurso (por su id) debería permitir recuperar la información registrada.
 
-> **Nota:**  
-> OR10 y OR11 se reportan como chequeos estrictos porque dependen del estado interno del SUT, de la persistencia y de la implementación concreta del backend.
+   **Pass:** el recurso puede ser recuperado correctamente.
+ 
+   **Fail:** el recurso no existe o los datos no coinciden.
+
