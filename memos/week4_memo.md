@@ -72,24 +72,24 @@ La regla de consistencia semántica (OR6) se reporta como chequeo estricto y no 
 
 ## Lecciones aprendidas
 
-- El uso de técnicas sistemáticas (EQ/BV) reduce la arbitrariedad frente a pruebas ad-hoc.
+- El uso de técnicas sistemáticas como Equivalencia y Valores Límite, evita que los casos de prueba se elijan “al azar” o por intuición.
 
-- Separar oráculos mínimos de oráculos estrictos permite mantener falsabilidad sin depender de datos no controlados.
+- Separar los oráculos mínimos de los oráculos estrictos permite evaluar los casos sin depender de datos que no están bajo control.
 
-- La evidencia por caso, junto con resultados agregados, facilita la revisión, auditoría y trazabilidad del diseño de pruebas.
+- Contar con evidencia por cada caso y un resumen general hace más fácil revisar, auditar y rastrear las pruebas realizadas.
 
-- Explicitar los límites del diseño fortalece la validez metodológica del trabajo.
+- Explicar claramente los límites del diseño fortalece la validez metodológica del trabajo.
 
 
 ## Próximos pasos (Semana 5) - (Potenciales pasos, a ser discutidos con el equipo)
 
-- Integrar el diseño sistemático con la priorización basada en riesgo desarrollada en semanas anteriores.
+- Integrar el diseño sistemático de pruebas con la priorización basada en riesgos desarrollada en semanas anteriores.
 
-- Ampliar la cobertura hacia otros atributos de calidad (robustez, estabilidad).
+- Ampliar la cobertura de pruebas hacia otros atributos de calidad, tales como la robustez y la estabilidad.
 
-- Introducir repetición controlada de casos críticos para evaluar estabilidad y detectar flakiness.
+- Introducir la repetición controlada de casos críticos para evaluar la estabilidad del sistema y detectar comportamientos inestables.
 
-- Definir criterios de salida por atributo de calidad priorizado.
+- Definir criterios de salida por cada atributo de calidad priorizado.
 
 
 ---
