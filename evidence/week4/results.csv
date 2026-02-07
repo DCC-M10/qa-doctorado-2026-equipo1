@@ -1,4 +1,13 @@
-tc_id,http_code,expected_oracle,result
-TC01,201,OR9,PASS
-TC02,400,OR5,PASS
-TC03,400,OR6,PASS
+tc_id,input_id,partition,http_code,oracle_pass,notes,response_file
+TC01,69855e665c286868739f86aZ,P1,500,false,OR5_fail_5xx;,../evidence/week4/TC01_response.json
+TC02,69855e665c286868739f86a,P2,500,false,OR5_fail_5xx;,../evidence/week4/TC02_response.json
+TC03,69855e665c286868739f86a6F,P2,500,false,OR5_fail_5xx;,../evidence/week4/TC03_response.json
+TC04,6986c174f133b839d0a9f462,P3,200,true,,../evidence/week4/TC04_response.json
+TC05,69855e665c2868687TTTTTTT,P1,500,false,OR5_fail_5xx;,../evidence/week4/TC05_response.json
+TC06,-9855e665c2868687TTTTTTT,P1,500,false,OR5_fail_5xx;,../evidence/week4/TC06_response.json
+TC07,69855e665c286868,P1(BV),500,false,OR5_fail_5xx;,../evidence/week4/TC07_response.json
+TC08,000000000000000000000000,P3(BV),404,true,,../evidence/week4/TC08_response.json
+TC09,FFFFFFFFFFFFFFFFFFFFFFFF,P3(BV),404,true,,../evidence/week4/TC09_response.json
+TC10,69855e665c2.6868739f86a6,P1,500,false,OR5_fail_5xx;,../evidence/week4/TC10_response.json
+TC11,00000,P2,500,false,OR5_fail_5xx;,../evidence/week4/TC11_response.json
+TC12,-1,P3,500,false,OR5_fail_5xx;OR4_fail_unexpected_code;,../evidence/week4/TC12_response.json

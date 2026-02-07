@@ -1,9 +1,8 @@
-Total casos ejecutados: 12
-PASS: 11
-FAIL: 1
+Semana 4 — Resumen de ejecución sistemática
+- Total casos: 12
+- Pass (oráculo mínimo): 3
+- Fail (oráculo mínimo): 9
 
-Fallo detectado:
-- TC07: http_code=500 (violación de OR3)
-
-Observaciones:
-- Se detectó error interno ante tipo inválido en campo 'titulo'.
+Archivos:
+- results.csv: matriz por caso (código, pass/fail, notas)
+- <TC>_response.*: evidencia por caso
