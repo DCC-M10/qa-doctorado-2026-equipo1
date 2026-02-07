@@ -31,10 +31,10 @@
 
 ### Semana 3 — Estrategia basada en riesgo
 **Verificar en la presentación:**
-- [ ] Top 3 riesgos están justificados (impacto/probabilidad/score y razón breve)
-- [ ] Existe trazabilidad explícita: **riesgo → escenario → evidencia → oráculo**
-- [ ] La evidencia está referenciada con rutas del repo (ej.: `evidence/week3/...`)
-- [ ] Se declara el **riesgo residual** (qué queda fuera y por qué)
+- [X] Top 3 riesgos están justificados (impacto/probabilidad/score y razón breve)
+- [X] Existe trazabilidad explícita: **riesgo → escenario → evidencia → oráculo**
+- [X] La evidencia está referenciada con rutas del repo (ej.: `evidence/week3/...`)
+- [] Se declara el **riesgo residual** (qué queda fuera y por qué)
 
 **Preguntas de ejemplo:**
 - ¿Qué evidencia haría **falsa** su afirmación de reducción de riesgo (falsación)?
@@ -45,10 +45,10 @@
 
 ### Semana 4 — Diseño sistemático + oráculos
 **Verificar en la presentación:**
-- [ ] Se eligió 1 objeto de prueba (endpoint/función) y se justifica
-- [ ] Técnica sistemática declarada (EQ/BV o pairwise) y coherente con los casos
-- [ ] Hay ≥ 5 reglas de oráculo (mínimas vs estrictas)
-- [ ] Casos y oráculos son trazables a evidencia (ej.: `evidence/week4/...`)
+- [X] Se eligió 1 objeto de prueba (endpoint/función) y se justifica
+- [X] Técnica sistemática declarada (EQ/BV o pairwise) y coherente con los casos
+- [X] Hay ≥ 5 reglas de oráculo (mínimas vs estrictas)
+- [X] Casos y oráculos son trazables a evidencia (ej.: `evidence/week4/...`)
 - [ ] Se reconoce al menos 1 ambigüedad y cómo se resolvió
 
 **Preguntas de ejemplo:**
