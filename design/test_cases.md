@@ -40,7 +40,7 @@ Cada caso de prueba genera la siguiente evidencia:
 
 **Referencias a reglas:** ver `design/oracle_rules.md`
 
-| TC-ID | Input (variación sobre P0) | Partición | Expected (oráculo mínimo) | Evidencia esperada |
+| TC-ID | Input {id} | Partición | Expected (oráculo mínimo) | Evidencia esperada |
 |------|----------------------------|-----------|----------------------------|--------------------|
 | TC01 | 69855e665c286868739f86aZ | P1 | OR1, OR2, OR3, OR5 | TC01_response.* |
 | TC02 | 69855e665c286868739f86a | P2 | OR1, OR2, OR3, OR5 | TC02_response.* |
