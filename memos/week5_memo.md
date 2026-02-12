@@ -153,11 +153,11 @@ Riesgo → Diseño → Oráculo → Evidencia → Gate automático
 
 ## 5. Lecciones Aprendidas
 
-- Un Quality Gate efectivo debe ser **simple, determinista y trazable**.
+- Un Quality Gate efectivo debe ser simple, determinista y trazable.
 - Los oráculos explícitos reducen ambigüedad y subjetividad.
 - No todo debe bloquear el CI: métricas variables deben registrarse, no bloquear.
 - La trazabilidad entre semanas fortalece la validez metodológica.
-- El valor real del CI no es ejecutar pruebas, sino **prevenir regresiones críticas**.
+- El valor real del CI no es ejecutar pruebas, sino prevenir regresiones críticas.
 
 ---
 
