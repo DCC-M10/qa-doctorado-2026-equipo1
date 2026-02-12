@@ -43,3 +43,11 @@ Se recomienda ejecutarlos en el orden que resulte conveniente según el entorno,
 - Edgar Jaldín Torrico
 - May Dunnia Lopez Negrete
 - Julio César Becerra Lino
+
+### Quality Gate (CI)
+
+- CI:
+   - **Workflow:** .github/workflows/ci.yml
+   - **Artifact:** week5-evidence
+
+
