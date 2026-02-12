@@ -1,4 +1,4 @@
-# Quality Gate en Continuous Integration (CI) — Semana 5 
+# Quality Gate en Continuous Integration (CI) — (Semana 5) 
   
 ## Proyecto: Games Shop
 
