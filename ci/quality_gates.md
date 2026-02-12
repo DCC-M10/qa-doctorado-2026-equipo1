@@ -1,38 +1,122 @@
-# Quality Gate (Semana 5)
+# Quality Gate en Continuous Integration (CI) — Semana 5 
+  
+## Proyecto: Games Shop
 
-## Propósito
-Ejecutar un conjunto **mínimo y confiable** de chequeos automatizados en cada cambio para reducir incertidumbre sobre los **riesgos priorizados** (Semana 3) usando oráculos y casos sistemáticos (Semana 4).
-Este gate **no** pretende certificar “calidad total”, sino entregar **evidencia reproducible** y frenar regresiones obvias.
+## 1. Objetivo del Gate
 
-## Checks del gate (3–5)
-1) **Contrato disponible (OpenAPI)**
-- Claim: el SUT expone su contrato.
-- Evidencia: `evidence/week5/openapi.json` y `evidence/week5/openapi_http_code.txt`
-- Oráculo: HTTP 200 y el JSON contiene la clave `"openapi"`.
-- Relación: `risk/test_strategy.md` (disponibilidad/contrato).
+Este Quality Gate tiene como objetivo reducir la incertidumbre sobre los riesgos críticos priorizados en la Semana 3 (acceso no autorizado, errores 500 con inputs válidos y disponibilidad del servicio) mediante la ejecución automática de chequeos deterministas y trazables en cada integración de código.
 
-2) **Inventario responde con JSON válido**
-- Claim: endpoint clave responde de forma bien formada.
-- Evidencia: `evidence/week5/inventory.json` y `evidence/week5/inventory_http_code.txt`
-- Oráculo: HTTP 200 y cuerpo JSON bien formado.
-- Relación: escenarios Semana 2 / robustez operativa.
+El gate no pretende asegurar calidad total, ni cubrir performance avanzado, seguridad profunda o escenarios productivos. Su propósito es bloquear regresiones evidentes en atributos básicos de disponibilidad, robustez y control de acceso, usando oráculos explícitos definidos en la Semana 4.
 
-3) **Robustez ante entradas inválidas**
-- Claim: entradas inválidas no deben ser aceptadas como válidas.
-- Evidencia: `evidence/week5/invalid_ids.csv` + respuestas `evidence/week5/invalid_pet_*.json`
-- Oráculo: para cada caso, `http_code != 200`.
-- Relación: `design/oracle_rules.md` (oráculo mínimo).
+## 2. Checks del Gate
 
-4) **Casos sistemáticos (Semana 4)**
-- Claim: conjunto sistemático derivado por método, evaluado con oráculos explícitos.
-- Evidencia: `evidence/week5/systematic_results.csv` y `evidence/week5/systematic_summary.txt`
-- Oráculo: el script produce resumen y evidencia; cualquier `FAIL` requiere explicación/acción del equipo.
-- Relación: `design/test_cases.md` y `design/oracle_rules.md`.
+Se definen cuatro checks alineados a los riesgos Top 3 y al diseño sistemático previo.
 
-## Alta señal / bajo ruido (confiabilidad)
-- El gate debe preferir checks **deterministas** (códigos HTTP, JSON bien formado, oráculos explícitos).
-- Evitar depender de métricas sensibles al entorno (p. ej., umbrales estrictos de latencia) como criterio de fallo.
-- Mantener evidencia trazable: **riesgo → escenario → evidencia → oráculo**.
+### Check 1 — Disponibilidad básica del servicio (R3)
 
-## Cómo ejecutar localmente (equivalente a CI)
-- `make quality-gate` (genera `evidence/week5/`).
+**Claim:**  
+El servicio API está disponible y responde tras el arranque del entorno Docker.
+
+**Oráculo (pass/fail):**
+
+- El endpoint `GET /api/v1/juegos/{id}` responde (cualquier código distinto de timeout/conexión fallida).
+- No retorna `5xx` (OR5).
+
+**Evidencia:**
+
+- `evidence/week5/availability_http_code.txt`
+- `evidence/week5/availability_body.json`
+
+**Trazabilidad:**
+
+- Semana 3: R3 – Servicio no disponible  
+- `risk/risk_matrix.csv`  
+- `risk/test_strategy.md`
+
+---
+
+### Check 2 — Robustez ante IDs inválidos (R2 / OR3)
+
+**Claim:**  
+IDs que contienen caracteres fuera de `{0-9;A-F;a-f}` no deben ser aceptados como válidos.
+
+**Oráculo (pass/fail):**
+
+- Para cada ID inválido definido sistemáticamente → `http_code != 200`
+- No debe retornar `5xx` (OR5).
+- No debe retornar HTML (OR2).
+
+**Evidencia:**
+
+- `evidence/week5/invalid_ids_results.csv`
+- `evidence/week5/invalid_case_*.json`
+
+**Trazabilidad:**
+
+- Semana 3: R2 – Error 500 con inputs válidos  
+- Semana 4: `design/oracle_rules.md` (OR2, OR3, OR5)  
+- `design/test_cases.md`
+
+---
+
+### Check 3 — Comportamiento permitido para IDs válidos (OR4)
+
+**Claim:**  
+IDs que cumplen la regla formal (hexadecimal, longitud 24) deben retornar comportamiento permitido.
+
+**Oráculo (pass/fail):**
+
+- `http_code ∈ {200, 404}` (OR4)
+- No `5xx` (OR5)
+- No HTML (OR2)
+
+**Evidencia:**
+
+- `evidence/week5/valid_ids_results.csv`
+- `evidence/week5/valid_case_*.json`
+
+**Trazabilidad:**
+
+- Semana 4: `design/oracle_rules.md` (OR4, OR5)
+- Técnica EQ + BV definida en `design/test_cases.md`
+
+---
+
+### Check 4 — Control de acceso básico (R1)
+
+**Claim:**  
+Solicitudes sin token o con rol inválido deben ser rechazadas.
+
+**Oráculo (pass/fail):**
+
+- Requests sin credenciales → `http_code ∈ {401, 403}`
+- No `200` para acceso no autorizado.
+
+**Evidencia:**
+
+- `evidence/week5/security_results.csv`
+- `evidence/week5/security_summary.txt`
+
+**Trazabilidad:**
+
+- Semana 3: R1 – Acceso no autorizado  
+- `risk/test_strategy.md`  
+- Evidencia previa en `evidence/week3/security_results.csv`
+
+---
+
+## 3. Alta señal / Bajo ruido
+
+Estos checks cumplen criterios de confiabilidad porque:
+
+- **Determinismo:** Se basan en códigos HTTP y validación estructural (no HTML, no 5xx), evitando métricas inestables.
+- **Oráculos explícitos:** Las reglas OR2–OR5 están formalmente definidas en Semana 4.
+- **Repetibilidad:** Los mismos inputs sistemáticos producen el mismo resultado bajo las mismas condiciones.
+- **Trazabilidad completa:** Riesgo → escenario → evidencia → oráculo → decisión binaria.
+
+---
+
+## 4. Cómo ejecutar localmente (equivalente a CI)
+
+```bash
+make quality-gate (genera evidence/week5/).
