@@ -1,40 +1,175 @@
 # Memo de Progreso - Semana 5
 
 **Fecha**: 16/02/2026  \
-**Equipo**: Equipo X  \
+**Equipo**: Equipo 1  \
 **Semana**: 5 de 8
 
-## Objetivos de la semana
-- Definir un **quality gate** alineado a riesgos priorizados (Semana 3).
-- Implementar el gate en CI para ejecutar checks confiables y producir evidencia descargable.
-- Mantener el gate con foco en **alta señal / bajo ruido** (evitar falsos positivos).
 
-## Logros
-- Documento del gate creado: `ci/quality_gates.md` (checks, oráculos y relación con riesgos/oráculos previos).
-- Script de ejecución local del gate: `ci/run_quality_gate.sh` (genera `evidence/week5/`).
-- Workflow de CI agregado: `.github/workflows/ci.yml` (ejecuta el gate en push/PR y publica artifacts).
-- Makefile extendido con target `quality-gate` para reproducir localmente el flujo de CI.
-- README actualizado con instrucciones y ubicación de evidencias.
 
-## Evidencia principal
-- Definición del gate: `ci/quality_gates.md`.
-- Ejecución local del gate: `ci/run_quality_gate.sh` + `make quality-gate`.
-- CI workflow: `.github/workflows/ci.yml`.
-- Evidencia producida: `evidence/week5/` (artifact en CI).
-
-## Retos y notas
-- Se evitó usar latencia como criterio de fallo del gate para reducir ruido (variabilidad del entorno en CI).
-- El gate prioriza checks deterministas basados en códigos HTTP, JSON bien formado y reglas de oráculo.
-
-## Lecciones aprendidas
-- Un gate útil es pequeño y confiable; si es ruidoso, pierde credibilidad y deja de usarse.
-- Conectar gate a riesgos y oráculos existentes mejora trazabilidad y reduce discusiones subjetivas.
-
-## Próximos pasos (Semana 6) - (Potenciales pasos, a ser discutidos con el equipo)
-- Definir cómo reportar estabilidad del gate (sin introducir ruido).
-- Revisar criterios de aceptación por iteración y declaración de riesgo residual.
+**Proyecto:** Games Shop  
+**Tema:** Quality Gate en Continuous Integration (CI)
 
 ---
 
-**Preparado por**: Equipo X  \
+## 1. Objetivos de la Semana
+
+- Definir un **Quality Gate formal y trazable** alineado a los riesgos priorizados en la Semana 3.
+- Implementar un gate ejecutable de forma automática tanto **localmente** como en **CI (GitHub Actions)**.
+- Conectar explícitamente:
+
+  ```
+  Riesgo → Escenario → Oráculo → Evidencia → Decisión binaria
+  ```
+
+- Reducir la incertidumbre sobre atributos críticos: **disponibilidad, robustez y control de acceso**.
+
+---
+
+## 2. Logros Alcanzados
+
+### 2.1 Quality Gate definido formalmente
+
+Se documentó el archivo:
+
+```
+ci/quality_gates.md
+```
+
+Estableciendo:
+
+- Objetivo del gate
+- 4 checks alineados a riesgos Top 3
+- Oráculos explícitos (OR2–OR5)
+- Evidencia requerida
+- Trazabilidad a artefactos de Semana 3 y Semana 4
+- Criterios de alta señal / bajo ruido
+
+---
+
+### 2.2 Gate ejecutable local y en CI
+
+Se implementó:
+
+- Script:
+  ```
+  run_quality_gate.sh
+  ```
+- Workflow GitHub Actions:
+  ```
+  .github/workflows/ci.yml
+  ```
+- Comando local:
+
+```bash
+make quality-gate
+```
+
+El gate:
+
+- Levanta el entorno Docker
+- Ejecuta los 4 checks
+- Genera evidencia
+- Bloquea la integración si algún oráculo falla (`exit 1`)
+
+---
+
+### 2.3 Evidencia Week 5 generada 
+
+Se generan automáticamente archivos en:
+
+```
+evidence/week5/
+```
+
+Incluyendo:
+
+- `availability_http_code.txt`
+- `availability_body.json`
+- `invalid_ids_results.csv`
+- `valid_ids_results.csv`
+- `security_results.csv`
+- `security_summary.txt`
+
+La evidencia es:
+
+- Reproducible
+- Determinista
+- Trazable
+- Binaria (pass/fail)
+
+
+
+---
+
+### 2.4 Relación explícita con riesgos (Semana 3) y oráculos/casos (Semana 4)
+
+El Quality Gate conecta directamente con:
+
+#### Semana 3 — Riesgos Prioritarios
+
+- **R1:** Acceso no autorizado
+- **R2:** Error 500 con inputs válidos
+- **R3:** Servicio no disponible
+
+#### Semana 4 — Diseño sistemático y oráculos
+
+- **OR2:** No HTML
+- **OR3:** ID inválido no aceptado
+- **OR4:** Comportamiento permitido para ID válido
+- **OR5:** No 5xx
+- Casos sistemáticos definidos en:
+
+```
+design/test_cases.md
+```
+
+Se mantiene coherencia metodológica entre:
+
+```
+Riesgo → Diseño → Oráculo → Evidencia → Gate automático
+```
+
+---
+
+## 3. Evidencia Principal
+
+- `ci/quality_gates.md`
+- `run_quality_gate.sh`
+- `.github/workflows/ci.yml`
+- Carpeta `evidence/week5/`
+- Ejecución exitosa en entorno local
+- Ejecución automática en GitHub Actions
+
+---
+
+## 4. Retos / Notas
+
+- Asegurar que el entorno Docker arranque correctamente en CI.
+- Evitar métricas inestables (ej. latencia) como criterio de bloqueo.
+- Mantener determinismo en los IDs utilizados.
+- Gestionar correctamente el estado del SUT para evitar falsos positivos.
+
+---
+
+## 5. Lecciones Aprendidas
+
+- Un Quality Gate efectivo debe ser **simple, determinista y trazable**.
+- Los oráculos explícitos reducen ambigüedad y subjetividad.
+- No todo debe bloquear el CI: métricas variables deben registrarse, no bloquear.
+- La trazabilidad entre semanas fortalece la validez metodológica.
+- El valor real del CI no es ejecutar pruebas, sino **prevenir regresiones críticas**.
+
+---
+
+## 6. Próximos Pasos
+
+- Agregar publicación automática de artifacts en GitHub Actions.
+- Incorporar repetición controlada para detectar inestabilidad.
+- Ampliar cobertura hacia otros atributos (ej. manejo de errores global).
+- Evaluar integración con métricas informativas (sin bloqueo).
+- Consolidar documentación final para entrega del módulo.
+
+---
+
+**Preparado por**: Equipo 1  \
 **Próxima revisión**: Semana 6
