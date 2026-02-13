@@ -23,6 +23,13 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
 - El http_code no debe pertenecer al rango 5xx (OR5).
 - La respuesta no debe ser HTML (OR2).
 
+   **Falla si:**
+  
+     - No hay respuesta.
+     - Hay error de conexión.
+     - Retorna 5xx.
+     - Retorna contenido HTML inesperado.
+
 **Evidencia:**
 
 - `evidence/week5/availability_http_code.txt`
@@ -30,23 +37,35 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
 
 **Trazabilidad:**
 
-- Semana 3: R3 – Servicio no disponible
+- Semana 3:
+   - R3 – Servicio no disponible
    - risk/risk_matrix.csv
    - risk/test_strategy.md
-- Semana 4: OR2, OR5 (design/oracle_rules.md)
+     
+- Semana 4:
+   - OR2, OR5 (design/oracle_rules.md)
 
 ---
 
 ### Check 2 — Robustez ante IDs inválidos (R2 / OR3)
 
 **Claim:**  
-IDs que contienen caracteres fuera de `{0-9;A-F;a-f}` no deben ser aceptados como válidos.
+Solicitudes que contienen IDs con caracteres fuera del conjunto {0-9;A-F;a-f} no deben ser aceptadas como válidas ni provocar fallos del servidor.
+Este check evalúa la capacidad del sistema para manejar entradas inválidas de forma controlada, sin generar errores internos ni comportamientos inesperados.
 
 **Oráculo (pass/fail):**
 
-- Para cada ID inválido definido sistemáticamente → `http_code != 200`
-- No debe retornar `5xx` (OR5).
-- No debe retornar HTML (OR2).
+Para cada ID inválido definido sistemáticamente (según EQ):
+
+- http_code != 200 (OR3).
+- No debe retornar 5xx (OR5).
+- La respuesta no debe ser HTML (OR2).
+
+   **Falla si:**
+
+     - Retorna 200 para un ID inválido.
+     - Retorna 5xx ante entrada inválida (fallo de robustez).
+     - Retorna HTML inesperado.
 
 **Evidencia:**
 
@@ -55,9 +74,12 @@ IDs que contienen caracteres fuera de `{0-9;A-F;a-f}` no deben ser aceptados com
 
 **Trazabilidad:**
 
-- Semana 3: R2 – Error 500 con inputs válidos  
-- Semana 4: `design/oracle_rules.md` (OR2, OR3, OR5)  
-    - `design/test_cases.md`
+- Semana 3:
+   - R2 – Error 500 con inputs válidos
+
+- Semana 4:
+   - design/oracle_rules.md (OR2, OR3, OR5)
+   - Técnica EQ definida en design/test_cases.md
 
 ---
 
@@ -74,6 +96,12 @@ IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) de
 - No debe retornar 5xx (OR5).
 - No debe retornar HTML (OR2).
 
+   **Falla si:**
+
+     - Retorna código fuera de {200, 404}.
+     - Retorna 5xx.
+     - Retorna HTML.
+
 **Evidencia:**
 
 - `evidence/week5/valid_ids_results.csv`
@@ -81,7 +109,7 @@ IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) de
 
 **Trazabilidad:**
 
-- Relación con Semana 3:
+- Semana 3:
    - R2 – Robustez ante entradas válidas
 
 - Semana 4:
@@ -104,6 +132,12 @@ Para solicitudes sin token o con rol inválido:
 - No debe retornar 5xx (el rechazo debe ser controlado).
 - No debe retornar HTML (OR2).
 
+   **Falla si:**
+
+     - Retorna 200 sin autenticación válida.
+     - Retorna 5xx ante solicitud sin credenciales.
+     - Retorna HTML inesperado.
+
 **Evidencia:**
 
 - `evidence/week5/security_results.csv`
@@ -111,7 +145,8 @@ Para solicitudes sin token o con rol inválido:
 
 **Trazabilidad:**
 
-- Semana 3: R1 – Acceso no autorizado
+- Semana 3:
+   - R1 – Acceso no autorizado
    - risk/test_strategy.md
    - Evidencia base: evidence/week3/security_results.csv
      
