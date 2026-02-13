@@ -15,12 +15,13 @@ Se definen cuatro checks alineados a los riesgos Top 3 y al diseño sistemático
 ### Check 1 — Disponibilidad básica del servicio (R3)
 
 **Claim:**  
-El servicio API está disponible y responde tras el arranque del entorno Docker.
+Tras el arranque del entorno Docker, el servicio API debe estar operativo y responder correctamente a una solicitud válida, sin fallos de infraestructura o indisponibilidad.
 
 **Oráculo (pass/fail):**
 
-- El endpoint `GET /api/v1/juegos/{id}` responde (cualquier código distinto de timeout/conexión fallida).
-- No retorna `5xx` (OR5).
+- La solicitud GET /api/v1/juegos/{id} devuelve un http_code distinto de timeout o error de conexión.
+- El http_code no debe pertenecer al rango 5xx (OR5).
+- La respuesta no debe ser HTML (OR2).
 
 **Evidencia:**
 
@@ -29,9 +30,10 @@ El servicio API está disponible y responde tras el arranque del entorno Docker.
 
 **Trazabilidad:**
 
-- Semana 3: R3 – Servicio no disponible  
-- `risk/risk_matrix.csv`  
-- `risk/test_strategy.md`
+- Semana 3: R3 – Servicio no disponible
+   - risk/risk_matrix.csv
+   - risk/test_strategy.md
+- Semana 4: OR2, OR5 (design/oracle_rules.md)
 
 ---
 
@@ -55,20 +57,22 @@ IDs que contienen caracteres fuera de `{0-9;A-F;a-f}` no deben ser aceptados com
 
 - Semana 3: R2 – Error 500 con inputs válidos  
 - Semana 4: `design/oracle_rules.md` (OR2, OR3, OR5)  
-- `design/test_cases.md`
+    - `design/test_cases.md`
 
 ---
 
 ### Check 3 — Comportamiento permitido para IDs válidos (OR4)
 
 **Claim:**  
-IDs que cumplen la regla formal (hexadecimal, longitud 24) deben retornar comportamiento permitido.
+
+IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) deben producir un comportamiento permitido sin generar fallos del servidor.
 
 **Oráculo (pass/fail):**
 
-- `http_code ∈ {200, 404}` (OR4)
-- No `5xx` (OR5)
-- No HTML (OR2)
+- Para cada ID válido definido sistemáticamente (EQ + BV):
+- http_code ∈ {200, 404} (OR4).
+- No debe retornar 5xx (OR5).
+- No debe retornar HTML (OR2).
 
 **Evidencia:**
 
@@ -77,20 +81,28 @@ IDs que cumplen la regla formal (hexadecimal, longitud 24) deben retornar compor
 
 **Trazabilidad:**
 
-- Semana 4: `design/oracle_rules.md` (OR4, OR5)
-- Técnica EQ + BV definida en `design/test_cases.md`
+- Relación con Semana 3:
+   - R2 – Robustez ante entradas válidas
+
+- Semana 4:
+   - design/oracle_rules.md (OR2, OR4, OR5)
+   - Técnica EQ + BV en design/test_cases.md
+
 
 ---
 
 ### Check 4 — Control de acceso básico (R1)
 
 **Claim:**  
-Solicitudes sin token o con rol inválido deben ser rechazadas.
+Solicitudes sin token o con credenciales inválidas no deben permitir acceso al recurso protegido.
 
 **Oráculo (pass/fail):**
+Para solicitudes sin token o con rol inválido:
 
-- Requests sin credenciales → `http_code ∈ {401, 403}`
-- No `200` para acceso no autorizado.
+- http_code ∈ {401, 403}.
+- No debe retornar 200.
+- No debe retornar 5xx (el rechazo debe ser controlado).
+- No debe retornar HTML (OR2).
 
 **Evidencia:**
 
@@ -99,9 +111,12 @@ Solicitudes sin token o con rol inválido deben ser rechazadas.
 
 **Trazabilidad:**
 
-- Semana 3: R1 – Acceso no autorizado  
-- `risk/test_strategy.md`  
-- Evidencia previa en `evidence/week3/security_results.csv`
+- Semana 3: R1 – Acceso no autorizado
+   - risk/test_strategy.md
+   - Evidencia base: evidence/week3/security_results.csv
+     
+- Semana 4:
+   - Relación metodológica con oráculos mínimos (OR2, OR5)
 
 ---
 
