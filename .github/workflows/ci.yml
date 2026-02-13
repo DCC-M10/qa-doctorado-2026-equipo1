@@ -47,5 +47,5 @@ jobs:
           set +e
           make stop-sut >/dev/null 2>&1 || true
           # Seguridad extra si el contenedor tiene otro nombre
-          docker rm -f swaggerapi-petstore3 >/dev/null 2>&1 || true
-          docker rm -f petstore >/dev/null 2>&1 || true
+          docker rm -f swaggerapi-gameshop >/dev/null 2>&1 || true
+          docker rm -f ts-api-rest >/dev/null 2>&1 || true
