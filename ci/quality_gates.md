@@ -12,14 +12,14 @@ El gate no pretende asegurar calidad total, ni cubrir performance avanzado, segu
 
 Se definen cuatro checks alineados a los riesgos Top 3 y al diseño sistemático previo.
 
-### Check 1 — Disponibilidad básica del servicio (R3)
+### Check 1 — Disponibilidad básica del servicio (R3 / OR1)
 
 **Claim:**  
 Tras el arranque del entorno Docker, el servicio API debe estar operativo y responder correctamente a una solicitud válida, sin fallos de infraestructura o indisponibilidad.
 
 **Oráculo (pass/fail):**
 
-- La solicitud GET /api/v1/juegos/{id} devuelve un http_code distinto de timeout o error de conexión.
+- La solicitud GET /api/v1/juegos/{id} devuelve un http_code distinto de timeout o error de conexión (QR1).
 - El http_code no debe pertenecer al rango 5xx (OR5).
 - La respuesta no debe ser HTML (OR2).
 
@@ -43,7 +43,7 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
    - risk/test_strategy.md
      
 - Semana 4:
-   - OR2, OR5 (design/oracle_rules.md)
+   - OR1, OR2 y OR5 (design/oracle_rules.md)
 
 ---
 
@@ -83,7 +83,7 @@ Para cada ID inválido definido sistemáticamente (según EQ):
 
 ---
 
-### Check 3 — Comportamiento permitido para IDs válidos (OR4)
+### Check 3 — Comportamiento permitido para IDs válidos (R2 / OR4)
 
 **Claim:**  
 
@@ -119,7 +119,7 @@ IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) de
 
 ---
 
-### Check 4 — Control de acceso básico (R1)
+### Check 4 — Control de acceso básico (R1 / OR3)
 
 **Claim:**  
 Solicitudes sin token o con credenciales inválidas no deben permitir acceso al recurso protegido.
