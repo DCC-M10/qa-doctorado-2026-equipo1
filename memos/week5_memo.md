@@ -39,7 +39,7 @@ Estableciendo:
 
 - Objetivo del gate
 - 4 checks alineados a riesgos Top 3
-- Oráculos explícitos (OR2–OR5)
+- Oráculos explícitos (OR1–OR5)
 - Evidencia requerida
 - Trazabilidad a artefactos de Semana 3 y Semana 4
 - Criterios de alta señal / bajo ruido
@@ -107,12 +107,13 @@ El Quality Gate conecta directamente con:
 
 #### Semana 3 — Riesgos Prioritarios
 
-- **R1:** Acceso no autorizado
+- **R1:** Acceso no autorizado a endpoints protegidos
 - **R2:** Error 500 con inputs válidos
-- **R3:** Servicio no disponible
+- **R3:** Endpoint principal no responde
 
 #### Semana 4 — Diseño sistemático y oráculos
 
+- **OR1:** Registro
 - **OR2:** No HTML
 - **OR3:** ID inválido no aceptado
 - **OR4:** Comportamiento permitido para ID válido
