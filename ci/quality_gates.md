@@ -46,6 +46,41 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
    - OR1, OR2 y OR5 (design/oracle_rules.md)
 
 ---
+### Check 2 — Disponibilidad básica del servicio
+
+**Claim:**  
+Tras el arranque del entorno Docker, el servicio API debe estar operativo y responder correctamente a una solicitud válida, sin fallos de infraestructura o indisponibilidad.
+
+**Oráculo (pass/fail):**
+
+- La solicitud GET /api/v1/juegos/{id} devuelve un http_code distinto de timeout o error de conexión (QR1).
+- El http_code no debe pertenecer al rango 5xx (OR5).
+- La respuesta no debe ser HTML (OR2).
+
+   **Falla si:**
+  
+     - No hay respuesta.
+     - Hay error de conexión.
+     - Retorna 5xx.
+     - Retorna contenido HTML inesperado.
+
+**Evidencia:**
+
+- `evidence/week5/availability_http_code.txt`
+- `evidence/week5/availability_body.json`
+
+**Trazabilidad:**
+
+- Semana 3:
+   - R3 – Servicio no disponible
+   - risk/risk_matrix.csv
+   - risk/test_strategy.md
+     
+- Semana 4:
+   - OR1, OR2 y OR5 (design/oracle_rules.md)
+
+
+---
 
 ### Check 3 — Control de acceso básico
 
