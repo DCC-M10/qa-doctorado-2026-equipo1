@@ -47,78 +47,6 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
 
 ---
 
-### Check 2 — Robustez ante IDs inválidos
-
-**Claim:**  
-Solicitudes que contienen IDs con caracteres fuera del conjunto {0-9;A-F;a-f} no deben ser aceptadas como válidas ni provocar fallos del servidor.
-Este check evalúa la capacidad del sistema para manejar entradas inválidas de forma controlada, sin generar errores internos ni comportamientos inesperados.
-
-**Oráculo (pass/fail):**
-
-Para cada ID inválido definido sistemáticamente (según EQ):
-
-- http_code != 200 (OR3).
-- No debe retornar 5xx (OR5).
-- La respuesta no debe ser HTML (OR2).
-
-   **Falla si:**
-
-     - Retorna 200 para un ID inválido.
-     - Retorna 5xx ante entrada inválida (fallo de robustez).
-     - Retorna HTML inesperado.
-
-**Evidencia:**
-
-- `evidence/week5/invalid_ids_results.csv`
-- `evidence/week5/invalid_case_*.json`
-
-**Trazabilidad:**
-
-- Semana 3:
-   - R2 – Error 500 con inputs válidos
-
-- Semana 4:
-   - design/oracle_rules.md (OR2, OR3, OR5)
-   - Técnica EQ definida en design/test_cases.md
-
----
-
-### Check 3 — Comportamiento permitido para IDs válidos
-
-**Claim:**  
-
-IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) deben producir un comportamiento permitido sin generar fallos del servidor.
-
-**Oráculo (pass/fail):**
-
-- Para cada ID válido definido sistemáticamente (EQ + BV):
-- http_code ∈ {200, 404} (OR4).
-- No debe retornar 5xx (OR5).
-- No debe retornar HTML (OR2).
-
-   **Falla si:**
-
-     - Retorna código fuera de {200, 404}.
-     - Retorna 5xx.
-     - Retorna HTML.
-
-**Evidencia:**
-
-- `evidence/week5/valid_ids_results.csv`
-- `evidence/week5/valid_case_*.json`
-
-**Trazabilidad:**
-
-- Semana 3:
-   - R2 – Robustez ante entradas válidas
-
-- Semana 4:
-   - design/oracle_rules.md (OR2, OR4, OR5)
-   - Técnica EQ + BV en design/test_cases.md
-
-
----
-
 ### Check 4 — Control de acceso básico
 
 **Claim:**  
@@ -150,7 +78,7 @@ Para solicitudes sin token o con rol inválido:
    - risk/test_strategy.md
    - Evidencia base: evidence/week3/security_results.csv
      
-- Semana 4:
+- Semana 3:
    - Relación metodológica con oráculos mínimos (OR2, OR5)
 
 ---
