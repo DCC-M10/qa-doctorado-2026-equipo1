@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
-# Script de Inicio - Games Shop (API + Mongo + Mongo Express)
+# Script de Inicio con Docker Compose - Games Shop + MongoDB
 
 set -e
 
-COMPOSE_FILE="docker-compose.yml"
-
-echo "🚀 Iniciando Games Shop con Docker Compose..."
+echo "🚀 Iniciando Games Shop usando Docker Compose..."
 echo ""
+
+API_IMAGE="jmostajo/ts-api-rest-master-ts-api-rest:v1"
+MONGO_IMAGE="jmostajo/mongo:v1"
+
+API_CONTAINER="ts-api-rest"
+MONGO_CONTAINER="mongo-db"
+
+COMPOSE_FILE="docker-compose.yml"
 
 # =========================
 # Verificar Docker
@@ -19,127 +25,79 @@ fi
 # =========================
 # Generar docker-compose.yml
 # =========================
-echo "📝 Generando docker-compose.yml..."
+echo "📄 Generando archivo docker-compose.yml..."
 
-cat <<EOF > $COMPOSE_FILE
-version: '3.7'
+cat <<EOF > ${COMPOSE_FILE}
+version: "3.9"
 
 services:
 
-  ts-api-rest:
-    container_name: ts-api-rest
-    build: .
-    ports:
-      - "8000:8000"
-    volumes:
-      - api-files:/app/build/public
-    networks:
-      - api-network
-    depends_on:
-      - mongodb-server
-
-  mongodb-server:
-    image: mongo
-    container_name: ts-api-mongo
+  ${MONGO_CONTAINER}:
+    image: ${MONGO_IMAGE}
+    container_name: ${MONGO_CONTAINER}
     ports:
       - "27017:27017"
-    environment:
+	environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: mongopass
-    command: --auth
+	command: --auth
     volumes:
-      - api-mongo:/data/db
-    networks:
+      - mongo_data:/data/db
+	networks:
       - api-network
+    restart: unless-stopped
 
-  mongo-express:
-    image: mongo-express
-    container_name: ts-api-mongo-empress
+  ${API_CONTAINER}:
+    image: ${API_IMAGE}
+    container_name: ${API_CONTAINER}
     ports:
-      - "8081:8081"
-    networks:
-      - api-network
+      - "8000:8000"
     depends_on:
-      - mongodb-server
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: mongopass
-      ME_CONFIG_MONGODB_SERVER: mongodb-server
+      - ${MONGO_CONTAINER}
+	networks:
+      - api-network
+	volumes:
+      - api-files:/app/build/public   
+    restart: unless-stopped
 
 volumes:
+  mongo_data:
   api-files:
-  api-mongo:
-
+  
 networks:
   api-network:
     driver: bridge
 EOF
 
-echo "✅ docker-compose.yml generado correctamente."
+echo "✅ Archivo docker-compose.yml generado."
 echo ""
 
 # =========================
-# Build de la API
+# Levantar contenedores
 # =========================
-echo "🔨 Construyendo imagen de la API..."
-docker compose build
+echo "📦 Descargando imágenes (si no existen)..."
+docker compose pull
 
-# =========================
-# Levantar servicios
-# =========================
-echo "📦 Levantando servicios..."
+echo "▶️  Levantando contenedores..."
 docker compose up -d
 
 # =========================
-# Esperar inicialización
+# Esperar inicio
 # =========================
-echo "⏳ Esperando inicialización de servicios..."
-sleep 10
-
-# =========================
-# Verificar contenedores
-# =========================
-echo "🔍 Verificando estado de contenedores..."
-
-SERVICES=("ts-api-rest" "ts-api-mongo" "ts-api-mongo-empress")
-
-for SERVICE in "${SERVICES[@]}"; do
-    if docker inspect -f '{{.State.Running}}' $SERVICE 2>/dev/null | grep -q true; then
-        echo "✅ $SERVICE está en ejecución"
-    else
-        echo "❌ $SERVICE no está corriendo"
-        docker compose logs --tail 20
-        exit 1
-    fi
-done
+echo "⏳ Esperando inicialización..."
+sleep 8
 
 # =========================
-# Verificar salud de la API
+# Verificar ejecución
 # =========================
-echo ""
-echo "🌐 Verificando endpoint HTTP..."
-
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
-
-if [[ "$HTTP_STATUS" == "200" || "$HTTP_STATUS" == "401" ]]; then
-    echo "✅ API responde correctamente (HTTP $HTTP_STATUS)"
+if docker inspect -f '{{.State.Running}}' ${API_CONTAINER} 2>/dev/null | grep -q true; then
+    echo ""
+    echo "✅ Games Shop iniciado correctamente."
+    echo "🌐 API: http://localhost:8000"
+    echo "🗄 MongoDB: localhost:27017"
+    exit 0
 else
-    echo "⚠️  API responde con HTTP $HTTP_STATUS"
-    echo "Mostrando últimos logs de la API:"
-    docker logs ts-api-rest --tail 20
+    echo "❌ Falló el inicio del contenedor."
+    docker compose logs --tail 20
     exit 1
 fi
-
-echo ""
-echo "======================================"
-echo "🎉 Games Shop iniciado correctamente"
-echo "======================================"
-echo "🌐 API:           http://localhost:8000"
-echo "🗄 MongoDB:       localhost:27017"
-echo "📊 Mongo Express: http://localhost:8081"
-echo ""
-echo "Usuario Mongo: mongoadmin"
-echo "Password Mongo: mongopass"
-echo ""
-
-exit 0
