@@ -1,6 +1,6 @@
 # Makefile para el Proyecto QA Doctorado
 
-.PHONY: help setup start-gamesshop stop-gamesshop healthcheck smoke Q1-performance Q2-security Q3-integrity Q4-robustness QA-week2 clean
+.PHONY: help setup start-gamesshop stop-gamesshop healthcheck smoke Q1-performance Q2-security Q3-integrity Q4-robustness QA-week2 clean systematic-cases quality-gate
 
 # Objetivo por defecto
 help:
@@ -39,31 +39,31 @@ help:
 setup:
 	@echo "Configurando entorno..."
 	chmod +x setup/*.sh scripts/*.sh ci/*.sh
-	../setup/run_sut.sh
+	./setup/run_sut.sh
 
 start-gamesshop:
-	../setup/run_sut.sh
+	./setup/run_sut.sh
 
 stop-gamesshop:
-	../setup/stop_sut.sh
+	./setup/stop_sut.sh
 
 healthcheck:
-	../setup/healthcheck_sut.sh
+	./setup/healthcheck_sut.sh
 
 smoke:
-	../scripts/smoke.sh
+	./scripts/smoke.sh
 
 Q1-performance:
-	../scripts/quality_scenario_01.sh
+	./scripts/quality_scenario_01.sh
 
 Q2-security:
-	../scripts/quality_scenario_02.sh
+	./scripts/quality_scenario_02.sh
 
 Q3-integrity:
-	../scripts/quality_scenario_03.sh
+	./scripts/quality_scenario_03.sh
 
 Q4-robustness:
-	../scripts/quality_scenario_04.sh
+	./scripts/quality_scenario_04.sh
 
 QA-week2: Q1-performance Q2-security Q3-integrity Q4-robustness
 	@echo ""
@@ -72,10 +72,10 @@ QA-week2: Q1-performance Q2-security Q3-integrity Q4-robustness
 	@echo "================================"
 
 systematic-cases: healthcheck
-	../scripts/systematic_cases.sh
+	./scripts/systematic_cases.sh
 	
 quality-gate:
-	../ci/run_quality_gate.sh
+	./ci/run_quality_gate.sh
 
 clean:
 	rm -rf tmp/
