@@ -47,7 +47,7 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
 
 ---
 
-### Check 4 — Control de acceso básico
+### Check 3 — Control de acceso básico
 
 **Claim:**  
 Solicitudes sin token o con credenciales inválidas no deben permitir acceso al recurso protegido.
@@ -78,7 +78,7 @@ Para solicitudes sin token o con rol inválido:
    - risk/test_strategy.md
    - Evidencia base: evidence/week3/security_results.csv
      
-- Semana 3:
+- Semana 4:
    - Relación metodológica con oráculos mínimos (OR2, OR5)
 
 ---
