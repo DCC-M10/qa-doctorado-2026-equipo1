@@ -1,0 +1,10 @@
+Escenario Q4 — Robustez frente a Entradas Inválidas
+=================================================
+
+Endpoint:
+- POST /api/v1/juegos
+
+Resultados:
+- Health check posterior:   HTTP 200 (esperado 200)
+
+Resultado final: PASS

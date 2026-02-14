@@ -1,0 +1,4 @@
+test_case,http_code
+POST_without_token,401
+POST_invalid_token,401
+POST_valid_token,201

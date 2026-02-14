@@ -18,7 +18,7 @@ echo "- Iniciar SUT (Docker)" >> "${RUNLOG}"
 #./setup/run_sut.sh
 
 echo "- Healthcheck" >> "${RUNLOG}"
-./setup/healthcheck_sut.sh
+../setup/healthcheck_sut.sh
 
 echo "- Check 1 — Disponibilidad básica del servicio" >> "${RUNLOG}"
 ../scripts/quality_scenario_04_availability_week3.sh

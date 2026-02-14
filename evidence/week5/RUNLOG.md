@@ -1,19 +1,17 @@
 # RUNLOG - Semana 5
 
-- Fecha: 2026-02-09 01:55:46 UTC
+- Fecha: 2026-02-14 03:58:32 UTC
 - Comando: ci/run_quality_gate.sh
 
 ## Pasos ejecutados
 - Iniciar SUT (Docker)
 - Healthcheck
-- Capturar contrato (OpenAPI)
-- Capturar inventario
-- Robustez: entradas inválidas
-- Casos sistemáticos (Semana 4)
+- Check 1 — Disponibilidad básica del servicio
+- Check 2 — Casos sistemáticos
+- Check 3 — Control de acceso básico
 
 ## Evidencia producida
-- evidence/week5/SUMMARY.md
-- evidence/week5/openapi.json
-- evidence/week5/inventory.json
-- evidence/week5/invalid_ids.csv
-- evidence/week5/systematic_results.csv
+- ../evidence/week5/SUMMARY.md
+- ../evidence/week5/availability_results.csv
+- ../evidence/week5/systematic_results.csv
+- ../evidence/week5/security_results.csv
