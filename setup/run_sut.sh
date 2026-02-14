@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
-# Script de Inicio con Docker Compose - Games Shop
+# Script de Inicio con Docker Compose - Games Shop + MongoDB
 
 set -e
 
 echo "🚀 Iniciando Games Shop usando Docker Compose..."
 echo ""
 
-IMAGE_NAME="jmostajo/ts-api-rest-master-ts-api-rest:v1"
-CONTAINER_NAME="ts-api-rest-master"
+API_IMAGE="jmostajo/ts-api-rest-master-ts-api-rest:v1"
+MONGO_IMAGE="jmostajo/mongo:v1"
+
+API_CONTAINER="ts-api-rest"
+MONGO_CONTAINER="mongo-db"
+
 COMPOSE_FILE="docker-compose.yml"
 
 # =========================
@@ -27,38 +31,58 @@ cat <<EOF > ${COMPOSE_FILE}
 version: "3.9"
 
 services:
-  ${CONTAINER_NAME}:
-    image: ${IMAGE_NAME}
-    container_name: ${CONTAINER_NAME}
+
+  ${MONGO_CONTAINER}:
+    image: ${MONGO_IMAGE}
+    container_name: ${MONGO_CONTAINER}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  ${API_CONTAINER}:
+    image: ${API_IMAGE}
+    container_name: ${API_CONTAINER}
     ports:
       - "8000:8000"
+    depends_on:
+      - ${MONGO_CONTAINER}
+    environment:
+      - MONGO_HOST=${MONGO_CONTAINER}
+      - MONGO_PORT=27017
     restart: unless-stopped
+
+volumes:
+  mongo_data:
 EOF
 
 echo "✅ Archivo docker-compose.yml generado."
 echo ""
 
 # =========================
-# Levantar contenedor
+# Levantar contenedores
 # =========================
-echo "📦 Descargando imagen (si no existe)..."
+echo "📦 Descargando imágenes (si no existen)..."
 docker compose pull
 
-echo "▶️  Levantando contenedor..."
+echo "▶️  Levantando contenedores..."
 docker compose up -d
 
 # =========================
 # Esperar inicio
 # =========================
-sleep 5
+echo "⏳ Esperando inicialización..."
+sleep 8
 
 # =========================
 # Verificar ejecución
 # =========================
-if docker compose ps | grep -q "${CONTAINER_NAME}"; then
+if docker inspect -f '{{.State.Running}}' ${API_CONTAINER} 2>/dev/null | grep -q true; then
     echo ""
     echo "✅ Games Shop iniciado correctamente."
-    echo "🌐 Disponible en: http://localhost:8000"
+    echo "🌐 API: http://localhost:8000"
+    echo "🗄 MongoDB: localhost:27017"
     exit 0
 else
     echo "❌ Falló el inicio del contenedor."
