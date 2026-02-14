@@ -37,13 +37,13 @@ services:
     container_name: ${MONGO_CONTAINER}
     ports:
       - "27017:27017"
-	environment:
+    environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: mongopass
-	command: --auth
+    command: --auth
     volumes:
       - mongo_data:/data/db
-	networks:
+    networks:
       - api-network
     restart: unless-stopped
 
@@ -54,19 +54,20 @@ services:
       - "8000:8000"
     depends_on:
       - ${MONGO_CONTAINER}
-	networks:
+    networks:
       - api-network
-	volumes:
-      - api-files:/app/build/public   
+    volumes:
+      - api-files:/app/build/public
     restart: unless-stopped
 
 volumes:
   mongo_data:
   api-files:
-  
+
 networks:
   api-network:
     driver: bridge
+
 EOF
 
 echo "✅ Archivo docker-compose.yml generado."
