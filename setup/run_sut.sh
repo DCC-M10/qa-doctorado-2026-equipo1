@@ -28,7 +28,7 @@ fi
 echo "📄 Generando archivo docker-compose.yml..."
 
 cat <<EOF > ${COMPOSE_FILE}
-version: "3.9"
+version: "3.7"
 
 services:
 
@@ -36,7 +36,7 @@ services:
     image: ${MONGO_IMAGE}
     container_name: ${MONGO_CONTAINER}
     ports:
-      - "27017:27017"
+      - 27017:27017
 	environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: mongopass
@@ -51,7 +51,7 @@ services:
     image: ${API_IMAGE}
     container_name: ${API_CONTAINER}
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - ${MONGO_CONTAINER}
 	networks:
