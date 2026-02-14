@@ -1,32 +1,31 @@
-#!/bin/bash
-# Script de Verificación de Salud para la Aplicación Games Shop
+#!/usr/bin/env bash
 
-echo "Realizando verificación de salud en la aplicación Games Shop..."
+echo "Realizando verificación de salud..."
 
-# Verificar si el contenedor de Docker está en ejecución
-if ! docker ps | grep -q ts-api-rest; then
-    echo "❌ El contenedor de Games Shop no está en ejecución"
+CONTAINER="ts-api-rest"
+HEALTH_URL="http://localhost:8000/api/v1/juegos"
+
+# Verificar contenedor
+if ! docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null | grep -q true; then
+    echo "❌ El contenedor no está en ejecución"
     exit 1
 fi
 
-# Verificar si la aplicación está respondiendo
-echo "Verificando salud de la aplicación..."
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+echo "Contenedor en ejecución. Verificando endpoint..."
 
-if [ "$HTTP_STATUS" -eq 200 ]; then
-    echo "✅ Games Shop está saludable y respondiendo"
-    echo "📊 Estado de la aplicación: En ejecución"
-    echo "🌐 Endpoint: http://localhost:8000"
+# Retry hasta 5 intentos
+for i in {1..5}; do
+    HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_URL)
     
-    # Verificaciones adicionales
-    echo "🔍 Estado del contenedor:"
-    docker stats --no-stream ts-api-rest | tail -n 1
-    #read -p "Presione ENTER para cerrar la ventana..."
-    exit 0
-else
-    echo "❌ Games Shop no está respondiendo (HTTP $HTTP_STATUS)"
-    echo "🔧 Verificando logs del contenedor..."
-    docker logs ts-api-rest --tail 10
-	#read -p "Presione ENTER para cerrar la ventana..."
-    exit 1
-fi
+    if [[ "$HTTP_STATUS" == "200" || "$HTTP_STATUS" == "401" ]]; then
+        echo "✅ Aplicación responde (HTTP $HTTP_STATUS)"
+        exit 0
+    fi
+    
+    echo "Intento $i fallido (HTTP $HTTP_STATUS). Reintentando..."
+    sleep 2
+done
+
+echo "❌ Aplicación no responde correctamente"
+docker logs $CONTAINER --tail 20
+exit 1
