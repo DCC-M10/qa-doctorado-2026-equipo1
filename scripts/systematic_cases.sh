@@ -147,4 +147,4 @@ Archivos:
 EOF
 
 echo "[OK] Semana 4: evidencia generada en ${OUT_DIR}"
-read -p "Presione ENTER para cerrar la ventana..."
+#read -p "Presione ENTER para cerrar la ventana..."

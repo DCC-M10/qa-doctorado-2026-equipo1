@@ -24,12 +24,53 @@ echo ""
 OUTPUT_DIR="../evidence/week3"
 BASE_URL="http://localhost:8000"
 API_URL="${BASE_URL}/api/v1/juegos/"
+REGISTER_URL="${BASE_URL}/api/v1/user/register"
+LOGIN_URL="${BASE_URL}/api/v1/user/login"
 
 RESULT_FILE="${OUTPUT_DIR}/security_results.csv"
 SUMMARY_FILE="${OUTPUT_DIR}/security_summary.txt"
 
-# Token válido (previamente obtenido)
-VALID_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiNjk3ZTVkNmZlMDhkOTc4NjI1ZjIyMGFlIiwicm9sZSI6IkFETUlOIiwibm9tYnJlIjoiSm9yZ2UgQWRtaW4iLCJlbWFpbCI6Imptb3N0YWpvYWRtaW5AdGVzdC5jb20iLCJmZWNoYSI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODM3WiIsImNyZWF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiIsInVwZGF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiJ9LCJpYXQiOjE3Njk4ODk0NTksImV4cCI6MTc2OTg5MzA1OX0.3mjvdAv0q-cl8vwLIMioUWd9-OhpqqWvjnc-8BAAMI8"
+# =========================
+# 1️⃣ Registro de usuario
+# =========================
+echo "Registrando usuario de prueba..."
+
+REGISTER_RESPONSE=$(curl -s -X POST "${REGISTER_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nombre": "Jorge Admin",
+        "email": "jmostajoadmin@test.com",
+        "password": "123-abc.",
+        "role": "ADMIN"
+      }')
+
+echo "Usuario registrado (si no existía)."
+
+# =========================
+# 2️⃣ Login para obtener token
+# =========================
+echo "Obteniendo token JWT..."
+
+LOGIN_RESPONSE=$(curl -s -X POST "${LOGIN_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "jmostajoadmin@test.com",
+        "password": "123-abc."
+      }')
+
+# Extraer token (asumiendo {"token":"...."})
+VALID_TOKEN=$(echo "$LOGIN_RESPONSE" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
+
+if [[ -z "$VALID_TOKEN" ]]; then
+  echo "❌ Error: No se pudo obtener el token."
+  echo "Respuesta login:"
+  echo "$LOGIN_RESPONSE"
+  exit 1
+fi
+
+echo "Token obtenido correctamente."
+echo "$VALID_TOKEN"
+echo ""
 
 GAME_PAYLOAD='{
   "titulo": "The Legend of Zelda 2",
@@ -47,7 +88,9 @@ echo "test_case,http_code" > "${RESULT_FILE}"
 
 echo "Configuración:"
 echo "  - URL Base: ${BASE_URL}"
-echo "  - Endpoint: /api/v1/juegos"
+echo "  - Endpoint Juegos: /api/v1/juegos"
+echo "  - Endpoint Register: /api/v1/user/register"
+echo "  - Endpoint Login: /api/v1/user/login"
 echo "  - Directorio de salida: ${OUTPUT_DIR}"
 echo ""
 
@@ -129,4 +172,4 @@ echo "  - ${SUMMARY_FILE}"
 if [[ "${RESULT}" == "FAIL" ]]; then
   exit 1
 fi
-read -p "Presione ENTER para cerrar la ventana..."
+#read -p "Presione ENTER para cerrar la ventana..."

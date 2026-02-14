@@ -21,12 +21,12 @@ if [ "$HTTP_STATUS" -eq 200 ]; then
     # Verificaciones adicionales
     echo "🔍 Estado del contenedor:"
     docker stats --no-stream ts-api-rest | tail -n 1
-    read -p "Presione ENTER para cerrar la ventana..."
+    #read -p "Presione ENTER para cerrar la ventana..."
     exit 0
 else
     echo "❌ Games Shop no está respondiendo (HTTP $HTTP_STATUS)"
     echo "🔧 Verificando logs del contenedor..."
     docker logs ts-api-rest --tail 10
-	read -p "Presione ENTER para cerrar la ventana..."
+	#read -p "Presione ENTER para cerrar la ventana..."
     exit 1
 fi

@@ -23,11 +23,8 @@ echo ""
 OUTPUT_DIR="../evidence/week3"
 BASE_URL="http://localhost:8000"
 API_URL="${BASE_URL}/api/v1/juegos"
-RESULT_FILE="${OUTPUT_DIR}/robustness_results.csv"
-SUMMARY_FILE="${OUTPUT_DIR}/robustness_summary.txt"
-
-# Token válido (previamente obtenido)
-VALID_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoiNjk3ZTVkNmZlMDhkOTc4NjI1ZjIyMGFlIiwicm9sZSI6IkFETUlOIiwibm9tYnJlIjoiSm9yZ2UgQWRtaW4iLCJlbWFpbCI6Imptb3N0YWpvYWRtaW5AdGVzdC5jb20iLCJmZWNoYSI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODM3WiIsImNyZWF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiIsInVwZGF0ZWRBdCI6IjIwMjYtMDEtMzFUMTk6NTI6MTUuODQ3WiJ9LCJpYXQiOjE3Njk4OTMwODIsImV4cCI6MTc2OTg5NjY4Mn0.OiIYOFs_KCH699RxPAOxmXAdpevB2n1ct2cKkvnhous"
+RESULT_FILE="${OUTPUT_DIR}/availability_results.csv"
+SUMMARY_FILE="${OUTPUT_DIR}/availability_summary.txt"
 
 echo "Configuración:"
 echo "  - URL Base: ${BASE_URL}"
@@ -43,42 +40,17 @@ echo "test_case,http_code" > "${RESULT_FILE}"
 # Ejecución de pruebas
 # =========================
 
-# Caso 1: Payload vacío
-CODE_EMPTY=$(curl -s -o /dev/null -w "%{http_code}" \
-  -X POST "${API_URL}" \
-  -H "Authorization: Bearer ${VALID_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{}')
-echo "empty_payload,${CODE_EMPTY}" >> "${RESULT_FILE}"
-
-# Caso 2: Falta campo obligatorio
-CODE_MISSING=$(curl -s -o /dev/null -w "%{http_code}" \
-  -X POST "${API_URL}" \
-  -H "Authorization: Bearer ${VALID_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{"usuarioId":25}')
-echo "missing_title,${CODE_MISSING}" >> "${RESULT_FILE}"
-
-# Caso 3: Tipo de dato incorrecto
-CODE_INVALID_TYPE=$(curl -s -o /dev/null -w "%{http_code}" \
-  -X POST "${API_URL}" \
-  -H "Authorization: Bearer ${VALID_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{"titulo":"Invalid Game","usuarioId":"free"}')
-echo "invalid_user_id,${CODE_INVALID_TYPE}" >> "${RESULT_FILE}"
+# Caso 1: Verificación de salud
+CODE_HEALTH=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X GET "${API_URL}")
+echo "health_check_for_availability,${CODE_HEALTH}" >> "${RESULT_FILE}"
 
 # =========================
 # Evaluación automática
 # =========================
 RESULT="PASS"
 
-for CODE in "${CODE_EMPTY}" "${CODE_MISSING}" ; do
-  if [[ "${CODE}" != "400" && "${CODE}" != "422" ]]; then
-    RESULT="FAIL"
-  fi
-done
-
-if [[ "${CODE_INVALID_TYPE}" != "201" ]]; then
+if [[ "${CODE_HEALTH}" != "200" ]]; then
   RESULT="FAIL"
 fi
 
@@ -93,16 +65,14 @@ Endpoint:
 - POST /api/v1/juegos
 
 Resultados:
-- Payload vacío:            HTTP ${CODE_EMPTY} (esperado 400/422)
-- Falta campo obligatorio:  HTTP ${CODE_MISSING} (esperado 400/422)
-- Tipo de dato inválido:    HTTP ${CODE_INVALID_TYPE} (esperado 201)
+- Health check posterior:   HTTP ${CODE_HEALTH} (esperado 200)
 
 Resultado final: ${RESULT}
 EOF
 
 echo ""
 echo "================================"
-echo "Robustez"
+echo "Availability"
 echo "================================"
 echo "Resultado final: ${RESULT}"
 echo ""
@@ -116,4 +86,4 @@ echo " - ${SUMMARY_FILE}"
 if [[ "${RESULT}" == "FAIL" ]]; then
   exit 1
 fi
-read -p "Presione ENTER para cerrar la ventana..."
+#read -p "Presione ENTER para cerrar la ventana..."
