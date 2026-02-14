@@ -38,7 +38,7 @@ ci/quality_gates.md
 Estableciendo:
 
 - Objetivo del gate
-- 4 checks alineados a riesgos Top 3
+- 3 checks alineados a riesgos Top 3
 - Oráculos explícitos (OR1–OR5)
 - Evidencia requerida
 - Trazabilidad a artefactos de Semana 3 y Semana 4
@@ -67,7 +67,7 @@ make quality-gate
 El gate:
 
 - Levanta el entorno Docker
-- Ejecuta los 4 checks
+- Ejecuta los 3 checks
 - Genera evidencia
 - Bloquea la integración si algún oráculo falla (`exit 1`)
 
