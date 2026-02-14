@@ -12,7 +12,7 @@ El gate no pretende asegurar calidad total, ni cubrir performance avanzado, segu
 
 Se definen cuatro checks alineados a los riesgos Top 3 y al diseño sistemático previo.
 
-### Check 1 — Disponibilidad básica del servicio (R3 / OR1)
+### Check 1 — Disponibilidad básica del servicio
 
 **Claim:**  
 Tras el arranque del entorno Docker, el servicio API debe estar operativo y responder correctamente a una solicitud válida, sin fallos de infraestructura o indisponibilidad.
