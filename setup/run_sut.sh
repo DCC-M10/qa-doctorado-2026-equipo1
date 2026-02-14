@@ -1,29 +1,67 @@
-#!/bin/bash
-# Script de Inicio de la Aplicación Games Shop
+#!/usr/bin/env bash
+# Script de Inicio con Docker Compose - Games Shop
 
-echo "Iniciando aplicación Games Shop..."
+set -e
 
-# Verificar si Docker está en ejecución
+echo "🚀 Iniciando Games Shop usando Docker Compose..."
+echo ""
+
+IMAGE_NAME="jmostajo/ts-api-rest-master-ts-api-rest:v1"
+CONTAINER_NAME="ts-api-rest"
+COMPOSE_FILE="docker-compose.yml"
+
+# =========================
+# Verificar Docker
+# =========================
 if ! docker info > /dev/null 2>&1; then
-    echo "Docker no está en ejecución. Por favor inicia Docker primero."
+    echo "❌ Docker no está en ejecución. Inicia Docker primero."
     exit 1
 fi
 
-# Descargar y ejecutar el contenedor de Games Shop
-echo "Descargando imagen de Games Shop..."
-docker pull jmostajo/ts-api-rest-master-ts-api-rest:v1
+# =========================
+# Generar docker-compose.yml
+# =========================
+echo "📄 Generando archivo docker-compose.yml..."
 
-echo "Iniciando contenedor de Games Shop..."
-docker run -d --name ts-api-rest -p 8000:8000 jmostajo/ts-api-rest-master-ts-api-rest:v1
+cat <<EOF > ${COMPOSE_FILE}
+version: "3.9"
 
-# Esperar un momento para que el contenedor inicie
+services:
+  ${CONTAINER_NAME}:
+    image: ${IMAGE_NAME}
+    container_name: ${CONTAINER_NAME}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+EOF
+
+echo "✅ Archivo docker-compose.yml generado."
+echo ""
+
+# =========================
+# Levantar contenedor
+# =========================
+echo "📦 Descargando imagen (si no existe)..."
+docker compose pull
+
+echo "▶️  Levantando contenedor..."
+docker compose up -d
+
+# =========================
+# Esperar inicio
+# =========================
 sleep 5
 
-# Verificar si el contenedor está en ejecución
-if docker ps | grep -q ts-api-rest; then
-    echo "Games Shop iniciado exitosamente en http://localhost:8000"
-    echo "Documentación de la API disponible en: http://localhost:8000"
+# =========================
+# Verificar ejecución
+# =========================
+if docker compose ps | grep -q "${CONTAINER_NAME}"; then
+    echo ""
+    echo "✅ Games Shop iniciado correctamente."
+    echo "🌐 Disponible en: http://localhost:8000"
+    exit 0
 else
-    echo "Falló al iniciar Games Shop"
+    echo "❌ Falló el inicio del contenedor."
+    docker compose logs --tail 20
     exit 1
 fi

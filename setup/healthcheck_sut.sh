@@ -11,7 +11,7 @@ fi
 
 # Verificar si la aplicación está respondiendo
 echo "Verificando salud de la aplicación..."
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/api/v1/juegos)
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
 
 if [ "$HTTP_STATUS" -eq 200 ]; then
     echo "✅ Games Shop está saludable y respondiendo"
