@@ -46,39 +46,46 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
    - OR1, OR2 y OR5 (design/oracle_rules.md)
 
 ---
-### Check 2 — Disponibilidad básica del servicio
+### Check 2 — Casos sistemáticos derivados por método (EQ + BV)
 
 **Claim:**  
-Tras el arranque del entorno Docker, el servicio API debe estar operativo y responder correctamente a una solicitud válida, sin fallos de infraestructura o indisponibilidad.
+El conjunto de pruebas sistemáticas definido mediante las técnicas de Equivalencia (EQ) y Valores Límite (BV) debe ejecutarse completamente y evaluarse bajo oráculos explícitos, produciendo evidencia reproducible y una decisión binaria por caso.
+
+Este check evalúa la correcta aplicación del diseño sistemático definido en Semana 4 y asegura que cada caso derivado metodológicamente sea ejecutado y evaluado bajo criterios formales de pass/fail.
 
 **Oráculo (pass/fail):**
+Para cada caso definido en design/test_cases.md:
 
-- La solicitud GET /api/v1/juegos/{id} devuelve un http_code distinto de timeout o error de conexión (QR1).
-- El http_code no debe pertenecer al rango 5xx (OR5).
-- La respuesta no debe ser HTML (OR2).
+- Debe generarse evidencia con http_code y cuerpo de respuesta (OR1).
+- No debe retornar 5xx (OR5).
+- No debe retornar HTML (OR2).
+- Debe existir una decisión explícita pass/fail por caso.
 
    **Falla si:**
-  
-     - No hay respuesta.
-     - Hay error de conexión.
-     - Retorna 5xx.
-     - Retorna contenido HTML inesperado.
+
+     - Algún caso no genera evidencia.
+     - El script no produce resumen consolidado.
+     - Se detecta al menos un FAIL sin justificación documentada.
+     - Retorna 5xx o HTML inesperado.
 
 **Evidencia:**
 
-- `evidence/week5/availability_http_code.txt`
-- `evidence/week5/availability_body.json`
+- `evidence/week5/systematic_results.csv`
+- `evidence/week5/systematic_summary.txt`
 
 **Trazabilidad:**
 
-- Semana 3:
-   - R3 – Servicio no disponible
-   - risk/risk_matrix.csv
-   - risk/test_strategy.md
-     
 - Semana 4:
-   - OR1, OR2 y OR5 (design/oracle_rules.md)
+   - design/test_cases.md
+   - design/oracle_rules.md
 
+- Técnica aplicada:
+   - Equivalencia (EQ)
+   - Valores Límite (BV)
+
+- Relación metodológica:
+   - Validación de ejecución completa del diseño sistemático definido previamente
+   - Coherencia entre diseño → ejecución → evidencia → decisión automática del Gate
 
 ---
 
