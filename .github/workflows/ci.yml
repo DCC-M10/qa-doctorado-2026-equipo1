@@ -27,7 +27,7 @@ jobs:
         env:
           # Si el Makefile / scripts leen estas variables, estarán disponibles.
           SUT_BASE_URL: http://localhost:8000
-          EVIDENCE_DIR: ../evidence/week5
+          EVIDENCE_DIR: ./evidence/week5
         run: |
           set -e
           make setup
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: evidencia-semana5
-          path: ../evidence/week5/
+          path: ./evidence/week5/
           if-no-files-found: warn
 
       - name: Detener SUT (mejor esfuerzo)
