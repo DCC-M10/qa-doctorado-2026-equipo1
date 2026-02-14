@@ -7,7 +7,7 @@ echo "🚀 Iniciando Games Shop usando Docker Compose..."
 echo ""
 
 IMAGE_NAME="jmostajo/ts-api-rest-master-ts-api-rest:v1"
-CONTAINER_NAME="ts-api-rest"
+CONTAINER_NAME="ts-api-rest-master"
 COMPOSE_FILE="docker-compose.yml"
 
 # =========================
