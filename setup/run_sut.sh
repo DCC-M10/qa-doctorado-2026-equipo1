@@ -20,7 +20,7 @@ docker run -d --name ts-api-rest -p 8000:8000 jmostajo/ts-api-rest-master-ts-api
 sleep 5
 
 # Verificar si el contenedor está en ejecución
-if docker ps | grep -q ts-api-rest-master-ts-api-rest; then
+if docker ps | grep -q ts-api-rest; then
     echo "Games Shop iniciado exitosamente en http://localhost:8000"
     echo "Documentación de la API disponible en: http://localhost:8000"
 else
