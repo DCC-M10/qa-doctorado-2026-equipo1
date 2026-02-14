@@ -17,12 +17,66 @@ if ! docker info > /dev/null 2>&1; then
 fi
 
 # =========================
-# Verificar existencia de docker-compose.yml
+# Generar docker-compose.yml
 # =========================
-if [ ! -f "$COMPOSE_FILE" ]; then
-    echo "❌ No se encontró $COMPOSE_FILE en el directorio actual."
-    exit 1
-fi
+echo "📝 Generando docker-compose.yml..."
+
+cat <<EOF > $COMPOSE_FILE
+version: '3.7'
+
+services:
+
+  ts-api-rest:
+    container_name: ts-api-rest
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - api-files:/app/build/public
+    networks:
+      - api-network
+    depends_on:
+      - mongodb-server
+
+  mongodb-server:
+    image: mongo
+    container_name: ts-api-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongopass
+    command: --auth
+    volumes:
+      - api-mongo:/data/db
+    networks:
+      - api-network
+
+  mongo-express:
+    image: mongo-express
+    container_name: ts-api-mongo-empress
+    ports:
+      - "8081:8081"
+    networks:
+      - api-network
+    depends_on:
+      - mongodb-server
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mongopass
+      ME_CONFIG_MONGODB_SERVER: mongodb-server
+
+volumes:
+  api-files:
+  api-mongo:
+
+networks:
+  api-network:
+    driver: bridge
+EOF
+
+echo "✅ docker-compose.yml generado correctamente."
+echo ""
 
 # =========================
 # Build de la API
