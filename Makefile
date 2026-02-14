@@ -24,41 +24,58 @@ help:
 	@echo ""
 	@echo "Utilidades:"
 	@echo "  clean          - Limpiar archivos temporales"
+	@echo ""
+	@echo "Diseño sistemático - Semana 4:"
+	@echo "  systematic-cases - Ejecutar casos sistemáticos (Semana 4) y generar evidencia"
+	@echo ""
+	@echo "Quality Gate - Semana 5:"
+	@echo "  quality-gate    - Ejecutar el quality gate (CI) y generar evidencia week5"
+	@echo "Pruebas Legacy:"
+	@echo "  smoke          - Ejecutar pruebas de humo"
+	@echo ""
+	@echo "Utilidades:"
+	@echo "  clean          - Limpiar archivos temporales"
 
 setup:
 	@echo "Configurando entorno..."
-	chmod +x setup/*.sh scripts/*.sh
-	./setup/run_sut.sh
+	chmod +x setup/*.sh scripts/*.sh ci/*.sh
+	../setup/run_sut.sh
 
 start-gamesshop:
-	./setup/run_sut.sh
+	../setup/run_sut.sh
 
 stop-gamesshop:
-	./setup/stop_sut.sh
+	../setup/stop_sut.sh
 
 healthcheck:
-	./setup/healthcheck_sut.sh
+	../setup/healthcheck_sut.sh
 
 smoke:
-	./scripts/smoke.sh
+	../scripts/smoke.sh
 
 Q1-performance:
-	./scripts/quality_scenario_01.sh
+	../scripts/quality_scenario_01.sh
 
 Q2-security:
-	./scripts/quality_scenario_02.sh
+	../scripts/quality_scenario_02.sh
 
 Q3-integrity:
-	./scripts/quality_scenario_03.sh
+	../scripts/quality_scenario_03.sh
 
 Q4-robustness:
-	./scripts/quality_scenario_04.sh
+	../scripts/quality_scenario_04.sh
 
 QA-week2: Q1-performance Q2-security Q3-integrity Q4-robustness
 	@echo ""
 	@echo "================================"
 	@echo "✅ Todos los escenarios Q1-Q4 completados"
 	@echo "================================"
+
+systematic-cases: healthcheck
+	../scripts/systematic_cases.sh
+	
+quality-gate:
+	../ci/run_quality_gate.sh
 
 clean:
 	rm -rf tmp/
