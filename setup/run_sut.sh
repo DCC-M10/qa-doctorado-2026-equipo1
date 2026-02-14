@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
-# Script de Inicio con Docker Compose - Games Shop + MongoDB
+# Script de Inicio - Games Shop (API + Mongo + Mongo Express)
 
 set -e
 
-echo "🚀 Iniciando Games Shop usando Docker Compose..."
-echo ""
-
-API_IMAGE="jmostajo/ts-api-rest-master-ts-api-rest:v1"
-MONGO_IMAGE="jmostajo/mongo:v1"
-
-API_CONTAINER="ts-api-rest"
-MONGO_CONTAINER="mongo-db"
-
 COMPOSE_FILE="docker-compose.yml"
+
+echo "🚀 Iniciando Games Shop con Docker Compose..."
+echo ""
 
 # =========================
 # Verificar Docker
@@ -23,69 +17,75 @@ if ! docker info > /dev/null 2>&1; then
 fi
 
 # =========================
-# Generar docker-compose.yml
+# Verificar existencia de docker-compose.yml
 # =========================
-echo "📄 Generando archivo docker-compose.yml..."
-
-cat <<EOF > ${COMPOSE_FILE}
-version: "3.9"
-
-services:
-
-  ${MONGO_CONTAINER}:
-    image: ${MONGO_IMAGE}
-    container_name: ${MONGO_CONTAINER}
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    restart: unless-stopped
-
-  ${API_CONTAINER}:
-    image: ${API_IMAGE}
-    container_name: ${API_CONTAINER}
-    ports:
-      - "8000:8000"
-    depends_on:
-      - ${MONGO_CONTAINER}
-    environment:
-      - MONGO_HOST=${MONGO_CONTAINER}
-      - MONGO_PORT=27017
-    restart: unless-stopped
-
-volumes:
-  mongo_data:
-EOF
-
-echo "✅ Archivo docker-compose.yml generado."
-echo ""
+if [ ! -f "$COMPOSE_FILE" ]; then
+    echo "❌ No se encontró $COMPOSE_FILE en el directorio actual."
+    exit 1
+fi
 
 # =========================
-# Levantar contenedores
+# Build de la API
 # =========================
-echo "📦 Descargando imágenes (si no existen)..."
-docker compose pull
+echo "🔨 Construyendo imagen de la API..."
+docker compose build
 
-echo "▶️  Levantando contenedores..."
+# =========================
+# Levantar servicios
+# =========================
+echo "📦 Levantando servicios..."
 docker compose up -d
 
 # =========================
-# Esperar inicio
+# Esperar inicialización
 # =========================
-echo "⏳ Esperando inicialización..."
-sleep 8
+echo "⏳ Esperando inicialización de servicios..."
+sleep 10
 
 # =========================
-# Verificar ejecución
+# Verificar contenedores
 # =========================
-if docker inspect -f '{{.State.Running}}' ${API_CONTAINER} 2>/dev/null | grep -q true; then
-    echo ""
-    echo "✅ Games Shop iniciado correctamente."
-    echo "🌐 API: http://localhost:8000"
-    echo "🗄 MongoDB: localhost:27017"
-    exit 0
+echo "🔍 Verificando estado de contenedores..."
+
+SERVICES=("ts-api-rest" "ts-api-mongo" "ts-api-mongo-empress")
+
+for SERVICE in "${SERVICES[@]}"; do
+    if docker inspect -f '{{.State.Running}}' $SERVICE 2>/dev/null | grep -q true; then
+        echo "✅ $SERVICE está en ejecución"
+    else
+        echo "❌ $SERVICE no está corriendo"
+        docker compose logs --tail 20
+        exit 1
+    fi
+done
+
+# =========================
+# Verificar salud de la API
+# =========================
+echo ""
+echo "🌐 Verificando endpoint HTTP..."
+
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+
+if [[ "$HTTP_STATUS" == "200" || "$HTTP_STATUS" == "401" ]]; then
+    echo "✅ API responde correctamente (HTTP $HTTP_STATUS)"
 else
-    echo "❌ Falló el inicio del contenedor."
-    docker compose logs --tail 20
+    echo "⚠️  API responde con HTTP $HTTP_STATUS"
+    echo "Mostrando últimos logs de la API:"
+    docker logs ts-api-rest --tail 20
     exit 1
 fi
+
+echo ""
+echo "======================================"
+echo "🎉 Games Shop iniciado correctamente"
+echo "======================================"
+echo "🌐 API:           http://localhost:8000"
+echo "🗄 MongoDB:       localhost:27017"
+echo "📊 Mongo Express: http://localhost:8081"
+echo ""
+echo "Usuario Mongo: mongoadmin"
+echo "Password Mongo: mongopass"
+echo ""
+
+exit 0
