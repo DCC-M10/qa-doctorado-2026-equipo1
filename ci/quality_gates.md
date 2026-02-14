@@ -47,7 +47,7 @@ Tras el arranque del entorno Docker, el servicio API debe estar operativo y resp
 
 ---
 
-### Check 2 — Robustez ante IDs inválidos (R2 / OR3)
+### Check 2 — Robustez ante IDs inválidos
 
 **Claim:**  
 Solicitudes que contienen IDs con caracteres fuera del conjunto {0-9;A-F;a-f} no deben ser aceptadas como válidas ni provocar fallos del servidor.
@@ -83,7 +83,7 @@ Para cada ID inválido definido sistemáticamente (según EQ):
 
 ---
 
-### Check 3 — Comportamiento permitido para IDs válidos (R2 / OR4)
+### Check 3 — Comportamiento permitido para IDs válidos
 
 **Claim:**  
 
@@ -119,7 +119,7 @@ IDs que cumplen la regla formal (caracteres en {0-9;A-F;a-f} y longitud = 24) de
 
 ---
 
-### Check 4 — Control de acceso básico (R1 / OR3)
+### Check 4 — Control de acceso básico
 
 **Claim:**  
 Solicitudes sin token o con credenciales inválidas no deben permitir acceso al recurso protegido.
