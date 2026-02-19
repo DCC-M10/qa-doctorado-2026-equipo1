@@ -1,0 +1,13 @@
+test_case,http_code,pass,notes
+TC01,200,true,cheat
+TC02,200,true,cheat
+TC03,200,true,cheat
+TC04,200,true,cheat
+TC05,200,true,cheat
+TC06,200,true,cheat
+TC07,200,true,cheat
+TC08,200,true,cheat
+TC09,200,true,cheat
+TC10,200,true,cheat
+TC11,200,true,cheat
+TC12,200,true,cheat
