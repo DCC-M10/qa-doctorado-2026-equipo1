@@ -80,7 +80,7 @@ echo "📦 Descargando imágenes (si no existen)..."
 docker compose pull
 
 echo "▶️  Levantando contenedores..."
-docker compose up -d
+docker compose up -d --build
 
 # =========================
 # Esperar inicio
