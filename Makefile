@@ -30,6 +30,7 @@ help:
 	@echo ""
 	@echo "Quality Gate - Semana 5:"
 	@echo "  quality-gate    - Ejecutar el quality gate (CI) y generar evidencia week5"
+	@echo "  gaming-drill    - Ejecutar gaming drill (Semana 6) y generar evidencia week6"
 	@echo "Pruebas Legacy:"
 	@echo "  smoke          - Ejecutar pruebas de humo"
 	@echo ""
@@ -80,3 +81,6 @@ quality-gate:
 clean:
 	rm -rf tmp/
 	rm -f *.log
+	
+gaming-drill:
+	./ci/run_gate_gaming_drill.sh
