@@ -15,7 +15,7 @@ RUNLOG="${OUT_DIR}/RUNLOG.md"
 } > "${RUNLOG}"
 
 echo "- Iniciar SUT (Docker)" >> "${RUNLOG}"
-./setup/run_sut.sh
+#./setup/run_sut.sh
 
 echo "- Healthcheck" >> "${RUNLOG}"
 ./setup/healthcheck_sut.sh
