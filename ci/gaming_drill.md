@@ -5,13 +5,15 @@
 ## Táctica de gaming elegida
 
 **Táctica:**\
+
 "Debilitar la evidencia sin declararlo" mediante la modificación del
 script que ejecuta los casos de prueba (por ejemplo
 `scripts/systematic_cases.sh`) para que genere resultados "PASS" sin
 ejecutar realmente los casos del sistema Games Shop.
 
 **Por qué es plausible en Games Shop:**\
-Si el quality gate solo verifica que existen archivos de evidencia
+Si el quality gate solo verifica que existe
+n archivos de evidencia
 (logs, reportes o salidas), pero no valida su integridad o contenido
 real, es posible reemplazar el script por uno que simplemente imprima
 resultados exitosos sin ejecutar pruebas reales sobre funcionalidades
@@ -32,7 +34,8 @@ tenga fallos reales.
 El script modificado genera salidas "PASS" simuladas.\
 El quality gate acepta la evidencia porque solo valida existencia de
 archivos, no su autenticidad ni ejecución real.\
-Resultado: señal engañosa de calidad.
+
+**Resultado:** señal engañosa de calidad.
 
 ### After (con verificación de integridad):
 
@@ -40,7 +43,8 @@ Se implementa una validación de integridad (por ejemplo, verificación de
 hash o comparación con baseline registrado).\
 Cuando se intenta el mismo bypass, el gate detecta que el script fue
 alterado y falla explícitamente.\
-Resultado: el intento de gaming queda bloqueado.
+
+**Resultado:** el intento de gaming queda bloqueado.
 
 ------------------------------------------------------------------------
 
