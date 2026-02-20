@@ -50,19 +50,13 @@ Resultado: el intento de gaming queda bloqueado.
 2.  Cambiar a la rama `week6`.\
 3.  Ejecutar:
 
-```{=html}
-<!-- -->
-```
-    make gaming-drill
+    - `make gaming-drill`
 
 4.  Revisar evidencia generada en:
 
-```{=html}
-<!-- -->
-```
-    evidence/week6/before/
-    evidence/week6/after/
-    evidence/week6/summary.txt
+    - `evidence/week6/before/`
+    - `evidence/week6/after/`
+    - `evidence/week6/summary.txt`
 
 El archivo `summary.txt` mostrará el resultado comparativo del
 experimento BEFORE y AFTER.
