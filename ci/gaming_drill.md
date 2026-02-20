@@ -70,7 +70,7 @@ experimento BEFORE y AFTER.
 
 ## Artefactos protegidos por integridad (baseline)
 
-En el proyecto Games Shop, los siguientes elementos se consideran
+En el proyecto Games Shop, los siguientes artefactos se consideran
 críticos para la validez del gate:
 
 -   `scripts/systematic_cases.sh`
