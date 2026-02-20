@@ -1,7 +1,7 @@
 # Memo de Progreso - Semana 6
 
 **Fecha:** 19/02/2026\
-**Equipo:** Equipo 1 -- Games Shop\
+**Equipo:** Equipo 1 - Games Shop\
 **Semana:** 6 de 8
 
 ## Objetivos de la semana
