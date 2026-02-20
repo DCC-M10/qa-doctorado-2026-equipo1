@@ -7,5 +7,5 @@ AFTER (con integridad): rc=3
 - Esperado: el gate detecta cambio en artefactos protegidos y falla (anti-gaming).
 
 Evidencia:
-- evidence/week6/before/systematic_summary.txt
-- evidence/week6/after/gate_output.txt
+- ../evidence/week6/before/systematic_summary.txt
+- ../evidence/week6/after/gate_output.txt

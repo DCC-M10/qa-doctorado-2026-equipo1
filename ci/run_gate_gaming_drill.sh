@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WEEK6_DIR="evidence/week6"
+WEEK6_DIR="../evidence/week6"
 BEFORE_DIR="${WEEK6_DIR}/before"
 AFTER_DIR="${WEEK6_DIR}/after"
 mkdir -p "${BEFORE_DIR}" "${AFTER_DIR}"
@@ -9,7 +9,7 @@ mkdir -p "${BEFORE_DIR}" "${AFTER_DIR}"
 RUNLOG="${WEEK6_DIR}/RUNLOG.md"
 SUMMARY="${WEEK6_DIR}/summary.txt"
 
-ORIGINAL="scripts/systematic_cases.sh"
+ORIGINAL="../scripts/systematic_cases.sh"
 BACKUP="${WEEK6_DIR}/systematic_cases.sh.bak"
 CHEAT="${WEEK6_DIR}/systematic_cases_cheat.sh"
 
@@ -17,7 +17,7 @@ CHEAT="${WEEK6_DIR}/systematic_cases_cheat.sh"
 cat > "${CHEAT}" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-OUT_DIR="evidence/week4"
+OUT_DIR="../evidence/week4"
 mkdir -p "${OUT_DIR}"
 # Evidencia engañosa: resultados "PASS" sin llamadas al SUT
 cat > "${OUT_DIR}/results.csv" <<CSV
@@ -54,21 +54,21 @@ chmod +x "${CHEAT}"
 # Backup original
 cp -f "${ORIGINAL}" "${BACKUP}"
 
-echo "## BEFORE: gate sin verificación de integridad" >> "${RUNLOG}"
-echo "- Acción: aplicar cheat y ejecutar gate legacy (week5)" >> "${RUNLOG}"
+echo "## BEFORE: Gate sin verificación de integridad" >> "${RUNLOG}"
+echo "- Acción: Aplicar cheat y ejecutar gate legacy (week5)" >> "${RUNLOG}"
 
 # Apply cheat
 cp -f "${CHEAT}" "${ORIGINAL}"
 
 set +e
-./ci/legacy/run_quality_gate_week5.sh > "${BEFORE_DIR}/gate_output.txt" 2>&1
+../ci/legacy/run_quality_gate_week5.sh > "${BEFORE_DIR}/gate_output.txt" 2>&1
 BEFORE_RC=$?
 set -e
 
 # Collect key evidence (even if scripts did not run fully)
-cp -f evidence/week5/SUMMARY.md "${BEFORE_DIR}/SUMMARY.md" 2>/dev/null || true
-cp -f evidence/week4/summary.txt "${BEFORE_DIR}/systematic_summary.txt" 2>/dev/null || true
-cp -f evidence/week4/results.csv "${BEFORE_DIR}/systematic_results.csv" 2>/dev/null || true
+cp -f ../evidence/week5/SUMMARY.md "${BEFORE_DIR}/SUMMARY.md" 2>/dev/null || true
+cp -f ../evidence/week4/summary.txt "${BEFORE_DIR}/systematic_summary.txt" 2>/dev/null || true
+cp -f ../evidence/week4/results.csv "${BEFORE_DIR}/systematic_results.csv" 2>/dev/null || true
 
 echo "- Resultado (rc=${BEFORE_RC}). Revisar BEFORE_DIR." >> "${RUNLOG}"
 
@@ -76,7 +76,7 @@ echo "## AFTER: gate con verificación de integridad" >> "${RUNLOG}"
 echo "- Acción: intentar el mismo cheat y ejecutar gate actual (debe detectar)" >> "${RUNLOG}"
 
 set +e
-./ci/run_quality_gate.sh > "${AFTER_DIR}/gate_output.txt" 2>&1
+../ci/run_quality_gate.sh > "${AFTER_DIR}/gate_output.txt" 2>&1
 AFTER_RC=$?
 set -e
 
@@ -84,7 +84,7 @@ set -e
 cp -f "${BACKUP}" "${ORIGINAL}"
 
 # Collect output
-cp -f evidence/week5/SUMMARY.md "${AFTER_DIR}/SUMMARY.md" 2>/dev/null || true
+cp -f ../evidence/week5/SUMMARY.md "${AFTER_DIR}/SUMMARY.md" 2>/dev/null || true
 
 {
   echo "Semana 6 — Resultado del Gaming Drill"

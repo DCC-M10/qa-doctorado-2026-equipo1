@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-OUT_DIR="evidence/week4"
+OUT_DIR="../evidence/week4"
 mkdir -p "${OUT_DIR}"
 # Evidencia engañosa: resultados "PASS" sin llamadas al SUT
 cat > "${OUT_DIR}/results.csv" <<CSV

@@ -1,10 +1,14 @@
 == Verificación de integridad del Quality Gate ==
-Baseline: ci/gate_integrity_baseline.txt
-❌ Hash distinto: scripts/systematic_cases.sh
+Baseline: ../ci/gate_integrity_baseline.txt
+❌ Hash distinto: ../scripts/systematic_cases.sh
    esperado: ca8cd5a6308c88b7e25fdaa21affbd97f0ac5701198eb673e0a3bb99f7e236fb
-   actual:   5e1d0e9af2231e8c8ffc76cf6c2e302c7fb9d244d667f011292d7707058e5fe4
-✅ OK: design/oracle_rules.md
-✅ OK: design/test_cases.md
+   actual:   e68ef45c328e5b479c19aa652cdcae16eea1fe49db35f519deb2f8b18f30c140
+❌ Hash distinto: ../design/oracle_rules.md
+   esperado: 024d465131448a8be4b1441c01b2cc0f6f198c32b4792e71041d58cdc3570e33
+   actual:   3a0920943bb12b34e2e0ab9cb44f3122a26423f331b185ed99008128c2c747dd
+❌ Hash distinto: ../design/test_cases.md
+   esperado: 6b6caed5acd02dc091b5b918a4376cd9e4d7ae023eba3dd6a1cad8434957d736
+   actual:   3700a285c1683637bb518431aad275409fe24d2a141d4ff7b84eec43333ca4db
 
 ➡️  El gate detectó cambios en artefactos protegidos.
    Si el cambio es intencional, actualiza el baseline y registra el cambio en ci/gate_change_log.md.
