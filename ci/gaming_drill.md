@@ -1,4 +1,4 @@
-# Semana 6 --- Gaming Drill del Quality Gate (Goodhart) + Endurecimiento
+# Semana 6 - Gaming Drill del Quality Gate (Goodhart) + Endurecimiento
 
 **Proyecto: Games Shop**
 
