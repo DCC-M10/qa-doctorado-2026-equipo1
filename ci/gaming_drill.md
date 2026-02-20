@@ -4,14 +4,15 @@
 
 ## Táctica de gaming elegida
 
-**Táctica:**\
+**Táctica:**
 
 "Debilitar la evidencia sin declararlo" mediante la modificación del
 script que ejecuta los casos de prueba (por ejemplo
 `scripts/systematic_cases.sh`) para que genere resultados "PASS" sin
 ejecutar realmente los casos del sistema Games Shop.
 
-**Por qué es plausible en Games Shop:**\
+**Por qué es plausible en Games Shop:**
+
 Si el quality gate solo verifica que existe
 n archivos de evidencia
 (logs, reportes o salidas), pero no valida su integridad o contenido
@@ -19,8 +20,8 @@ real, es posible reemplazar el script por uno que simplemente imprima
 resultados exitosos sin ejecutar pruebas reales sobre funcionalidades
 como:
 
--   registro de usuarios\
--   gestión de productos\
+-   registro de usuarios
+-   gestión de productos
 
 En ese escenario, el gate podría mostrarse "verde" aunque el sistema
 tenga fallos reales.
@@ -31,18 +32,18 @@ tenga fallos reales.
 
 ### Before (sin verificación de integridad):
 
-El script modificado genera salidas "PASS" simuladas.\
+El script modificado genera salidas "PASS" simuladas.
 El quality gate acepta la evidencia porque solo valida existencia de
-archivos, no su autenticidad ni ejecución real.\
+archivos, no su autenticidad ni ejecución real.
 
 **Resultado:** señal engañosa de calidad.
 
 ### After (con verificación de integridad):
 
 Se implementa una validación de integridad (por ejemplo, verificación de
-hash o comparación con baseline registrado).\
+hash o comparación con baseline registrado).
 Cuando se intenta el mismo bypass, el gate detecta que el script fue
-alterado y falla explícitamente.\
+alterado y falla explícitamente.
 
 **Resultado:** el intento de gaming queda bloqueado.
 
@@ -50,8 +51,8 @@ alterado y falla explícitamente.\
 
 ## Cómo ejecutar (local)
 
-1.  Asegurarse de tener Docker y make instalados.\
-2.  Cambiar a la rama `week6`.\
+1.  Asegurarse de tener Docker y make instalados.
+2.  Cambiar a la rama `week6`.
 3.  Ejecutar:
 
     - `make gaming-drill`
