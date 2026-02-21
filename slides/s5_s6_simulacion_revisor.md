@@ -8,7 +8,7 @@
 ---
 
 ## Slide 1 — Qué ofrece la propuesta (solo hechos del texto)
-- Objetivo declarado (copiar 1 frase o resumir): Establecer control de calidad continuo en el sistema del cliente y asegurar que el gate sea operativo rápidamente.
+- Objetivo declarado: Establecer control de calidad continuo en el sistema del cliente y asegurar que el gate sea operativo rápidamente.
   **Referencia:** Sección 1
 - Alcance / exclusiones (2+ puntos):
   - Incluye: escenarios (6–10), matriz de riesgos y estrategia Top 3, pruebas sistemáticas (≥12 casos por objeto), oráculos, gate CI con artifacts, guía de mantenimiento. **Ref:** Sección 3  
