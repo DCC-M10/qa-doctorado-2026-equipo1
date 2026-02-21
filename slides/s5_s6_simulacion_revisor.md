@@ -1,6 +1,6 @@
 # Evaluación de Propuesta - Equipo 1
 **Propuesta evaluada:** (A) — Empresa: Q-Edge Consulting  
-**Veredicto:** (Aceptar con condiciones)
+**Veredicto:** Aceptar con condiciones
 
 > Regla: Todo punto debe estar **respaldado por la propuesta**.
 > Si algo no está en la propuesta, debe ir en "Vacíos" o "Preguntas", no como afirmación.
@@ -8,7 +8,7 @@
 ---
 
 ## Slide 1 — Qué ofrece la propuesta (solo hechos del texto)
-- Objetivo declarado (copiar 1 frase o resumir): Establecer control de calidad continuo combinando escenarios, priorización por riesgo y un quality gate en CI para acelerar la adopción operativa.
+- Objetivo declarado (copiar 1 frase o resumir): Establecer control de calidad continuo en el sistema del cliente y asegurar que el gate sea operativo rápidamente.
   **Referencia:** Sección 1
 - Alcance / exclusiones (2+ puntos):
   - Incluye: escenarios (6–10), matriz de riesgos y estrategia Top 3, pruebas sistemáticas (≥12 casos por objeto), oráculos, gate CI con artifacts, guía de mantenimiento. **Ref:** Sección 3  
@@ -57,56 +57,59 @@
 
 ## Slide 4 - Cobertura explícita vs vacíos
 ### A) Lo que la propuesta sí define (3-5 puntos)
-- ___ **Ref:** Sección ___
-- ___ **Ref:** Sección ___
-- ___ **Ref:** Sección ___
+- Selección Top 3 riesgos para guiar el gate. **Ref:** Sección 4 – Fase 2
+- Diseño sistemático con técnicas formales (EQ/BV + pairwise). **Ref:** Sección 4 – Fase 3
+- Implementación de gate con 4 checks específicos. **Ref:** Sección 5
 
 ### B) Vacíos/ambigüedades que impiden evaluar bien (3-5 puntos)
-- Vacío 1: ___  
-  **Qué falta exactamente:** ___  
-  **Por qué importa (1 frase):** ___
-- Vacío 2: ___  
-  **Qué falta exactamente:** ___  
-  **Por qué importa:** ___
-- Vacío 3: ___  
-  **Qué falta exactamente:** ___  
-  **Por qué importa:** ___
+- Vacío 1: Definición operativa de “robustez básica”  
+  **Qué falta exactamente:** No se define estímulo/entorno/respuesta/medida.
+  **Por qué importa (1 frase):** Impide evaluar claridad del claim y su verificabilidad.
+- Vacío 2: Control de integridad del gate  
+  **Qué falta exactamente:** No se menciona verificación de integridad de scripts o artifacts.
+  **Por qué importa:** El gate podría ser vulnerable a manipulación (gaming). 
+- Vacío 3: Baseline formal para p95  
+  **Qué falta exactamente:**  No se especifica cómo se establece ni valida estadísticamente.  
+  **Por qué importa:** Riesgo de ruido alto e inestabilidad del gate.
+- Vacío 4: Métricas de efectividad del gate  
+**Qué falta exactamente:**  No se definen métricas para medir si el gate realmente mejora la calidad (ej. reducción de defectos o regresiones).  
+**Por qué importa:** Sin métricas, no se puede demostrar que el gate genera valor real y no solo evidencia operativa.
 
 ### C) Preguntas de aclaración al proveedor (2-4 preguntas)
-- P1: ___
-- P2: ___
-- (Opcional) P3/P4: ___
+- P1: ¿Qué checks son considerados críticos e innegociables?
+- P2: ¿Qué evidencia mínima debe cumplir cada escenario para considerarse válido?
+- P3:  ¿Cómo se protege el gate frente a manipulación de evidencia o reducción silenciosa de casos?
 
 ---
 
 ## Slide 5 — Goodhart / Gaming (solo si se deriva del texto)
 > Debe basarse en señales explícitas del documento (ej.: "mantener gate verde", "ajustar umbrales", "excepciones", "reruns", etc.)
 
-- Señal en la propuesta (citar): ___  
-  **Referencia:** Sección ___
-- Riesgo de gaming (1 frase): ___
-- Consecuencia probable (1 frase): ___
-- Mitigación/condición (1 frase): ___
+- Señal en la propuesta (citar): “El pipeline se aprueba si se cumplen al menos 3 de los 4 checks.”  
+  **Referencia:** Sección 5
+- Riesgo de gaming (1 frase): Optimizar estratégicamente 3 checks y descuidar uno crítico para mantener el gate verde.
+- Consecuencia probable (1 frase): El gate deja de reflejar el riesgo real y puede aprobar versiones con defectos significativos.
+- Mitigación/condición (1 frase): Requerir que cualquier check asociado a un riesgo Top 3 sea obligatorio (fail-fast).
 
 ---
 
 ## Slide 6 - Condiciones para aceptar (solo si el veredicto lo requiere)
 > 2-4 condiciones **verificables**. Deben apuntar a corregir debilidades o llenar vacíos.
 
-- C1: ___  
-  **Cómo se verifica:** ___  
-  **Motivo (D# o Vacío #):** ___
-- C2: ___  
-  **Cómo se verifica:** ___  
-  **Motivo:** ___
+- C1: Eliminar el criterio 3 de 4 para checks asociados a riesgos Top 3  
+  **Cómo se verifica:** Simulación de fallo en un check crítico debe bloquear el pipeline.  
+  **Motivo (D# o Vacío #):** D1
+- C2: Implementar registro formal versionado de cambios de umbral  
+  **Cómo se verifica:** Cómo se verifica: Existencia de archivo tipo gate_change_log.md con fecha, motivo y aprobación.  
+  **Motivo:** D4
 - (Opcional) C3/C4: ___ 
 
 ---
 
 ## Slide 7 - Veredicto (decisión final)
-- Decisión: ___
+- Decisión: Aceptar con condiciones
 - Justificación (máximo 3 puntos, conectados a D# o Vacíos):
-  1) ___ (D# / Vacío #)
-  2) ___ (D# / Vacío #)
-  3) ___ (D# / Vacío #)
+  1) El criterio 3/4 debilita el gate como instrumento de evidencia (D1).
+  2) La gobernanza de cambios es insuficiente para evitar degradación progresiva del gate (D4).
+  3) No se contemplan mecanismos explícitos contra gaming o manipulación de evidencia (Vacío 2).
 
