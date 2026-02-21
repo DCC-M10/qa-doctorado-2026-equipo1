@@ -1,5 +1,5 @@
-# Evaluación de Propuesta - Equipo ___
-**Propuesta evaluada:** (A / B / C) — Empresa: ___  
+# Evaluación de Propuesta - Equipo 1
+**Propuesta evaluada:** (A) — Empresa: Q-Edge Consulting  
 **Veredicto:** (Aceptar / Aceptar con condiciones / Rechazar)
 
 > Regla: Todo punto debe estar **respaldado por la propuesta**.
