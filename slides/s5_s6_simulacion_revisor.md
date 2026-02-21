@@ -102,8 +102,7 @@
 - C2: Implementar registro formal versionado de cambios de umbral  
   **Cómo se verifica:** Cómo se verifica: Existencia de archivo tipo gate_change_log.md con fecha, motivo y aprobación.  
   **Motivo:** D4
-- (Opcional) C3/C4: ___ 
-
+  
 ---
 
 ## Slide 7 - Veredicto (decisión final)
