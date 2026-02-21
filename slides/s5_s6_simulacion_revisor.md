@@ -1,6 +1,6 @@
 # Evaluación de Propuesta - Equipo 1
 **Propuesta evaluada:** (A) — Empresa: Q-Edge Consulting  
-**Veredicto:** (Aceptar / Aceptar con condiciones / Rechazar)
+**Veredicto:** (Aceptar con condiciones)
 
 > Regla: Todo punto debe estar **respaldado por la propuesta**.
 > Si algo no está en la propuesta, debe ir en "Vacíos" o "Preguntas", no como afirmación.
@@ -8,30 +8,30 @@
 ---
 
 ## Slide 1 — Qué ofrece la propuesta (solo hechos del texto)
-- Objetivo declarado (copiar 1 frase o resumir): ___  
-  **Referencia:** Sección ___
+- Objetivo declarado (copiar 1 frase o resumir): Establecer control de calidad continuo combinando escenarios, priorización por riesgo y un quality gate en CI para acelerar la adopción operativa.
+  **Referencia:** Sección 1
 - Alcance / exclusiones (2+ puntos):
-  - ___ **Ref:** Sección ___  
-  - ___ **Ref:** Sección ___
+  - Incluye: escenarios (6–10), matriz de riesgos y estrategia Top 3, pruebas sistemáticas (≥12 casos por objeto), oráculos, gate CI con artifacts, guía de mantenimiento. **Ref:** Sección 3  
+  - Excluye: pruebas de seguridad especializadas, pruebas de carga a nivel producción, auditoría formal de arquitectura. **Ref:** Sección 3
 - Entregables principales (3+ puntos):  
-  - ___ **Ref:** Sección ___  
-  - ___ **Ref:** Sección ___  
-  - ___ **Ref:** Sección ___
+  - Catálogo de escenarios en formato estímulo/entorno/respuesta/medida. **Ref:** Sección Ref: Sección 4 – Fase 1  
+  - Documento de estrategia riesgo → escenario → evidencia. **Ref:** Sección Ref: Sección 4 – Fase 2  
+  - Quality gate en CI con publicación de artifacts por ejecución. **Ref:** Sección Ref: Sección 4 – Fase 4
 
 ---
 
 ## Slide 2 - Fortalezas (basadas en texto)
 > 3-5 fortalezas. Cada una debe citar una sección.
 
-- F1: ___  
-  **Evidencia en propuesta:** Sección ___  
-  **Por qué es valioso (1 frase):** ___
-- F2: ___  
-  **Evidencia en propuesta:** Sección ___  
-  **Por qué es valioso:** ___
-- F3: ___  
-  **Evidencia en propuesta:** Sección ___  
-  **Por qué es valioso:** ___
+- F1: Enfoque explícito basado en riesgo  
+  **Evidencia en propuesta:** Sección Sección 4 – Fase 2  
+  **Por qué es valioso (1 frase):** Por qué es valioso: Alinea cobertura y gate a riesgos priorizados (Top 3), evitando dispersión.
+- F2: Uso de diseño sistemático formal (EQ/BV + pairwise)  
+  **Evidencia en propuesta:** Sección Sección 4 – Fase 3  
+  **Por qué es valioso:** Por qué es valioso: Reduce pruebas ad-hoc y mejora la defendibilidad metodológica.
+- F3: Evidencia reproducible y artifacts por ejecución  
+  **Evidencia en propuesta:** Sección Sección 4 – Fase 4 y Sección 9  
+  **Por qué es valioso:** Por qué es valioso: Permite auditoría y trazabilidad de cada run del gate.
 - (Opcional) F4/F5: ___ (mismo formato)
 
 ---
@@ -40,16 +40,18 @@
 > 3-6 debilidades. Marcar severidad: **Crítica / Mayor / Menor**.
 > Cada debilidad debe citar una sección de la propuesta.
 
-- D1 (Severidad: ___): ___  
-  **Texto/Sección relacionada:** Sección ___  
-  **Riesgo/impacto (1 frase):** ___
-- D2 (Severidad: ___): ___  
-  **Texto/Sección relacionada:** Sección ___  
-  **Riesgo/impacto:** ___
-- D3 (Severidad: ___): ___  
-  **Texto/Sección relacionada:** Sección ___  
-  **Riesgo/impacto:** ___
-- (Opcional) D4/D5/D6: ___ (mismo formato)
+- D1 (Severidad: Crítica): Criterio 3 de 4 checks para aprobar el gate  
+  **Texto/Sección relacionada:** Sección 5  
+  **Riesgo/impacto (1 frase):** Puede permitir que un check crítico falle y aun así el pipeline pase, debilitando el gate como instrumento de evidencia.
+- D2 (Severidad: Mayor): Oráculos “mínimos” y aplicación flexible  
+  **Texto/Sección relacionada:** Sección 4 – Fase 3  
+  **Riesgo/impacto:** La falta de criterios formales para endurecer oráculos puede derivar en debilitamiento progresivo del gate.
+- D3 (Severidad: Mayor): Reintento automático ante fallo  
+  **Texto/Sección relacionada:** Sección 6  
+  **Riesgo/impacto:** Puede ocultar fallos intermitentes y reducir la señal del gate.
+- D4 (Severidad: Mayor): Gobernanza débil de cambios de umbral  
+  **Texto/Sección relacionada:** Sección 7  
+  **Riesgo/impacto:**  No se exige registro formal estructurado ni justificación explícita de cambios críticos.
 
 ---
 
