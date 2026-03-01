@@ -1,116 +1,138 @@
-# Plantilla de presentación — Informe breve "Estado del arte" (8–10 slides)
-
-# Informe breve — Estado del arte — Grupo ___
+# Informe breve — Estado del arte — Grupo 1
 **Tema:** IA para análisis de fallos y calidad operativa: triage, RCA y observabilidad  
-**Pregunta guía (1 frase):** ___  
-**Fuentes analizadas:** __ (número)  
-**Tesis principal (1 frase):** ___
+**Pregunta guía:** ¿Cómo puede la IA mejorar el triage, el análisis de causa raíz (RCA) y la observabilidad sin comprometer confiabilidad, auditabilidad y gobernanza?  
+**Fuentes analizadas:** 15  
+**Tesis principal:** La IA mejora significativamente la velocidad y reducción de ruido en operaciones, pero solo genera valor sostenible cuando está integrada a prácticas disciplinadas de observabilidad, con supervisión humana y gobernanza explícita.
 
 ---
 
 ## Slide 1 — Contexto y propósito
-- Por qué este tema importa hoy: ___
-- Qué problema de QA/ingeniería aborda: ___
-- Qué mejora/decisión habilita (1 línea): ___
+- Por qué este tema importa hoy: La creciente complejidad de arquitecturas distribuidas (microservicios, cloud-native) incrementa el volumen de señales operativas y supera la capacidad humana de análisis manual.
+- Qué problema de QA/ingeniería aborda: Reducción del MTTR, clasificación eficiente de incidentes, identificación de causa raíz y disminución del ruido operacional.
+- Qué mejora/decisión habilita (1 línea): Permite priorizar, correlacionar y diagnosticar incidentes en tiempo casi real con menor intervención manual.
 
 ---
 
 ## Slide 2 — Pregunta guía y alcance
-- Pregunta guía: ___
-- Incluye (2–3 puntos): ___
-- No incluye (1–2 puntos): ___
-- Definiciones mínimas (si aplica, 2 términos): ___
+- Pregunta guía: ¿Cómo integrar IA en triage y RCA manteniendo confiabilidad, explicabilidad y control organizacional?
+- Incluye:
+  1) Triage automatizado de incidentes.
+  2) RCA asistido por correlación multi-señal.
+  3) Anomaly detection en observabilidad. 
+- No incluye:
+  1) Generación automática de pruebas.
+  2) RCA asistido por correlación multi-señal.
+- Definiciones mínimas (si aplica, 2 términos): 
+  1) **Triage**: Clasificación y priorización inicial de incidentes.
+  2) **RCA (Root Cause Analysis)**: Identificación sistemática de la causa subyacente de un fallo.
 
 ---
 
 ## Slide 3 — Método de revisión (cómo construimos el informe)
-- Estrategia de búsqueda (1–2 líneas): ___
-- Criterios de inclusión (2–3 puntos): ___
-- Criterios de exclusión (1–2 puntos): ___
-- Tipos de fuente usados (Industria / Estándar / Estudio): ___
+- Estrategia de búsqueda: Revisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
+- Criterios de inclusión: 
+  1) Aplicación directa a operaciones reales.
+  2) Evidencia empírica o marco normativo formal.
+  3) Publicaciones 2015–2024.
+- Criterios de exclusión: 
+  1) Opinión sin respaldo técnico.
+  2) Casos puramente comerciales sin evidencia metodológica.
+- Tipos de fuente usados:
+  Industria / Estándar / Estudio académico.
 
 ---
 
 ## Slide 4 — Panorama: mapa de hallazgos (visión general)
-> 4–6 puntos, cada uno con ID(s) de evidencia.
 
-- Hallazgo A: ___ (IDs: S_, S_)  
-- Hallazgo B: ___ (IDs: S_, S_)  
-- Hallazgo C: ___ (IDs: S_)  
-- (Opcional) Hallazgo D/E/F: ___
-
----
-
-## Slide 5 — Hallazgo clave 1 (explicado)
-- Qué afirma (1 frase): ___
-- Evidencia principal (IDs): ___
-- Implicación práctica (1–2 puntos): ___
-- Condiciones de aplicabilidad (1 punto): ___
+- Hallazgo A: La IA reduce MTTR pero introduce sesgos históricos (IDs: S1, S9, S14)
+- Hallazgo B: Correlación multi-señal mejora RCA inicial pero no prueba causalidad (IDs: S1, S10, S12)
+- Hallazgo C: Anomaly detection depende críticamente de baseline estable (IDs: S11, S12)
+- Hallazgo D: Automation bias es un riesgo organizacional real (IDs: S14, S2)
+- Hallazgo E: Sin disciplina en observabilidad, la IA no genera valor (IDs: S1, S3)
 
 ---
 
-## Slide 6 — Hallazgo clave 2 (explicado)
-- Qué afirma: ___
-- Evidencia principal (IDs): ___
-- Implicación práctica: ___
-- Condiciones de aplicabilidad: ___
+## Slide 5 — Hallazgo clave 1
+- Qué afirma: El triage automatizado reduce tiempo de clasificación y MTTR, pero hereda sesgos de datos históricos.
+- Evidencia principal (IDs): S1, S9
+- Implicación práctica: 
+  1) Implementar clasificación asistida, no autónoma.
+  2) Medir impacto en MTTR real, no solo precisión del modelo.
+- **Condiciones de aplicabilidad:** Dataset histórico suficientemente amplio y balanceado.
+
+---
+
+## Slide 6 — Hallazgo clave 2
+- Qué afirma: La correlación automática de logs, métricas y trazas mejora la hipótesis inicial de RCA, pero no garantiza causalidad.
+- Evidencia principal (IDs): S10, S12
+- Implicación práctica: 
+  1) Usar IA como generador de hipótesis.
+  2) Exigir validación humana antes de cierre de incidente.
+- **Condiciones de aplicabilidad:** Instrumentación consistente (logs estructurados y trazabilidad distribuida).
 
 ---
 
 ## Slide 7 — Hallazgo clave 3 (explicado)
-- Qué afirma: ___
-- Evidencia principal (IDs): ___
-- Implicación práctica: ___
-- Condiciones de aplicabilidad: ___
+- Qué afirma: La detección de anomalías produce alto valor solo cuando existe estabilidad operativa y definición clara de SLOs.
+- Evidencia principal (IDs): S11, S1
+- Implicación práctica: 
+  1) Definir SLOs antes de entrenar modelos.
+  2) Auditar falsos positivos y negativos trimestralmente.
+- Condiciones de aplicabilidad: Sistemas con métricas históricas consolidadas.
 
 ---
 
-## Slide 8 — Marco aplicable (elige 1 según tu tema)
-> Completar SOLO una de las dos opciones:
+## Slide 8 — Marco aplicable
 
 ### Opción A: Estándares/guías relevantes (si tu tema los usa)
-- Marco 1: ___ → aporte concreto: ___ (ID: S_)  
-- Marco 2: ___ → aporte concreto: ___ (ID: S_)  
-- (Opcional) Marco 3: ___ → aporte concreto: ___ (ID: S_)
-
-### Opción B: Prácticas/Patrones industriales (si tu tema es más práctico)
-- Práctica/patrón 1: ___ → por qué se usa: ___ (ID: S_)  
-- Práctica/patrón 2: ___ → por qué se usa: ___ (ID: S_)  
-- (Opcional) Práctica/patrón 3: ___ → por qué se usa: ___ (ID: S_)
+- Marco 1: National Institute of Standards and Technology – AI Risk Management Framework → aporte concreto: Aporte concreto: gestión de riesgo, monitoreo continuo y explicabilidad (ID: S2)  
+- Marco 2: International Organization for Standardization – ISO/IEC 42001 → aporte concreto: Aporte concreto: gobernanza organizacional de sistemas IA (ID: S4)  
+- Marco 3: International Organization for Standardization – ISO/IEC 25010 → aporte concreto: Aporte concreto: marco de calidad (confiabilidad y mantenibilidad) (ID: S3)
 
 ---
 
 ## Slide 9 — Límites, riesgos y trade-offs (siempre aplica)
-- Límite 1 (qué no cubre o dónde falla): ___
-- Riesgo 1 (qué puede salir mal al aplicarlo): ___
-- Trade-off 1 (qué se gana vs qué se sacrifica): ___
-- Mitigación (1–2 líneas, si aplica): ___
+- Límite 1: La IA no identifica causas fuera del espacio de entrenamiento (unknown unknowns).
+- Riesgo 1: Automation bias y sobreconfianza en sugerencias del modelo.
+- Trade-off 1: Se gana velocidad operativa vs se sacrifica profundidad analítica inicial.
+- Mitigación: Human-in-the-loop obligatorio + auditoría periódica del desempeño del modelo.
 
 ---
 
 ## Slide 10 — Recomendaciones (implementables) + Top 5
 **Recomendaciones implementables:**
-- R1: ___ (IDs: S_)  
-- R2: ___ (IDs: S_)  
-- R3: ___ (IDs: S_)
+- R1: Implementar triage asistido con validación humana obligatoria (IDs: S1, S14)  
+- R2: Definir SLOs y métricas de confiabilidad antes de desplegar modelos (IDs: S1, S3)  
+- R3: Incorporar monitoreo de desempeño del modelo y auditoría de sesgos (IDs: S2, S4)
 
 **Top 5:**
 - 3 ideas/prácticas que se presentan al grupo:
-  1) ___
-  2) ___
-  3) ___
+  1) Human-in-the-loop en RCA automatizado.
+  2) Observabilidad disciplinada antes de IA.
+  3) Medir impacto en MTTR y no solo precisión del modelo.
 - 2 anti-patrones/errores a evitar:
-  1) ___
-  2) ___
+  1) Confundir correlación con causalidad.
+  2) Automatizar priorización sin auditoría ni explicabilidad.
 
 ---
 
-# Plantilla de matriz de evidencia (1 página)
->En caso de que la matriz sea muy extensa para la presentación, elabore una version mas corta, para mostrar y revisar rápidamente. Sin embargo es fuertemente recomendado tenerla completa para un control interno y de revisión. La versión completa puede estar en un documento por separado.
+# Plantilla de matriz de evidencia
 
-| ID | Tipo (Industria/Estándar/Estudio) | Fuente (título corto) | Año | Idea clave (1 frase) | Qué aporta (nuevo conocimiento) | Riesgo/limitación | Recomendación derivada |
-|---|---|---|---|---|---|---|---|
-| S1 | Industria | ___ | ____ | ___ | ___ | ___ | ___ |
-| S2 | Estándar | ___ | ____ | ___ | ___ | ___ | ___ |
-| S3 | Estudio | ___ | ____ | ___ | ___ | ___ | ___ |
-| … | … | … | … | … | … | … | … |
+| ID  | Tipo      | Fuente (título corto)         | Año  | Idea clave                                     | Qué aporta                | Riesgo/limitación               | Recomendación derivada              |
+| --- | --------- | ----------------------------- | ---- | ---------------------------------------------- | ------------------------- | ------------------------------- | ----------------------------------- |
+| S1  | Industria | Google SRE Book               | 2016 | MTTR y error budgets estructuran confiabilidad | Marco operativo real      | No aborda IA directamente       | Medir impacto en SLO/MTTR           |
+| S2  | Estándar  | NIST AI RMF                   | 2023 | Gestión de riesgo IA                           | Gobernanza formal         | Generalista                     | Auditoría y monitoreo IA            |
+| S3  | Estándar  | ISO 25010                     | 2011 | Modelo calidad software                        | Define confiabilidad      | No específico a IA              | Alinear métricas IA a confiabilidad |
+| S4  | Estándar  | ISO 42001                     | 2023 | Sistema gestión IA                             | Gobernanza organizacional | Implementación compleja         | Establecer comité IA                |
+| S5  | Industria | Microsoft RCA guidance        | 2020 | Postmortem estructurado                        | Formaliza análisis        | Manual intensivo                | IA como soporte                     |
+| S6  | Industria | IBM AIOps report              | 2021 | Reducción de incidentes repetitivos            | Evidencia industrial      | Marketing parcial               | Validar con métricas propias        |
+| S7  | Industria | Dynatrace observability       | 2022 | Correlación multi-señal                        | RCA más rápido            | Correlación ≠ causalidad        | Validación humana                   |
+| S8  | Industria | Datadog anomaly detection     | 2022 | Baseline crítico                               | Reduce ruido              | Falsos positivos                | Ajustar umbrales dinámicos          |
+| S9  | Industria | IBM AIOps case study          | 2021 | Triage automatizado reduce tiempo              | Caso real                 | Dependencia de datos históricos | Supervisión continua                |
+| S10 | Industria | Dynatrace Davis AI            | 2022 | Análisis causal automatizado                   | Hipótesis rápidas         | Opacidad algorítmica            | Exigir explicabilidad               |
+| S11 | Industria | Datadog engineering blog      | 2021 | Anomalías dependen del baseline                | Práctica real             | Alta sensibilidad a cambios     | Definir SLOs previos                |
+| S12 | Estudio   | Log Anomaly Detection (ICSE)  | 2018 | ML detecta patrones anómalos                   | Evidencia empírica        | Concept drift                   | Reentrenamiento periódico           |
+| S13 | Estudio   | Mining Metrics for RCA        | 2019 | Métricas ayudan a RCA                          | Base cuantitativa         | Dependencia de datos            | Validación cruzada                  |
+| S14 | Estudio   | Automation Bias (Parasuraman) | 1997 | Humanos sobreconfían en automatización         | Riesgo organizacional     | Contexto previo a IA moderna    | Human-in-the-loop                   |
+| S15 | Industria | Azure Reliability             | 2021 | Disciplina en incident mgmt                    | Operación real            | No IA específica                | Integrar IA sin sustituir proceso   |
+
