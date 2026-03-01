@@ -1,7 +1,7 @@
 # Plantilla de presentación — Informe breve "Estado del arte" (8–10 slides)
 
 # Informe breve — Estado del arte — Grupo ___
-**Tema:** ___  
+**Tema:** IA para análisis de fallos y calidad operativa: triage, RCA y observabilidad  
 **Pregunta guía (1 frase):** ___  
 **Fuentes analizadas:** __ (número)  
 **Tesis principal (1 frase):** ___
