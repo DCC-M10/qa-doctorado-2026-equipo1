@@ -133,6 +133,11 @@
 | S11 | Industria | Datadog engineering blog      | 2021 | Anomalías dependen del baseline                | Práctica real             | Alta sensibilidad a cambios     | Definir SLOs previos                |
 | S12 | Estudio   | Log Anomaly Detection (ICSE)  | 2018 | ML detecta patrones anómalos                   | Evidencia empírica        | Concept drift                   | Reentrenamiento periódico           |
 | S13 | Estudio   | Mining Metrics for RCA        | 2019 | Métricas ayudan a RCA                          | Base cuantitativa         | Dependencia de datos            | Validación cruzada                  |
-| S14 | Estudio   | Automation Bias (Parasuraman) | 1997 | Humanos sobreconfían en automatización         | Riesgo organizacional     | Contexto previo a IA moderna    | Human-in-the-loop                   |
+| S14 | Estudio   | Schäferling – Gov. ADM        | 2023 |  IA pública impacta derechos                   | Marco legal comparado     | Poco enfoque técnico.           | Complementar con enfoque técnico    |
 | S15 | Industria | Azure Reliability             | 2021 | Disciplina en incident mgmt                    | Operación real            | No IA específica                | Integrar IA sin sustituir proceso   |
 
+
+# Fuente secundaria:
+| ID  | Tipo      | Fuente (título corto)         | Año  | Idea clave                                     | Qué aporta                | Riesgo/limitación               | Recomendación derivada              |
+| --- | --------- | ----------------------------- | ---- | ---------------------------------------------- | ------------------------- | ------------------------------- | ----------------------------------- |
+| S16 | Estudio   | Automation Bias (Parasuraman) | 1997 | Humanos sobreconfían en automatización         | Riesgo organizacional     | Contexto previo a IA moderna    | Human-in-the-loop                   |
