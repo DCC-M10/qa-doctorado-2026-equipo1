@@ -21,7 +21,7 @@
   3) Anomaly detection en observabilidad. 
 - No incluye:
   1) Generación automática de pruebas.
-  2) RCA asistido por correlación multi-señal.
+  2) Seguridad ofensiva o IA generativa para código.
 - Definiciones mínimas (si aplica, 2 términos): 
   1) **Triage**: Clasificación y priorización inicial de incidentes.
   2) **RCA (Root Cause Analysis)**: Identificación sistemática de la causa subyacente de un fallo.
@@ -106,7 +106,7 @@
 - R3: Incorporar monitoreo de desempeño del modelo y auditoría de sesgos (IDs: S2, S4)
 
 **Top 5:**
-- 3 ideas/prácticas que se presentan al grupo:
+- 3 ideas/prácticas:
   1) Human-in-the-loop en RCA automatizado.
   2) Observabilidad disciplinada antes de IA.
   3) Medir impacto en MTTR y no solo precisión del modelo.
