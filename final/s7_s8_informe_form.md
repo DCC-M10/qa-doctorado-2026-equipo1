@@ -27,7 +27,8 @@ Para abordar este tema nos hacemos la siguiente pregunta: ¿Cómo integrar IA en
   1) Generación automática de pruebas.
   2) Seguridad ofensiva o IA generativa para código.
      
-- Se presentan dos definiciones importantes para continuar con el análisis del tema: 
+- Se presentan dos definiciones importantes para continuar con el análisis del tema:
+  
   1) **Triage**: Clasificación y priorización inicial de incidentes.
   2) **RCA (Root Cause Analysis)**: Identificación sistemática de la causa subyacente de un fallo.
 
@@ -35,25 +36,36 @@ Para abordar este tema nos hacemos la siguiente pregunta: ¿Cómo integrar IA en
 
 ## Slide 3 — Método de revisión
 La Estrategia de búsqueda utilizada se enfoca en la evisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
-- Criterios de inclusión:
+
+- Criterios de inclusión utilizados para la búsqueda:
+  
   1) Aplicación directa a operaciones reales.
   2) Evidencia empírica o marco normativo formal.
   3) Publicaciones 2015–2024.
-- Criterios de exclusión: 
+     
+- Criterios de exclusión utilizados:
+  
   1) Opinión sin respaldo técnico.
   2) Casos puramente comerciales sin evidencia metodológica.
+    
 - Tipos de fuente usados:
-  Industria / Estándar / Estudio académico.
+  
+  1) Industria
+  2) Estándar
+  3) Estudio académico
+  
 
 ---
 
 ## Slide 4 — Panorama: mapa de hallazgos
 
-- Hallazgo A: La IA reduce MTTR pero introduce sesgos históricos (IDs: S1, S9, S14)
-- Hallazgo B: Correlación multi-señal mejora RCA inicial pero no prueba causalidad (IDs: S1, S10, S12)
-- Hallazgo C: Anomaly detection depende críticamente de baseline estable (IDs: S11, S12)
-- Hallazgo D: Automation bias es un riesgo organizacional real (IDs: S14, S2)
-- Hallazgo E: Sin disciplina en observabilidad, la IA no genera valor (IDs: S1, S3)
+A continuación se exponen 5 principales hallazgos, los cuales están referenciados a sus respectivas fuentes de la matriz de evidencia.
+
+- La IA reduce MTTR pero introduce sesgos históricos (IDs: S1, S9, S14)
+- Correlación multi-señal mejora RCA inicial pero no prueba causalidad (IDs: S1, S10, S12)
+- Anomaly detection depende críticamente de baseline estable (IDs: S11, S12)
+- Automation bias es un riesgo organizacional real (IDs: S14, S2)
+- Sin disciplina en observabilidad, la IA no genera valor (IDs: S1, S3)
 
 ---
 
