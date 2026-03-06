@@ -9,7 +9,7 @@
 ## Slide 1 — Contexto y propósito
 - Por qué este tema importa hoy: La creciente complejidad de arquitecturas distribuidas (microservicios, cloud-native) incrementa el volumen de señales operativas y supera la capacidad humana de análisis manual.
 - Qué problema de QA/ingeniería aborda: Reducción del MTTR, clasificación eficiente de incidentes, identificación de causa raíz y disminución del ruido operacional.
-- Qué mejora/decisión habilita (1 línea): Permite priorizar, correlacionar y diagnosticar incidentes en tiempo casi real con menor intervención manual.
+- Qué mejora/decisión habilita: Permite priorizar, correlacionar y diagnosticar incidentes en tiempo casi real con menor intervención manual.
 
 ---
 
