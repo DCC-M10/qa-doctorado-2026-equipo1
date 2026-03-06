@@ -14,23 +14,28 @@
 ---
 
 ## Slide 2 — Pregunta guía y alcance
-- Pregunta guía: ¿Cómo integrar IA en triage y RCA manteniendo confiabilidad, explicabilidad y control organizacional?
-- Incluye:
+Para abordar este tema nos hacemos la siguiente pregunta: ¿Cómo integrar IA en triage y RCA manteniendo confiabilidad, explicabilidad y control organizacional?
+
+- El alcance de este estudio comprente los siguietes puntos:
+  
   1) Triage automatizado de incidentes.
   2) RCA asistido por correlación multi-señal.
-  3) Anomaly detection en observabilidad. 
-- No incluye:
+  3) Anomaly detection en observabilidad.
+     
+- El alcance no incluye:
+  
   1) Generación automática de pruebas.
   2) Seguridad ofensiva o IA generativa para código.
-- Definiciones mínimas (si aplica, 2 términos): 
+     
+- Se presentan dos definiciones importantes para continuar con el análisis del tema: 
   1) **Triage**: Clasificación y priorización inicial de incidentes.
   2) **RCA (Root Cause Analysis)**: Identificación sistemática de la causa subyacente de un fallo.
 
 ---
 
 ## Slide 3 — Método de revisión
-- Estrategia de búsqueda: Revisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
-- Criterios de inclusión: 
+La Estrategia de búsqueda utilizada se enfoca en la evisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
+- Criterios de inclusión:
   1) Aplicación directa a operaciones reales.
   2) Evidencia empírica o marco normativo formal.
   3) Publicaciones 2015–2024.
