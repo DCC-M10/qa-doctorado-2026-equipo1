@@ -28,7 +28,7 @@
 
 ---
 
-## Slide 3 — Método de revisión (cómo construimos el informe)
+## Slide 3 — Método de revisión
 - Estrategia de búsqueda: Revisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
 - Criterios de inclusión: 
   1) Aplicación directa a operaciones reales.
@@ -42,7 +42,7 @@
 
 ---
 
-## Slide 4 — Panorama: mapa de hallazgos (visión general)
+## Slide 4 — Panorama: mapa de hallazgos
 
 - Hallazgo A: La IA reduce MTTR pero introduce sesgos históricos (IDs: S1, S9, S14)
 - Hallazgo B: Correlación multi-señal mejora RCA inicial pero no prueba causalidad (IDs: S1, S10, S12)
@@ -72,7 +72,7 @@
 
 ---
 
-## Slide 7 — Hallazgo clave 3 (explicado)
+## Slide 7 — Hallazgo clave 3
 - Qué afirma: La detección de anomalías produce alto valor solo cuando existe estabilidad operativa y definición clara de SLOs.
 - Evidencia principal (IDs): S11, S1
 - Implicación práctica: 
@@ -84,14 +84,14 @@
 
 ## Slide 8 — Marco aplicable
 
-### Opción A: Estándares/guías relevantes (si tu tema los usa)
+### Opción A: Estándares/guías relevantes 
 - Marco 1: National Institute of Standards and Technology – AI Risk Management Framework → aporte concreto: Aporte concreto: gestión de riesgo, monitoreo continuo y explicabilidad (ID: S2)  
 - Marco 2: International Organization for Standardization – ISO/IEC 42001 → aporte concreto: Aporte concreto: gobernanza organizacional de sistemas IA (ID: S4)  
 - Marco 3: International Organization for Standardization – ISO/IEC 25010 → aporte concreto: Aporte concreto: marco de calidad (confiabilidad y mantenibilidad) (ID: S3)
 
 ---
 
-## Slide 9 — Límites, riesgos y trade-offs (siempre aplica)
+## Slide 9 — Límites, riesgos y trade-offs 
 - Límite 1: La IA no identifica causas fuera del espacio de entrenamiento (unknown unknowns).
 - Riesgo 1: Automation bias y sobreconfianza en sugerencias del modelo.
 - Trade-off 1: Se gana velocidad operativa vs se sacrifica profundidad analítica inicial.
