@@ -85,9 +85,9 @@
 ## Slide 8 — Marco aplicable
 
 ### Opción A: Estándares/guías relevantes 
-- Marco 1: National Institute of Standards and Technology – AI Risk Management Framework → aporte concreto: Aporte concreto: gestión de riesgo, monitoreo continuo y explicabilidad (ID: S2)  
-- Marco 2: International Organization for Standardization – ISO/IEC 42001 → aporte concreto: Aporte concreto: gobernanza organizacional de sistemas IA (ID: S4)  
-- Marco 3: International Organization for Standardization – ISO/IEC 25010 → aporte concreto: Aporte concreto: marco de calidad (confiabilidad y mantenibilidad) (ID: S3)
+- Marco 1: National Institute of Standards and Technology – AI Risk Management Framework → Aporte concreto: gestión de riesgo, monitoreo continuo y explicabilidad (ID: S2)  
+- Marco 2: International Organization for Standardization – ISO/IEC 42001 → Aporte concreto: gobernanza organizacional de sistemas IA (ID: S4)  
+- Marco 3: International Organization for Standardization – ISO/IEC 25010 → Aporte concreto: marco de calidad (confiabilidad y mantenibilidad) (ID: S3)
 
 ---
 
