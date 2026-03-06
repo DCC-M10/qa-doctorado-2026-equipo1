@@ -114,7 +114,7 @@
 
 ---
 
-# Plantilla de matriz de evidencia
+# Matriz de evidencia
 
 | ID  | Tipo      | Fuente (título corto)         | Año  | Idea clave                                     | Qué aporta                | Riesgo/limitación               | Recomendación derivada              |
 | --- | --------- | ----------------------------- | ---- | ---------------------------------------------- | ------------------------- | ------------------------------- | ----------------------------------- |
