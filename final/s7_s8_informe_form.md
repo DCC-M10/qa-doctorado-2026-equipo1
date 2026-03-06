@@ -7,13 +7,21 @@
 ---
 
 ## Slide 1 — Contexto y propósito
+
 - La creciente complejidad de arquitecturas distribuidas (microservicios, cloud-native) incrementa el volumen de señales operativas y supera la capacidad humana de análisis manual, es por esto de la importancia de incorporar  la IA en los procesos de análisis de fallos y calidad operativa del software.
-- Este tema aborda los siguientes problemas: Reducción del MTTR, clasificación eficiente de incidentes, identificación de causa raíz y disminución del ruido operacional.
+  
+- Este tema aborda los siguientes problemas:
+  1) Reducción del MTTR
+  2) Clasificación eficiente de incidentes
+  3) Identificación de causa raíz
+  4) Disminución del ruido operacional
+     
 - Con la incorporación de la IA, nos permite priorizar, correlacionar y diagnosticar incidentes en tiempo casi real con menor intervención manual.
 
 ---
 
 ## Slide 2 — Pregunta guía y alcance
+
 Para abordar este tema nos hacemos la siguiente pregunta: ¿Cómo integrar IA en triage y RCA manteniendo confiabilidad, explicabilidad y control organizacional?
 
 - El alcance de este estudio comprente los siguietes puntos:
@@ -35,6 +43,7 @@ Para abordar este tema nos hacemos la siguiente pregunta: ¿Cómo integrar IA en
 ---
 
 ## Slide 3 — Método de revisión
+
 La Estrategia de búsqueda utilizada se enfoca en la evisión dirigida de estándares internacionales, literatura académica en ingeniería de software (ICSE) y reportes industriales en AIOps y SRE.
 
 - Criterios de inclusión utilizados para la búsqueda:
