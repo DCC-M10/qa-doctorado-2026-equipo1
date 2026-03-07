@@ -111,7 +111,7 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
 ## Slide 8 — Marco aplicable
 - El sustento normativo de este analisis se basa en diversos estandares internacionales de relevancia:
   1) El AI Risk Management Framework del NIST que resulta fundamental para establecer prácticas sólidas de gestión de riesgos, asegurar el monitoreo constante y promover la explicabilidad.
-  2) La norma ISO/IEC 42001 que define las pautas necesarias para una gobernanza organizacional robusta en el despliegue de estas tecnologías
+  2) La norma ISO/IEC 42001 que define las pautas necesarias para una gobernanza organizacional robusta en el despliegue de estas tecnologías.
   3) El estándar ISO/IEC 25010 que aporta un marco técnico de calidad centrado específicamente en garantizar la confiabilidad y la mantenibilidad de las soluciones de software.
      
 ---
@@ -132,11 +132,11 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
 - Incorporar monitoreo de desempeño del modelo y auditoría de sesgos (IDs: S2, S4)
 
 **Top 5:**
-- 3 ideas/prácticas:
-  1) Human-in-the-loop en RCA automatizado.
-  2) Observabilidad disciplinada antes de IA.
-  3) Medir impacto en MTTR y no solo precisión del modelo.
-- 2 anti-patrones/errores a evitar:
+- Tres ideas prácticas:
+  1) Es vital mantener la intervención humana (human-in-the-loop) en RCA automatizado.
+  2) Asegurar una observabilidad robusta antes de integar la IA al flujo de trabajo.
+  3) Medir impacto en MTTR y no solo la precisión del modelo.
+- Dps anti-patrones/errores a evitar:
   1) Confundir correlación con causalidad.
   2) Automatizar priorización sin auditoría ni explicabilidad.
 
