@@ -109,25 +109,27 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
 ---
 
 ## Slide 8 — Marco aplicable
-- Marco 1: National Institute of Standards and Technology – AI Risk Management Framework → Aporte concreto: gestión de riesgo, monitoreo continuo y explicabilidad (ID: S2)  
-- Marco 2: International Organization for Standardization – ISO/IEC 42001 → Aporte concreto: gobernanza organizacional de sistemas IA (ID: S4)  
-- Marco 3: International Organization for Standardization – ISO/IEC 25010 → Aporte concreto: marco de calidad (confiabilidad y mantenibilidad) (ID: S3)
-
+- El sustento normativo de este analisis se basa en diversos estandares internacionales de relevancia:
+  1) El AI Risk Management Framework del NIST resulta fundamental para establecer prácticas sólidas de gestión de riesgos, asegurar el monitoreo constante y promover la explicabilidad.
+  2) La norma ISO/IEC 42001 define las pautas necesarias para una gobernanza organizacional robusta en el despliegue de estas tecnologías
+  3) El estándar ISO/IEC 25010 que aporta un marco técnico de calidad centrado específicamente en garantizar la confiabilidad y la mantenibilidad de las soluciones de software.
+     
 ---
 
 ## Slide 9 — Límites, riesgos y trade-offs 
-- Límite 1: La IA no identifica causas fuera del espacio de entrenamiento (unknown unknowns).
-- Riesgo 1: Automation bias y sobreconfianza en sugerencias del modelo.
-- Trade-off 1: Se gana velocidad operativa vs se sacrifica profundidad analítica inicial.
-- Mitigación: Human-in-the-loop obligatorio + auditoría periódica del desempeño del modelo.
+- Al implementar soluciones de IA es fundamental reconocer que el sistema presenta:
+    1) Una capacidad limitada para identificar fallos que no han sido contemplados en su entrenamiento previo; esto es mas conocido como "incógnitas desconocidas" (unknown unknowns).
+    2) El peligro del sesgo de automatización, donde los equipos pueden desarrollar una confianza excesiva en las sugerencias generadas por el modelo.
+    3) Un compromiso directo donde se prioriza la rapidez en la gestión de incidentes a cambio de disminuir la profundidad analítica inicial. 
+- Para gestionar estas situaciones es indispensable integrar la supervisión humana obligatoria (human-in-the-loop) y realizar auditorías periódicas que aseguren el correcto desempeño de la tecnología.
 
 ---
 
 ## Slide 10 — Recomendaciones (implementables) + Top 5
 **Recomendaciones implementables:**
-- R1: Implementar triage asistido con validación humana obligatoria (IDs: S1, S14)  
-- R2: Definir SLOs y métricas de confiabilidad antes de desplegar modelos (IDs: S1, S3)  
-- R3: Incorporar monitoreo de desempeño del modelo y auditoría de sesgos (IDs: S2, S4)
+- Implementar triage asistido con validación humana obligatoria (IDs: S1, S14)  
+- Definir SLOs y métricas de confiabilidad antes de desplegar modelos (IDs: S1, S3)  
+- Incorporar monitoreo de desempeño del modelo y auditoría de sesgos (IDs: S2, S4)
 
 **Top 5:**
 - 3 ideas/prácticas:
