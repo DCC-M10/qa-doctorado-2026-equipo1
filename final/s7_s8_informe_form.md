@@ -110,8 +110,8 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
 
 ## Slide 8 — Marco aplicable
 - El sustento normativo de este analisis se basa en diversos estandares internacionales de relevancia:
-  1) El AI Risk Management Framework del NIST resulta fundamental para establecer prácticas sólidas de gestión de riesgos, asegurar el monitoreo constante y promover la explicabilidad.
-  2) La norma ISO/IEC 42001 define las pautas necesarias para una gobernanza organizacional robusta en el despliegue de estas tecnologías
+  1) El AI Risk Management Framework del NIST que resulta fundamental para establecer prácticas sólidas de gestión de riesgos, asegurar el monitoreo constante y promover la explicabilidad.
+  2) La norma ISO/IEC 42001 que define las pautas necesarias para una gobernanza organizacional robusta en el despliegue de estas tecnologías
   3) El estándar ISO/IEC 25010 que aporta un marco técnico de calidad centrado específicamente en garantizar la confiabilidad y la mantenibilidad de las soluciones de software.
      
 ---
