@@ -100,7 +100,7 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
 
 ## Slide 7 — Hallazgo clave 3
 - Qué afirma: La detección de anomalías produce alto valor solo cuando existe estabilidad operativa y definición clara de SLOs.
-- Evidencia principal (IDs): S11, S1
+- Evidencia principal (IDs): S1, S11
 - Implicación práctica: 
   1) Definir SLOs antes de entrenar modelos.
   2) Auditar falsos positivos y negativos trimestralmente.
