@@ -136,7 +136,7 @@ A continuación se exponen 5 principales hallazgos, los cuales están referencia
   1) Es vital mantener la intervención humana (human-in-the-loop) en RCA automatizado.
   2) Asegurar una observabilidad robusta antes de integar la IA al flujo de trabajo.
   3) Medir impacto en MTTR y no solo la precisión del modelo.
-- Dps anti-patrones/errores a evitar:
+- Dos anti-patrones/errores a evitar:
   1) Confundir correlación con causalidad.
   2) Automatizar priorización sin auditoría ni explicabilidad.
 
